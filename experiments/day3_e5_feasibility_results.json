@@ -1,0 +1,503 @@
+{
+  "model_id": "intfloat/multilingual-e5-base",
+  "parameters": "278M",
+  "embedding_dim": 768,
+  "is_finite": true,
+  "is_normalized": true,
+  "model_load_time_s": 6.02,
+  "corpus_encode_time_s": 2.184,
+  "ms_per_doc": 128.47,
+  "query_encode_time_s": 0.322,
+  "initial_rss_mb": 375.31,
+  "post_load_rss_mb": 713.12,
+  "peak_rss_mb": 1090.68,
+  "overall_mrr_at_5": 0.9444,
+  "overall_recall_at_5": 1.0,
+  "language_mrr": {
+    "bn": 1.0,
+    "banglish": 1.0,
+    "en": 0.8333
+  },
+  "queries": [
+    {
+      "query_id": "Q01_BN",
+      "language": "bn",
+      "query": "দোকানদার পণ্যের গায়ে মেয়াদোত্তীর্ণের তারিখ না লিখে বিক্রি করলে কি শাস্তি হবে?",
+      "gold_provisions": [
+        "CRPA2009_S৩৭"
+      ],
+      "legal_concept": "Selling consumer goods without expiration date (Consumer Rights)",
+      "reciprocal_rank": 1.0,
+      "recall_at_5": 1.0,
+      "top5": [
+        {
+          "rank": 1,
+          "provision_id": "CRPA2009_S৩৭",
+          "score": 0.8405,
+          "is_gold": true,
+          "heading": "পণ্যের মোড়ক ইত্যাদি ব্যবহার না করিবার দণ্ড",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        },
+        {
+          "rank": 2,
+          "provision_id": "CRPA2009_S৪৫",
+          "score": 0.7939,
+          "is_gold": false,
+          "heading": "অবহেলা ইত্যাদির দ্বারা সেবাগ্রহীতার জীবন বা অর্থহানি ইত্যাদি ঘটাইবার দণ্ড",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        },
+        {
+          "rank": 3,
+          "provision_id": "BLA2006_S২৬",
+          "score": 0.7856,
+          "is_gold": false,
+          "heading": "নোটিশ দ্বারা মালিক কর্তৃক শ্রমিকের চাকরির অবসান",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 4,
+          "provision_id": "PRCA1991_S১৮",
+          "score": 0.7837,
+          "is_gold": false,
+          "heading": "ভাড়াটিয়াকে উচ্ছেদ করিবার কারণ ইত্যাদি",
+          "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+        },
+        {
+          "rank": 5,
+          "provision_id": "BLAA2013_S৭",
+          "score": 0.7788,
+          "is_gold": false,
+          "heading": "২০০৬ সনের ৪২ নং আইনের ধারা ২৩ এর সংশোধন",
+          "act_title": "বাংলাদেশ শ্রম (সংশোধন) আইন, ২০১৩"
+        }
+      ]
+    },
+    {
+      "query_id": "Q01_BANGLISH",
+      "language": "banglish",
+      "query": "Dokandar expiry date na likhe ponno sell korle ki shasti hobe consumer rights law te?",
+      "gold_provisions": [
+        "CRPA2009_S৩৭"
+      ],
+      "legal_concept": "Selling consumer goods without expiration date (Banglish)",
+      "reciprocal_rank": 1.0,
+      "recall_at_5": 1.0,
+      "top5": [
+        {
+          "rank": 1,
+          "provision_id": "CRPA2009_S৩৭",
+          "score": 0.8164,
+          "is_gold": true,
+          "heading": "পণ্যের মোড়ক ইত্যাদি ব্যবহার না করিবার দণ্ড",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        },
+        {
+          "rank": 2,
+          "provision_id": "CRPA2009_S১",
+          "score": 0.8087,
+          "is_gold": false,
+          "heading": "সংক্ষিপ্ত শিরোনাম ও প্রবর্তন",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        },
+        {
+          "rank": 3,
+          "provision_id": "CRPA2009_S৪৫",
+          "score": 0.8012,
+          "is_gold": false,
+          "heading": "অবহেলা ইত্যাদির দ্বারা সেবাগ্রহীতার জীবন বা অর্থহানি ইত্যাদি ঘটাইবার দণ্ড",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        },
+        {
+          "rank": 4,
+          "provision_id": "PRCA1991_S১৮",
+          "score": 0.7978,
+          "is_gold": false,
+          "heading": "ভাড়াটিয়াকে উচ্ছেদ করিবার কারণ ইত্যাদি",
+          "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+        },
+        {
+          "rank": 5,
+          "provision_id": "TPA1882_S106",
+          "score": 0.7967,
+          "is_gold": false,
+          "heading": "Duration of certain leases in absence of written contract or local usage",
+          "act_title": "The Transfer of Property Act, 1882"
+        }
+      ]
+    },
+    {
+      "query_id": "Q01_EN",
+      "language": "en",
+      "query": "What is the penalty if a seller sells goods without mentioning expiration date on packaging?",
+      "gold_provisions": [
+        "CRPA2009_S৩৭"
+      ],
+      "legal_concept": "Selling consumer goods without expiration date (English)",
+      "reciprocal_rank": 1.0,
+      "recall_at_5": 1.0,
+      "top5": [
+        {
+          "rank": 1,
+          "provision_id": "CRPA2009_S৩৭",
+          "score": 0.8235,
+          "is_gold": true,
+          "heading": "পণ্যের মোড়ক ইত্যাদি ব্যবহার না করিবার দণ্ড",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        },
+        {
+          "rank": 2,
+          "provision_id": "TPA1882_S106",
+          "score": 0.7854,
+          "is_gold": false,
+          "heading": "Duration of certain leases in absence of written contract or local usage",
+          "act_title": "The Transfer of Property Act, 1882"
+        },
+        {
+          "rank": 3,
+          "provision_id": "CRPA2009_S৪৫",
+          "score": 0.7784,
+          "is_gold": false,
+          "heading": "অবহেলা ইত্যাদির দ্বারা সেবাগ্রহীতার জীবন বা অর্থহানি ইত্যাদি ঘটাইবার দণ্ড",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        },
+        {
+          "rank": 4,
+          "provision_id": "BLA2006_S২৬",
+          "score": 0.7716,
+          "is_gold": false,
+          "heading": "নোটিশ দ্বারা মালিক কর্তৃক শ্রমিকের চাকরির অবসান",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 5,
+          "provision_id": "TPA1882_S54",
+          "score": 0.7638,
+          "is_gold": false,
+          "heading": "\"Sale\" defined",
+          "act_title": "The Transfer of Property Act, 1882"
+        }
+      ]
+    },
+    {
+      "query_id": "Q02_BN",
+      "language": "bn",
+      "query": "চাকরির বয়স শেষ না হতেই মালিক নোটিশ ছাড়া বরখাস্ত করলে কত দিনের মজুরি দিতে হবে?",
+      "gold_provisions": [
+        "BLA2006_S২৬"
+      ],
+      "legal_concept": "Termination of employment without notice (Labour Act)",
+      "reciprocal_rank": 1.0,
+      "recall_at_5": 1.0,
+      "top5": [
+        {
+          "rank": 1,
+          "provision_id": "BLA2006_S২৬",
+          "score": 0.8597,
+          "is_gold": true,
+          "heading": "নোটিশ দ্বারা মালিক কর্তৃক শ্রমিকের চাকরির অবসান",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 2,
+          "provision_id": "BLA2006_S২০",
+          "score": 0.8021,
+          "is_gold": false,
+          "heading": "শারীরিক বা মানসিক অক্ষমতার কারণে চাকরি হইতে অবসর বা ছাঁটাই",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 3,
+          "provision_id": "PRCA1991_S১৮",
+          "score": 0.7979,
+          "is_gold": false,
+          "heading": "ভাড়াটিয়াকে উচ্ছেদ করিবার কারণ ইত্যাদি",
+          "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+        },
+        {
+          "rank": 4,
+          "provision_id": "CRPA2009_S৩৭",
+          "score": 0.7966,
+          "is_gold": false,
+          "heading": "পণ্যের মোড়ক ইত্যাদি ব্যবহার না করিবার দণ্ড",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        },
+        {
+          "rank": 5,
+          "provision_id": "CRPA2009_S৪৫",
+          "score": 0.7882,
+          "is_gold": false,
+          "heading": "অবহেলা ইত্যাদির দ্বারা সেবাগ্রহীতার জীবন বা অর্থহানি ইত্যাদি ঘটাইবার দণ্ড",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        }
+      ]
+    },
+    {
+      "query_id": "Q02_BANGLISH",
+      "language": "banglish",
+      "query": "Chakri theke notice chara terminate korle koto diner salary pabo labour law onujayi?",
+      "gold_provisions": [
+        "BLA2006_S২৬"
+      ],
+      "legal_concept": "Termination without notice compensation (Banglish)",
+      "reciprocal_rank": 1.0,
+      "recall_at_5": 1.0,
+      "top5": [
+        {
+          "rank": 1,
+          "provision_id": "BLA2006_S২৬",
+          "score": 0.8122,
+          "is_gold": true,
+          "heading": "নোটিশ দ্বারা মালিক কর্তৃক শ্রমিকের চাকরির অবসান",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 2,
+          "provision_id": "PRCA1991_S১৮",
+          "score": 0.7995,
+          "is_gold": false,
+          "heading": "ভাড়াটিয়াকে উচ্ছেদ করিবার কারণ ইত্যাদি",
+          "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+        },
+        {
+          "rank": 3,
+          "provision_id": "BLA2006_S২০",
+          "score": 0.7872,
+          "is_gold": false,
+          "heading": "শারীরিক বা মানসিক অক্ষমতার কারণে চাকরি হইতে অবসর বা ছাঁটাই",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 4,
+          "provision_id": "BLAA2013_S১",
+          "score": 0.7849,
+          "is_gold": false,
+          "heading": "সংক্ষিপ্ত শিরোনাম",
+          "act_title": "বাংলাদেশ শ্রম (সংশোধন) আইন, ২০১৩"
+        },
+        {
+          "rank": 5,
+          "provision_id": "PRCA1991_S১৩",
+          "score": 0.7813,
+          "is_gold": false,
+          "heading": "মানসম্মত ভাড়া নির্ধারণ",
+          "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+        }
+      ]
+    },
+    {
+      "query_id": "Q02_EN",
+      "language": "en",
+      "query": "How many days notice or compensation must an employer provide to terminate a permanent worker?",
+      "gold_provisions": [
+        "BLA2006_S২৬"
+      ],
+      "legal_concept": "Termination of permanent worker notice period (English)",
+      "reciprocal_rank": 1.0,
+      "recall_at_5": 1.0,
+      "top5": [
+        {
+          "rank": 1,
+          "provision_id": "BLA2006_S২৬",
+          "score": 0.8416,
+          "is_gold": true,
+          "heading": "নোটিশ দ্বারা মালিক কর্তৃক শ্রমিকের চাকরির অবসান",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 2,
+          "provision_id": "TPA1882_S106",
+          "score": 0.8004,
+          "is_gold": false,
+          "heading": "Duration of certain leases in absence of written contract or local usage",
+          "act_title": "The Transfer of Property Act, 1882"
+        },
+        {
+          "rank": 3,
+          "provision_id": "BLA2006_S২০",
+          "score": 0.7894,
+          "is_gold": false,
+          "heading": "শারীরিক বা মানসিক অক্ষমতার কারণে চাকরি হইতে অবসর বা ছাঁটাই",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 4,
+          "provision_id": "CA1872_S1",
+          "score": 0.7763,
+          "is_gold": false,
+          "heading": "Short title, extent, commencement",
+          "act_title": "The Contract Act, 1872"
+        },
+        {
+          "rank": 5,
+          "provision_id": "CA1872_S11",
+          "score": 0.7667,
+          "is_gold": false,
+          "heading": "Who are competent to contract",
+          "act_title": "The Contract Act, 1872"
+        }
+      ]
+    },
+    {
+      "query_id": "Q03_BN",
+      "language": "bn",
+      "query": "বাড়িওয়ালা কি ইচ্ছামত ভাড়া বাড়িয়ে আমাকে বাড়ি থেকে উচ্ছেদ করতে পারবে?",
+      "gold_provisions": [
+        "PRCA1991_S১৮",
+        "PRCA1991_S১৩"
+      ],
+      "legal_concept": "Arbitrary rent escalation and tenant eviction (Rent Control Act)",
+      "reciprocal_rank": 1.0,
+      "recall_at_5": 1.0,
+      "top5": [
+        {
+          "rank": 1,
+          "provision_id": "PRCA1991_S১৮",
+          "score": 0.7804,
+          "is_gold": true,
+          "heading": "ভাড়াটিয়াকে উচ্ছেদ করিবার কারণ ইত্যাদি",
+          "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+        },
+        {
+          "rank": 2,
+          "provision_id": "BLA2006_S২০",
+          "score": 0.7686,
+          "is_gold": false,
+          "heading": "শারীরিক বা মানসিক অক্ষমতার কারণে চাকরি হইতে অবসর বা ছাঁটাই",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 3,
+          "provision_id": "PRCA1991_S১৩",
+          "score": 0.7679,
+          "is_gold": true,
+          "heading": "মানসম্মত ভাড়া নির্ধারণ",
+          "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+        },
+        {
+          "rank": 4,
+          "provision_id": "BLA2006_S২৬",
+          "score": 0.7676,
+          "is_gold": false,
+          "heading": "নোটিশ দ্বারা মালিক কর্তৃক শ্রমিকের চাকরির অবসান",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 5,
+          "provision_id": "CRPA2009_S৪৫",
+          "score": 0.7573,
+          "is_gold": false,
+          "heading": "অবহেলা ইত্যাদির দ্বারা সেবাগ্রহীতার জীবন বা অর্থহানি ইত্যাদি ঘটাইবার দণ্ড",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        }
+      ]
+    },
+    {
+      "query_id": "Q03_BANGLISH",
+      "language": "banglish",
+      "query": "Bariwala iccha moto rent bariye keno evict korte parbe? Rent control law te ki ache?",
+      "gold_provisions": [
+        "PRCA1991_S১৮",
+        "PRCA1991_S১৩"
+      ],
+      "legal_concept": "Tenant eviction and rent hike (Banglish)",
+      "reciprocal_rank": 1.0,
+      "recall_at_5": 1.0,
+      "top5": [
+        {
+          "rank": 1,
+          "provision_id": "PRCA1991_S১৮",
+          "score": 0.8294,
+          "is_gold": true,
+          "heading": "ভাড়াটিয়াকে উচ্ছেদ করিবার কারণ ইত্যাদি",
+          "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+        },
+        {
+          "rank": 2,
+          "provision_id": "PRCA1991_S১",
+          "score": 0.8237,
+          "is_gold": false,
+          "heading": "সংক্ষিপ্ত শিরোনাম",
+          "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+        },
+        {
+          "rank": 3,
+          "provision_id": "PRCA1991_S১৩",
+          "score": 0.8197,
+          "is_gold": true,
+          "heading": "মানসম্মত ভাড়া নির্ধারণ",
+          "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+        },
+        {
+          "rank": 4,
+          "provision_id": "BLA2006_S২৬",
+          "score": 0.7983,
+          "is_gold": false,
+          "heading": "নোটিশ দ্বারা মালিক কর্তৃক শ্রমিকের চাকরির অবসান",
+          "act_title": "বাংলাদেশ শ্রম আইন, ২০০৬"
+        },
+        {
+          "rank": 5,
+          "provision_id": "CRPA2009_S১",
+          "score": 0.7944,
+          "is_gold": false,
+          "heading": "সংক্ষিপ্ত শিরোনাম ও প্রবর্তন",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        }
+      ]
+    },
+    {
+      "query_id": "Q04_EN",
+      "language": "en",
+      "query": "Can a minor enter into a legally binding business agreement under Bangladesh Contract Act?",
+      "gold_provisions": [
+        "CA1872_S11",
+        "CA1872_S10"
+      ],
+      "legal_concept": "Minor competence to contract (Contract Act)",
+      "reciprocal_rank": 0.5,
+      "recall_at_5": 1.0,
+      "top5": [
+        {
+          "rank": 1,
+          "provision_id": "CA1872_S1",
+          "score": 0.8214,
+          "is_gold": false,
+          "heading": "Short title, extent, commencement",
+          "act_title": "The Contract Act, 1872"
+        },
+        {
+          "rank": 2,
+          "provision_id": "CA1872_S11",
+          "score": 0.8076,
+          "is_gold": true,
+          "heading": "Who are competent to contract",
+          "act_title": "The Contract Act, 1872"
+        },
+        {
+          "rank": 3,
+          "provision_id": "CA1872_S10",
+          "score": 0.7875,
+          "is_gold": true,
+          "heading": "What agreements are contracts",
+          "act_title": "The Contract Act, 1872"
+        },
+        {
+          "rank": 4,
+          "provision_id": "BLAA2013_S১",
+          "score": 0.7768,
+          "is_gold": false,
+          "heading": "সংক্ষিপ্ত শিরোনাম",
+          "act_title": "বাংলাদেশ শ্রম (সংশোধন) আইন, ২০১৩"
+        },
+        {
+          "rank": 5,
+          "provision_id": "CRPA2009_S৩৭",
+          "score": 0.7762,
+          "is_gold": false,
+          "heading": "পণ্যের মোড়ক ইত্যাদি ব্যবহার না করিবার দণ্ড",
+          "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+        }
+      ]
+    }
+  ]
+}

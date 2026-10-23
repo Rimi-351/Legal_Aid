@@ -1,0 +1,895 @@
+{
+  "model_name": "qwen2.5:3b",
+  "runtime": "Ollama (CPU-only, Q4_K_M)",
+  "total_cases": 14,
+  "total_eval_time_s": 373.89,
+  "average_generation_latency_s": 26.01,
+  "average_tokens_per_sec": 13.71,
+  "peak_process_rss_mb": 37.86,
+  "extractive_mean_rubric_score": 1.57,
+  "generative_mean_rubric_score": 1.43,
+  "cases": [
+    {
+      "case_id": "CASE_01_A_EN_STATUTE_BN_EXP",
+      "category": "A_EN_STATUTE_BN_EXP",
+      "query": "চুক্তিতে আবদ্ধ হওয়ার জন্য একজন ব্যক্তির কি কি আইনগত যোগ্যতা থাকতে হবে?",
+      "query_language": "bn",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "CA1872_S11"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: CA1872_S11]\nAct: The Contract Act, 1872\nSection: 11 (Who are competent to contract)\nSource: data/raw/sample_audit_files/sample_contract_act_1872.html\nText:\nEvery person is competent to contract who is of the age of majority according to the law to which he is subject, and who is of sound mind, and is not disqualified from contracting by any law to which he is subject.",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "CA1872_S11"
+        ],
+        "eval": {
+          "case_id": "CASE_01_A_EN_STATUTE_BN_EXP",
+          "category": "A_EN_STATUTE_BN_EXP",
+          "condition": "extractive",
+          "extracted_citations": [
+            "CA1872_S11"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 0,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.33,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "চুক্তিতে আবদ্ধ হওয়ার জন্য একজন ব্যক্তির কি কি আইনগত যোগ্যতা থাকতে হবে তা নিম্নলিখিত আইনে বোঝা যায়:\n\n[CA1872_S11] চুক্তিতে আবদ্ধ হওয়ার জন্য একজন ব্যক্তির আইনগত যোগ্যতা হলো:\n1. একজন ব্যক্তি আবদ্ধ হওয়ার জন্য বৈশিষ্ট্যগুলো থাকতে হবে:\n   - তিনি নিজের বয়স অধিকারী হলে বিশেস্তর আইনে বা তার বিশেষ বিধানে বা তার বিশেষ বিধানের মধ্যে তার বিশেষ বিধ",
+        "total_latency_s": 22.876,
+        "tokens_per_sec": 17.49,
+        "eval_count": 350,
+        "process_rss_mb": 37.82,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_01_A_EN_STATUTE_BN_EXP",
+          "category": "A_EN_STATUTE_BN_EXP",
+          "condition": "generative",
+          "extracted_citations": [
+            "CA1872_S11"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 0,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.33,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_02_A_EN_STATUTE_BN_EXP",
+      "category": "A_EN_STATUTE_BN_EXP",
+      "query": "লিখিত চুক্তি না থাকলে কৃষিকাজের উদ্দেশ্যে সম্পত্তি ইজারা দেওয়ার ক্ষেত্রে কতদিনের নোটিশ দিয়ে ইজারা বাতিল করা যাবে?",
+      "query_language": "bn",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "TPA1882_S106"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: TPA1882_S106]\nAct: The Transfer of Property Act, 1882\nSection: 106 (Duration of certain leases in absence of written contract or local usage)\nSource: data/raw/sample_audit_files/sample_transfer_of_property_1882.html\nText:\nIn the absence of a written contract or local law or usage to the contrary, a lease of immovable property for agricultural or manufacturing purposes shall be deemed to be a lease from year to year, terminable, on the part of either lessor or lessee, by six months' notice expiring with the end of a year of the tenancy.",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "TPA1882_S106"
+        ],
+        "eval": {
+          "case_id": "CASE_02_A_EN_STATUTE_BN_EXP",
+          "category": "A_EN_STATUTE_BN_EXP",
+          "condition": "extractive",
+          "extracted_citations": [
+            "TPA1882_S106"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 0,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.33,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "[TPA1882_S106] লিখিত চুক্তি না থাকলে কৃষিকাজের উদ্দেশ্যে সম্পত্তি ইজারা দেওয়ার ক্ষেত্রে ইজারা বাতিল করা যাবে কতদিনের নোটিশ দিয়ে। এই নোটিশটি কাজেই কাটানো যাবে এক বছরের মাঝখানে এবং ইজারার বা লিশার পক্ষে প্রত্যেকেই এক বছরের মাঝখানে ছয় মাসের নোটিশ দিতে পারে। এই নোটিশটি কাটানো যাবে ইজারার বা লিশার পক্ষে প্রত্যেকেই এক বছরের মাঝখানে ছয় মাসে",
+        "total_latency_s": 23.977,
+        "tokens_per_sec": 17.02,
+        "eval_count": 350,
+        "process_rss_mb": 37.48,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_02_A_EN_STATUTE_BN_EXP",
+          "category": "A_EN_STATUTE_BN_EXP",
+          "condition": "generative",
+          "extracted_citations": [
+            "TPA1882_S106"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 0,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.33,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_03_B_BN_STATUTE_EN_EXP",
+      "category": "B_BN_STATUTE_EN_EXP",
+      "query": "What is the legal penalty under Bangladesh consumer protection law if a shopkeeper sells packaged goods without displaying the expiration date?",
+      "query_language": "en",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "CRPA2009_S৩৭"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: CRPA2009_S৩৭]\nAct: ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯\nSection: ৩৭ (পণ্যের মোড়ক ইত্যাদি ব্যবহার না করিবার দণ্ড)\nSource: data/raw/sample_audit_files/sample_consumer_rights_2009.html\nText:\nকোন ব্যক্তি কোন আইন বা বিধির অধীন নির্ধারিত বাধ্যবাধকতা অমান্য করিয়া কোন পণ্যের মোড়কে পণ্য বা সেবার খুচরা বিক্রয় মূল্য, ওজন বা মেয়াদ উত্তীর্ণের তারিখ উল্লেখ না করিলে তিনি অনূর্ধ্ব এক বৎসর কারাদণ্ড, বা অনধিক পঞ্চাশ হাজার টাকা অর্থদণ্ড, বা উভয় দণ্ডে দণ্ডনীয় হইবেন।",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "CRPA2009_S৩৭"
+        ],
+        "eval": {
+          "case_id": "CASE_03_B_BN_STATUTE_EN_EXP",
+          "category": "B_BN_STATUTE_EN_EXP",
+          "condition": "extractive",
+          "extracted_citations": [
+            "CRPA2009_S৩৭"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 0,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.33,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "[CRPA2009_S৩৭] ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯ এর Section ৩৭ থেকে আমি এই প্রশ্নটি সমাধান করতে পারি। এই আইনে বলা আছে, যে কোন ব্যক্তি কোন আইন বা বিধির অধীন নির্ধারিত বাধ্যবাধকতা অমান্য করে কোন পণ্যের মোড়কে পণ্য বা সেবার খুচরা বিক্রয় মূল্য, ওজন বা মেয়াদ উত্তীর্ণের তারিখ উল্লেখ না করলে তিনি অনূর্ধ্ব এক বৎসর কারাদণ্ড বা অনধিক পঞ্চাশ হাজ",
+        "total_latency_s": 32.94,
+        "tokens_per_sec": 13.28,
+        "eval_count": 350,
+        "process_rss_mb": 37.53,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_03_B_BN_STATUTE_EN_EXP",
+          "category": "B_BN_STATUTE_EN_EXP",
+          "condition": "generative",
+          "extracted_citations": [
+            "CRPA2009_S৩৭"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 0,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.33,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_04_B_BN_STATUTE_EN_EXP",
+      "category": "B_BN_STATUTE_EN_EXP",
+      "query": "Under the Premises Rent Control Act, can a landlord evict a tenant who pays the standard rent regularly?",
+      "query_language": "en",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "PRCA1991_S১৮"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: PRCA1991_S১৮]\nAct: বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১\nSection: ১৮ (ভাড়াটিয়াকে উচ্ছেদ করিবার কারণ ইত্যাদি)\nSource: data/raw/sample_audit_files/sample_premises_rent_1991.html\nText:\n(১) এই আইনের অন্যান্য বিধানে যাহা কিছুই থাকুক না কেন, যে পর্যন্ত ভাড়াটিয়া নিয়মিত ধারা ১৯ এর বিধান মোতাবেক ভাড়া পরিশোধ করিতে থাকিবেন এবং ভাড়ার শর্ত পালন করিবেন, সে পর্যন্ত ভাড়াটিয়াকে উচ্ছেদ করার কোন আদেশ বা ডিক্রি দেওয়া যাইবে না।",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "PRCA1991_S১৮"
+        ],
+        "eval": {
+          "case_id": "CASE_04_B_BN_STATUTE_EN_EXP",
+          "category": "B_BN_STATUTE_EN_EXP",
+          "condition": "extractive",
+          "extracted_citations": [
+            "PRCA1991_S১৮"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 0,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.33,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "[PRCA1991_S১৮] বাৱি ভাৱা নি",
+        "total_latency_s": 8.318,
+        "tokens_per_sec": 14.73,
+        "eval_count": 29,
+        "process_rss_mb": 37.64,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_04_B_BN_STATUTE_EN_EXP",
+          "category": "B_BN_STATUTE_EN_EXP",
+          "condition": "generative",
+          "extracted_citations": [
+            "PRCA1991_S১৮"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 0,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.33,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_05_C_TWO_PROVISION",
+      "category": "C_TWO_PROVISION",
+      "query": "What conditions make an agreement a valid enforceable contract, and who legally possesses the capacity to enter into such an agreement?",
+      "query_language": "en",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "CA1872_S10",
+        "CA1872_S11"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: CA1872_S10]\nAct: The Contract Act, 1872\nSection: 10 (What agreements are contracts)\nSource: data/raw/sample_audit_files/sample_contract_act_1872.html\nText:\nAll agreements are contracts if they are made by the free consent of parties competent to contract, for a lawful consideration and with a lawful object, and are not hereby expressly declared to be void.\n\n---\n\n[Provision 2: CA1872_S11]\nAct: The Contract Act, 1872\nSection: 11 (Who are competent to contract)\nSource: data/raw/sample_audit_files/sample_contract_act_1872.html\nText:\nEvery person is competent to contract who is of the age of majority according to the law to which he is subject, and who is of sound mind, and is not disqualified from contracting by any law to which he is subject.",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "CA1872_S10",
+          "CA1872_S11"
+        ],
+        "eval": {
+          "case_id": "CASE_05_C_TWO_PROVISION",
+          "category": "C_TWO_PROVISION",
+          "condition": "extractive",
+          "extracted_citations": [
+            "CA1872_S10",
+            "CA1872_S11"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 1,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.83,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "An agreement becomes a valid enforceable contract if it meets the following conditions based on the provided legal passages:\n\n1. The agreement must be made by the free consent of parties who are competent to contract. This is stated in [CA1872_S10].\n2. The parties must have a lawful consideration and a lawful object for the agreement. This is also stated in [CA1872_S10].\n3. The agreement must not be expressly declared to be void. This is stated in [CA1872_S10].\n\nAdditionally, for an agreement to be valid, the parties must be competent to contract. This is stated in [CA1872_S11].\n\n[CA1872_S11] specifies that every person is competent to contract who is of the age of majority according to the law to which he is subject, and who is of sound mind, and is not disqualified from contracting by any law to which he is subject.\n\nTherefore, an agreement is valid if it is made by the free consent of parties who are competent to contract, have a lawful consideration and object, and are not disqualified from contracting. The capacity to enter into such an agreement is determined by [CA1872_S11].",
+        "total_latency_s": 21.179,
+        "tokens_per_sec": 14.68,
+        "eval_count": 259,
+        "process_rss_mb": 37.66,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_05_C_TWO_PROVISION",
+          "category": "C_TWO_PROVISION",
+          "condition": "generative",
+          "extracted_citations": [
+            "CA1872_S10",
+            "CA1872_S11"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 1,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.83,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_06_C_TWO_PROVISION",
+      "category": "C_TWO_PROVISION",
+      "query": "বাড়ি ভাড়া নিয়ন্ত্রণ আইনে মানসম্মত ভাড়া কে নির্ধারণ করে এবং নির্ধারিত ভাড়া নিয়মিত পরিশোধ করলে বাড়িওয়ালা কি ভাড়াটিয়াকে উচ্ছেদ করতে পারবে?",
+      "query_language": "bn",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "PRCA1991_S১৩",
+        "PRCA1991_S১৮"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: PRCA1991_S১৩]\nAct: বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১\nSection: ১৩ (মানসম্মত ভাড়া নির্ধারণ)\nSource: data/raw/sample_audit_files/sample_premises_rent_1991.html\nText:\n(১) কোন বাড়ীর মানসম্মত ভাড়া নির্ধারণের জন্য বাড়ীর মালিক বা ভাড়াটিয়ার আবেদনের প্রেক্ষিতে নিয়ন্ত্রক মানসম্মত ভাড়া নির্ধারণ করিতে পারিবেন।\n\n---\n\n[Provision 2: PRCA1991_S১৮]\nAct: বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১\nSection: ১৮ (ভাড়াটিয়াকে উচ্ছেদ করিবার কারণ ইত্যাদি)\nSource: data/raw/sample_audit_files/sample_premises_rent_1991.html\nText:\n(১) এই আইনের অন্যান্য বিধানে যাহা কিছুই থাকুক না কেন, যে পর্যন্ত ভাড়াটিয়া নিয়মিত ধারা ১৯ এর বিধান মোতাবেক ভাড়া পরিশোধ করিতে থাকিবেন এবং ভাড়ার শর্ত পালন করিবেন, সে পর্যন্ত ভাড়াটিয়াকে উচ্ছেদ করার কোন আদেশ বা ডিক্রি দেওয়া যাইবে না।",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "PRCA1991_S১৩",
+          "PRCA1991_S১৮"
+        ],
+        "eval": {
+          "case_id": "CASE_06_C_TWO_PROVISION",
+          "category": "C_TWO_PROVISION",
+          "condition": "extractive",
+          "extracted_citations": [
+            "PRCA1991_S১৩",
+            "PRCA1991_S১৮"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.67,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "[PRCA1991_S১৩] বাড়ি ভাড়া নি",
+        "total_latency_s": 14.798,
+        "tokens_per_sec": 13.63,
+        "eval_count": 29,
+        "process_rss_mb": 37.69,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_06_C_TWO_PROVISION",
+          "category": "C_TWO_PROVISION",
+          "condition": "generative",
+          "extracted_citations": [
+            "PRCA1991_S১৩"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 1,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.5,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_07_D_INSUFFICIENT_EVID",
+      "category": "D_INSUFFICIENT_EVID",
+      "query": "What is the statutory limitation period in years to file a civil money recovery suit under Bangladesh limitation law?",
+      "query_language": "en",
+      "is_answerable": false,
+      "supplied_provisions": [
+        "CA1872_S1",
+        "CA1872_S10"
+      ],
+      "condition_a_extractive": {
+        "answer": "The retrieved passages do not contain sufficient evidence to answer this legal question.",
+        "is_abstention": true,
+        "cited_provision_ids": [],
+        "eval": {
+          "case_id": "CASE_07_D_INSUFFICIENT_EVID",
+          "category": "D_INSUFFICIENT_EVID",
+          "condition": "extractive",
+          "extracted_citations": [],
+          "is_abstention": true,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 2,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 2.0,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "The provided legal passages do not contain sufficient evidence to answer this question. [CA1872_S1, CA1872_S10]",
+        "total_latency_s": 5.42,
+        "tokens_per_sec": 15.0,
+        "eval_count": 33,
+        "process_rss_mb": 37.84,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_07_D_INSUFFICIENT_EVID",
+          "category": "D_INSUFFICIENT_EVID",
+          "condition": "generative",
+          "extracted_citations": [
+            "CA1872_S1",
+            "CA1872_S10"
+          ],
+          "is_abstention": true,
+          "scores": {
+            "citation_validity": 0,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 2,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.67,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_08_D_INSUFFICIENT_EVID",
+      "category": "D_INSUFFICIENT_EVID",
+      "query": "সামাজিক যোগাযোগ মাধ্যমে মানহানিকর বক্তব্য পোস্ট করলে সাইবার নিরাপত্তা আইনে কত বছরের কারাদণ্ড হতে পারে?",
+      "query_language": "bn",
+      "is_answerable": false,
+      "supplied_provisions": [
+        "BLA2006_S১",
+        "CRPA2009_S১"
+      ],
+      "condition_a_extractive": {
+        "answer": "সরবরাহকৃত আইনগত ধারাগুলোতে এই প্রশ্নের উত্তর দেওয়ার মতো পর্যাপ্ত তথ্য বা প্রমাণ নেই।",
+        "is_abstention": true,
+        "cited_provision_ids": [],
+        "eval": {
+          "case_id": "CASE_08_D_INSUFFICIENT_EVID",
+          "category": "D_INSUFFICIENT_EVID",
+          "condition": "extractive",
+          "extracted_citations": [],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 0,
+            "factual_fidelity": 0,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 0
+          },
+          "mean_rubric_score": 0.67,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "সামাজিক যোগাযোগ মাধ্যমে মানহানিকর বক্তব্য পোস্ট করলে সাইবার নিরাপত্তা আইনে কত বছরের কারাদণ্ড হতে পারে তা নির্ধারণ করা যায়নি। [CRPA2009_S১] এই আইনটি সাইবার নিরাপত্তা প্রকাশনার প্রবর্তন ও অনুমোদনের জন্য ব্যবস্থা করেছে, কিন্তু এটি কত বছরের কারাদণ্ড প্রদান করবে তা নির্ধারণ করা হয়নি। এই আইনটি সাইবার নিরাপত্তা প্রকাশনার প্রবর্তন ও অনুমোদনের জন্য",
+        "total_latency_s": 36.107,
+        "tokens_per_sec": 13.18,
+        "eval_count": 350,
+        "process_rss_mb": 37.84,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_08_D_INSUFFICIENT_EVID",
+          "category": "D_INSUFFICIENT_EVID",
+          "condition": "generative",
+          "extracted_citations": [
+            "CRPA2009_S১"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 0,
+            "evidence_support": 0,
+            "factual_fidelity": 0,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 0
+          },
+          "mean_rubric_score": 0.33,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_09_E_CITATION_GROUNDING",
+      "category": "E_CITATION_GROUNDING",
+      "query": "Under Bangladesh Labour Act, what written notice period or compensation must an employer provide to terminate a permanent worker?",
+      "query_language": "en",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "BLA2006_S২৬"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: BLA2006_S২৬]\nAct: বাংলাদেশ শ্রম আইন, ২০০৬\nSection: ২৬ (নোটিশ দ্বারা মালিক কর্তৃক শ্রমিকের চাকরির অবসান)\nSource: data/raw/sample_audit_files/sample_labour_act_2006.html\nText:\n(১) মালিক কোন স্থায়ী শ্রমিককে তাহার চাকরির অবসান করিতে পারিবে, যদি তাহাকে একশত বিশ দিনের লিখিত নোটিশ প্রদান করা হয় অথবা নোটিশের পরিবর্তে একশত বিশ দিনের মজুরি প্রদান করা হয়।",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "BLA2006_S২৬"
+        ],
+        "eval": {
+          "case_id": "CASE_09_E_CITATION_GROUNDING",
+          "category": "E_CITATION_GROUNDING",
+          "condition": "extractive",
+          "extracted_citations": [
+            "BLA2006_S২৬"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.67,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "[BLA2006_S২৬] বাংলাদেশ শ্রম আইন, ২০০৬ এর Section ২৬ বলে যে, মালিক কোন স্থায়ী শ্রমিককে তাহার চাকরির অবসান করিতে পারিবে, যদি তাহাকে একশত বিশ দিনের লিখিত নোটিশ প্রদান করা হয় অথবা নোটিশের পরিবর্তে একশত বিশ দিনের মজুরি প্রদান করা হয়। এই প্রবাহিত আইনে মালিক কোন স্থায়ী শ্রমিককে চাকরির অবসান করার জন্য একশত বিশ দিনের লিখিত নোটিশ বা একশত বিশ দ",
+        "total_latency_s": 30.553,
+        "tokens_per_sec": 13.95,
+        "eval_count": 350,
+        "process_rss_mb": 37.58,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_09_E_CITATION_GROUNDING",
+          "category": "E_CITATION_GROUNDING",
+          "condition": "generative",
+          "extracted_citations": [
+            "BLA2006_S২৬"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.67,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_10_E_CITATION_GROUNDING",
+      "category": "E_CITATION_GROUNDING",
+      "query": "সেবা প্রদানকারীর অবহেলার কারণে সেবাগ্রহীতার জীবন বা অর্থহানি ঘটলে ভোক্তা-অধিকার সংরক্ষণ আইনে কি দণ্ড নির্ধারিত আছে?",
+      "query_language": "bn",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "CRPA2009_S৪৫"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: CRPA2009_S৪৫]\nAct: ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯\nSection: ৪৫ (অবহেলা ইত্যাদির দ্বারা সেবাগ্রহীতার জীবন বা অর্থহানি ইত্যাদি ঘটাইবার দণ্ড)\nSource: data/raw/sample_audit_files/sample_consumer_rights_2009.html\nText:\nকোন ব্যক্তি সেবাগ্রহীতার জীবন বা নিরাপত্তা বিপন্ন হইতে পারে এইরূপ অবহেলা, দায়িত্বহীনতা বা অসতর্কতা দ্বারা সেবা প্রদান করিলে তিনি অনূর্ধ্ব তিন বৎসর কারাদণ্ড, বা অনধিক দুই লক্ষ টাকা অর্থদণ্ড, বা উভয় দণ্ডে দণ্ডনীয় হইবেন।",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "CRPA2009_S৪৫"
+        ],
+        "eval": {
+          "case_id": "CASE_10_E_CITATION_GROUNDING",
+          "category": "E_CITATION_GROUNDING",
+          "condition": "extractive",
+          "extracted_citations": [
+            "CRPA2009_S৪৫"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 1,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.83,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "সেবা প্রদানকারীর অবহেলার কারণে সেবাগ্রহীতার জীবন বা অর্থহানি ঘটলে ভোক্তা-অধিকার সংরক্ষণ আইনে [CRPA2009_S৪৫] দণ্ড নির্ধারিত আছে। এই আইনে বলা হয়েছে যে, কোন ব্যক্তি সেবাগ্রহীতার জীবন বা নিরাপত্তা বিপন্ন হইতে পারে এইরূপ অবহেলা, দায়িত্বহীনতা বা অসতর্কতা দ্বারা সেবা প্রদান করিলে তিনি অনূর্ধ্ব তিন বৎসর কারাদণ্ড, বা অনধিক দুই লক্ষ টাকা অর্থদণ",
+        "total_latency_s": 34.009,
+        "tokens_per_sec": 13.69,
+        "eval_count": 350,
+        "process_rss_mb": 37.62,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_10_E_CITATION_GROUNDING",
+          "category": "E_CITATION_GROUNDING",
+          "condition": "generative",
+          "extracted_citations": [
+            "CRPA2009_S৪৫"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.67,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_11_F_BANGLA",
+      "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+      "query": "দোকানদার পণ্যের গায়ে মেয়াদোত্তীর্ণের তারিখ না লিখে বিক্রি করলে ভোক্তা অধিকার সংরক্ষণ আইনে কি শাস্তি হবে?",
+      "query_language": "bn",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "CRPA2009_S৩৭"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: CRPA2009_S৩৭]\nAct: ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯\nSection: ৩৭ (পণ্যের মোড়ক ইত্যাদি ব্যবহার না করিবার দণ্ড)\nSource: data/raw/sample_audit_files/sample_consumer_rights_2009.html\nText:\nকোন ব্যক্তি কোন আইন বা বিধির অধীন নির্ধারিত বাধ্যবাধকতা অমান্য করিয়া কোন পণ্যের মোড়কে পণ্য বা সেবার খুচরা বিক্রয় মূল্য, ওজন বা মেয়াদ উত্তীর্ণের তারিখ উল্লেখ না করিলে তিনি অনূর্ধ্ব এক বৎসর কারাদণ্ড, বা অনধিক পঞ্চাশ হাজার টাকা অর্থদণ্ড, বা উভয় দণ্ডে দণ্ডনীয় হইবেন।",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "CRPA2009_S৩৭"
+        ],
+        "eval": {
+          "case_id": "CASE_11_F_BANGLA",
+          "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+          "condition": "extractive",
+          "extracted_citations": [
+            "CRPA2009_S৩৭"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 1,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.83,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "[CRPA2009_S৩৭] ভোক্তা-অধিকার সংরক্ষণ আইনে পণ্যের মোড়কে পণ্য বা সেবার খুচরা বিক্রয় মূল্য, ওজন বা মেয়াদ উত্তীর্ণের তারিখ উল্লেখ না করে দোকানদার বিক্রি করলে শাস্তি হবে। এই পণ্যের মোড়কে পণ্য বা সেবার খুচরা বিক্রয় মূল্য, ওজন বা মেয়াদ উত্তীর্ণের তারিখ উল্লেখ করা প্রয়াসী হবে, কিন্তু তার উপর অনুর্ধ্ব এক বৎসর কারাদণ্ড বা অনধিক পঞ",
+        "total_latency_s": 29.025,
+        "tokens_per_sec": 13.15,
+        "eval_count": 350,
+        "process_rss_mb": 37.62,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_11_F_BANGLA",
+          "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+          "condition": "generative",
+          "extracted_citations": [
+            "CRPA2009_S৩৭"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.67,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_12_F_BANGLISH",
+      "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+      "query": "Dokandar expiry date na likhe ponno sell korle consumer rights law onujayi ki shasti hobe?",
+      "query_language": "banglish",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "CRPA2009_S৩৭"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: CRPA2009_S৩৭]\nAct: ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯\nSection: ৩৭ (পণ্যের মোড়ক ইত্যাদি ব্যবহার না করিবার দণ্ড)\nSource: data/raw/sample_audit_files/sample_consumer_rights_2009.html\nText:\nকোন ব্যক্তি কোন আইন বা বিধির অধীন নির্ধারিত বাধ্যবাধকতা অমান্য করিয়া কোন পণ্যের মোড়কে পণ্য বা সেবার খুচরা বিক্রয় মূল্য, ওজন বা মেয়াদ উত্তীর্ণের তারিখ উল্লেখ না করিলে তিনি অনূর্ধ্ব এক বৎসর কারাদণ্ড, বা অনধিক পঞ্চাশ হাজার টাকা অর্থদণ্ড, বা উভয় দণ্ডে দণ্ডনীয় হইবেন।",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "CRPA2009_S৩৭"
+        ],
+        "eval": {
+          "case_id": "CASE_12_F_BANGLISH",
+          "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+          "condition": "extractive",
+          "extracted_citations": [
+            "CRPA2009_S৩৭"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 1,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.83,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "Dokandar মোড়কে মোড়ক বিক্রয় করা যায় এবং তার উত্তীর্ণের তারিখ না লিখে পণ্য বিক্রয় করা হলে, পণ্যের মোড়কে পণ্য বা সেবার মূল্য, ওজন বা মেয়াদ উত্তীর্ণের তারিখ না লিখে পণ্য বিক্রয় করা হলে ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯ (CRPA2009) সংরক্ষণ ৩৭ নং পণ্যের মোড়কে পণ্য বা সেবার খুচরা বিক্রয় না করিবার দণ্ড প্রয়োগ হবে। এই পণ্যের",
+        "total_latency_s": 30.271,
+        "tokens_per_sec": 12.16,
+        "eval_count": 350,
+        "process_rss_mb": 37.69,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_12_F_BANGLISH",
+          "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+          "condition": "generative",
+          "extracted_citations": [],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 0,
+            "evidence_support": 0,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.0,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_13_F_BANGLA",
+      "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+      "query": "মালিক নোটিশ ছাড়া স্থায়ী শ্রমিককে বরখাস্ত বা চাকরি অবসান করতে চাইলে কত দিনের নোটিশ বা মজুরি দিতে হবে?",
+      "query_language": "bn",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "BLA2006_S২৬"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: BLA2006_S২৬]\nAct: বাংলাদেশ শ্রম আইন, ২০০৬\nSection: ২৬ (নোটিশ দ্বারা মালিক কর্তৃক শ্রমিকের চাকরির অবসান)\nSource: data/raw/sample_audit_files/sample_labour_act_2006.html\nText:\n(১) মালিক কোন স্থায়ী শ্রমিককে তাহার চাকরির অবসান করিতে পারিবে, যদি তাহাকে একশত বিশ দিনের লিখিত নোটিশ প্রদান করা হয় অথবা নোটিশের পরিবর্তে একশত বিশ দিনের মজুরি প্রদান করা হয়।",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "BLA2006_S২৬"
+        ],
+        "eval": {
+          "case_id": "CASE_13_F_BANGLA",
+          "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+          "condition": "extractive",
+          "extracted_citations": [
+            "BLA2006_S২৬"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.67,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "মালিক নোটিশ ছাৱা স্থায়ী শ্রমিককে বরখাস্ত বা চাকরি অবসান করতে চাইলে, তাহাকে একশত বিশ দিনের নোটিশ প্রদান করা হবে বা নোটিশের পরিবর্তে একশত বিশ দিনের মজুরি প্রদান করা হবে। [BLA2006_S২৬]\n\nএটি বাংলাদেশ শ্রম আইন, ২০০৬ (BLA2006) সংস্করণের [BLA2006_S২৬] প্রবন্ধে বর্তমান বাংলা শব্দানুযায়িত প্রবন্ধ অনুযায়ী বুঝায়। এই আইনের প্রবন্ধটি নোটিশ বা",
+        "total_latency_s": 39.493,
+        "tokens_per_sec": 9.52,
+        "eval_count": 350,
+        "process_rss_mb": 37.7,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_13_F_BANGLA",
+          "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+          "condition": "generative",
+          "extracted_citations": [
+            "BLA2006_S২৬"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.67,
+          "hallucination_detected": false
+        }
+      }
+    },
+    {
+      "case_id": "CASE_14_F_BANGLISH",
+      "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+      "query": "Malik notice chara permanent worker ke terminate korle koto diner notice ba salary dite hobe labour law onujayi?",
+      "query_language": "banglish",
+      "is_answerable": true,
+      "supplied_provisions": [
+        "BLA2006_S২৬"
+      ],
+      "condition_a_extractive": {
+        "answer": "[Provision 1: BLA2006_S২৬]\nAct: বাংলাদেশ শ্রম আইন, ২০০৬\nSection: ২৬ (নোটিশ দ্বারা মালিক কর্তৃক শ্রমিকের চাকরির অবসান)\nSource: data/raw/sample_audit_files/sample_labour_act_2006.html\nText:\n(১) মালিক কোন স্থায়ী শ্রমিককে তাহার চাকরির অবসান করিতে পারিবে, যদি তাহাকে একশত বিশ দিনের লিখিত নোটিশ প্রদান করা হয় অথবা নোটিশের পরিবর্তে একশত বিশ দিনের মজুরি প্রদান করা হয়।",
+        "is_abstention": false,
+        "cited_provision_ids": [
+          "BLA2006_S২৬"
+        ],
+        "eval": {
+          "case_id": "CASE_14_F_BANGLISH",
+          "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+          "condition": "extractive",
+          "extracted_citations": [
+            "BLA2006_S২৬"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.67,
+          "hallucination_detected": false
+        }
+      },
+      "condition_b_generative": {
+        "answer": "[BLA2006_S২৬] বাংলাদেশ শ্রম আইন, ২০০৬ অনুযায়ী, মালিক কোন স্থায়ী শ্রমিককে তাহার চাকরির অবসান করিতে পারিবে যদি তাহাকে একশত বিশ দিনের লিখিত নোটিশ প্রদান করা হয় অথবা নোটিশের পরিবর্তে একশত বিশ দিনের মজুরি প্রদান করা হয়।\n\nএই প্রবন্ধটি মালিক কোন স্থায়ী শ্রমিককে তাহার চাকরির অবসান করার জন্য একশত বিশ দিনের লিখিত নোটিশ বা একশত বিশ দিনে",
+        "total_latency_s": 35.214,
+        "tokens_per_sec": 10.48,
+        "eval_count": 350,
+        "process_rss_mb": 37.86,
+        "error": null,
+        "eval": {
+          "case_id": "CASE_14_F_BANGLISH",
+          "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+          "condition": "generative",
+          "extracted_citations": [
+            "BLA2006_S২৬"
+          ],
+          "is_abstention": false,
+          "scores": {
+            "citation_validity": 2,
+            "evidence_support": 2,
+            "factual_fidelity": 2,
+            "cross_language_preservation": 2,
+            "completeness": 0,
+            "abstention_correctness": 2
+          },
+          "mean_rubric_score": 1.67,
+          "hallucination_detected": false
+        }
+      }
+    }
+  ]
+}

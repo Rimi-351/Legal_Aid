@@ -1,0 +1,686 @@
+Legal Aid BD — Revised 8-Week Research Implementation Roadmap
+The most important correction from these reviews is not simply reducing the feature list. It is changing what the project is designed to prove.
+
+Your primary research contribution should be multilingual legal retrieval for Bangladesh law, especially Banglish and cross-script retrieval, with verifiable legal citations. The web interface, document review and voice features should support that contribution, not compete with it.
+
+I would keep the architecture extensible to all legal domains, but build the first validated corpus around 3–4 domains. I would also test local generation in Week 1, secure legal review before building the benchmark, and establish a credible BM25 baseline before claiming that hybrid retrieval improves results.
+
+I will retain the eight-week schedule and detailed daily tasks, as requested, without treating the time constraint itself as a reason to discard features. The plan will instead distinguish research-critical work from supporting features and specify what evidence is required at each milestone.
+1. What changes based on the four reviews?
+Issue identified	Revised decision
+All-domain coverage dilutes evaluation	Architecture supports all domains; initial validated corpus covers 3–4
+Legal metadata may be incomplete	Inspect real source formats and metadata before designing historical-law claims
+No guaranteed legal reviewer	Find a reviewer in Week 0 and agree on a review protocol
+Weak keyword baseline	Implement BM25 with explicit Bengali tokenization
+Banglish normalization is underspecified	Compare character n-grams, Banglish-aware embeddings and query rewriting
+Local LLM quality is uncertain	Test generation quality in Week 1; preserve extractive answers as a fallback
+Citation existence is not citation support	Evaluate whether each cited passage supports the claim
+Voice and OCR distract from the research	Keep them as later, independent feature tracks
+16 GB RAM limits concurrent inference	Benchmark components separately and load heavy models sequentially
+Eight weeks risks producing a demo instead of research	Freeze a benchmark, run ablations, preserve held-out tests and document limitations
+
+One additional correction: do not assume every claim in the reviews is established fact. For example, PostgreSQL full-text search does not inherently return zero matches for every Banglish query, but its standard configuration is not a strong substitute for a properly tokenized BM25 baseline. Likewise, 16 GB RAM does not make every local LLM experiment impossible; it makes concurrent model loading and larger contexts something you must measure.
+2. Week 0 — Research readiness and feasibility checks
+Gate before Week 1
+Objective: Resolve the dependencies that could invalidate the research design before investing heavily in implementation.
+Task 0.1 — Secure a legal reviewer
+Find a Bangladesh law student, faculty member, practicing lawyer or legal researcher who can review a sample of the benchmark and legal answers.
+
+Agree on:
+- What qualifications or experience the reviewer has.
+- Which legal domains they can review.
+- Whether they can validate the correct provisions and legal conclusions.
+- How disagreements between reviewers will be recorded.
+- How many cases they can review.
+- Whether they consent to being acknowledged or included as a co-author, if appropriate.
+A law student can help with annotation, but do not assume that every legal question can be validated by any law student. Match the reviewer's expertise to the domain and use a qualified legal professional for consequential legal conclusions.
+
+If no reviewer is available, proceed with retrieval experiments, but describe the labels as researcher-annotated and avoid claiming lawyer-validated legal correctness.
+Task 0.2 — Inspect actual legal sources
+Select a small sample from the official Laws of Bangladesh portal and the Legislative and Parliamentary Affairs Division.
+
+Inspect approximately 10–15 documents spanning different formats and periods.
+
+For each document, answer:
+- Is the content HTML, Unicode PDF, scanned PDF or another format?
+- Are section numbers and headings extractable?
+- Is the text in Bangla, English or both?
+- Are publication and effective dates available?
+- Is it an original Act, consolidated text or amending instrument?
+- Are there restrictions on automated collection or reuse?
+- Can the current legal status be established from the available records?
+Do not assume the presence of legacy Bijoy encoding without inspecting the files. If it occurs, investigate a permitted conversion workflow and validate the converted text against the original. Treat scanned-Gazette OCR as a separate risk.
+Task 0.3 — Test the local compute budget
+On your Windows PC, verify:
+- Python, PostgreSQL and pgvector compatibility.
+- CPU and RAM usage during embedding generation.
+- RAM usage and generation speed for one candidate local LLM.
+- Whether a multilingual embedding model can run independently.
+- Whether a reranker can run independently.
+- Whether model loading causes excessive paging or crashes.
+Do not run all models concurrently during this feasibility test.
+Task 0.4 — Establish the research protocol
+Write a short protocol specifying:
+- Research questions and hypotheses.
+- Candidate legal domains.
+- Candidate retrieval models.
+- Benchmark construction and annotation procedure.
+- Train/development/test separation.
+- Metrics and statistical reporting.
+- Source and data-use policies.
+Week 0 deliverables
+- docs/research_protocol.md
+- docs/source_audit.md
+- docs/model_feasibility.md
+- A reviewer contact and agreed annotation plan, if available.
+- A documented go/no-go decision for the initial corpus.
+Gate: Do not commit to historical-law accuracy experiments until you establish whether the source material contains enough reliable version and effective-date information to support them.
+
+Week 1 — Build the research foundation and test model feasibility
+Primary outcome
+A working experimental pipeline and a documented model-selection decision
+
+Research question: Can your available tools process the selected legal text and produce usable Bengali/English answers without requiring excessive local compute?
+Day 1 — Set up the project and experiment tracking
+Create the repository and a minimal Python environment. Do not begin with a full Django application.
+
+Suggested structure:
+
+LegalAidBD/
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── manifests/
+├── src/
+│   ├── ingestion/
+│   ├── retrieval/
+│   ├── generation/
+│   ├── evaluation/
+│   └── document_review/
+├── configs/
+├── experiments/
+├── tests/
+├── notebooks/
+└── docs/
+
+
+
+Tasks:
+1. Initialize Git and exclude private documents, large model files and secrets.
+2. Install a compatible Python environment and verify package compatibility.
+3. Connect to PostgreSQL with pgvector.
+4. Create a configuration file for corpus paths and model identifiers.
+5. Write a script that runs one query against a hardcoded sample passage.
+6. Log every experiment's model, parameters, dataset version and results.
+Start with a script-driven research pipeline. Add a web API and interface after retrieval experiments are reproducible.
+Day 2 — Create the legal data schema
+Implement the minimal schema needed for research.
+Entity	Required information
+Source	Institution, URL, access method, collection date
+Document	Title, type, domain, language
+Version	Publication date, effective dates if known, checksum
+Provision	Act ID, section, subsection, text
+Chunk	Provision ID, text span, page or paragraph
+Amendment relation	Amending instrument, affected provision, evidence for relationship
+Benchmark case	Query, language, expected relevant provisions, review status
+
+Represent unknown effective dates as unknown. Do not invent dates to satisfy a schema.
+
+Write tests that verify every provision can be traced to its source and document version.
+Day 3 — Test embedding models independently
+Compare at least two candidates:
+- BGE-M3.
+- Multilingual-E5-base.
+Tasks:
+1. Load each model separately.
+2. Embed the same small collection of legal passages.
+3. Measure processing time, RAM use and embedding dimensions.
+4. Run a few manually selected queries in Bangla, English and Banglish.
+5. Inspect the top retrieved passages.
+6. Record failures and model limitations.
+This is an initial feasibility experiment, not a final model ranking.
+Day 4 — Test local generation early
+Use one small multilingual instruct model through Ollama or llama.cpp.
+
+Provide it with several verified legal passages and test:
+- Bangla explanations of English statutory text.
+- English explanations of Bangla legal text.
+- Answers requiring two provisions.
+- Questions with insufficient evidence.
+- Citation formatting.
+- Consistency between equivalent Bangla and Banglish questions.
+Compare the output with a simple extractive baseline that returns the retrieved passage and its source.
+
+If local generation produces poor legal explanations, retain extractive answers as the primary output. A hosted model can be an optional comparison condition, but it must be explicitly configured and evaluated separately.
+Day 5 — Freeze the initial experimental configuration
+Document:
+- Which embedding models are viable.
+- Which local LLM, if any, is usable.
+- Whether reranking is practical.
+- Whether the PC can run each component sequentially.
+- The expected corpus storage and inference requirements.
+- The fallback behavior when a model fails.
+Week 1 deliverables
+- Reproducible project setup.
+- Initial database schema and tests.
+- Model feasibility results.
+- First extractive answer demonstration.
+- A model-selection decision based on measured behavior.
+Exit gate: You must be able to retrieve a known legal passage, show its source, and reproduce the result from a documented configuration.
+
+Week 2 — Build a trustworthy corpus and a strong lexical baseline
+Primary outcome
+Validated source records, section-aware extraction and BM25 search
+
+Research question: Can you build a reliable corpus and a fair lexical baseline against which multilingual retrieval methods can be compared?
+Day 1 — Select the initial legal domains
+Choose 3–4 domains based on source availability, practical relevance and review capacity.
+
+A reasonable starting shortlist is:
+- Land, tenancy and housing.
+- Consumer protection.
+- Employment and labour.
+- Contractual obligations.
+Confirm the availability of usable official material before locking these choices.
+
+For each domain, list the principal Acts, related rules, known amendments and available judgments. Maintain a list of sources not yet collected so that corpus coverage is measurable.
+Day 2 — Acquire and preserve source documents
+Tasks:
+1. Use permitted official downloads or access methods.
+2. Save each original document separately from extracted text.
+3. Compute a SHA-256 checksum.
+4. Record its source URL and acquisition timestamp.
+5. Store the document's language, type and publication metadata.
+6. Record whether it is consolidated, original or amending legislation.
+7. Log access restrictions and extraction errors.
+Do not begin a large-scale scraper until the source audit establishes that automated acquisition is appropriate.
+Day 3 — Extract and validate legal structure
+Implement extractors for the formats actually found during the source audit.
+
+Preserve:
+- Act title and number.
+- Section and subsection.
+- Heading.
+- Original text.
+- Page number, when available.
+- Language and extraction method.
+- Source URL and version ID.
+If OCR or encoding conversion is necessary, retain the original and mark the extracted text as requiring verification. Do not silently repair uncertain legal wording.
+Day 4 — Build section-aware indexing and BM25
+Implement two retrieval components:
+1. BM25 lexical retrieval using a suitable implementation such as rank_bm25 for a small corpus or Pyserini/Lucene for a more scalable setup.
+2. Exact identifier lookup for Act names, section numbers and document identifiers.
+Use a consistent tokenization pipeline and document it.
+
+For Bengali text, test Unicode normalization, punctuation handling and the effect of tokenization. For Banglish, preserve the original query and use a separate tokenization path where appropriate.
+
+Do not claim that standard PostgreSQL full-text search is an adequate BM25 baseline. You can keep PostgreSQL search as an auxiliary experiment, but use a genuine BM25 implementation for the principal lexical comparison.
+Day 5 — Audit corpus quality
+Generate a report showing:
+- Number of documents and provisions collected.
+- Counts by legal domain and language.
+- Percentage with verified source links.
+- Percentage with usable section identifiers.
+- Percentage with known publication and effective dates.
+- Extraction failures and OCR warnings.
+- Duplicate documents and unresolved source conflicts.
+Week 2 deliverables
+- Versioned corpus.
+- Source manifest.
+- Section-aware extraction pipeline.
+- BM25 and exact identifier retrieval.
+- Corpus-quality report.
+Exit gate: A human should be able to follow any retrieved provision back to its original source. The corpus should be described honestly, including missing metadata and unverified material.
+
+Week 3 — Construct a reviewed multilingual legal benchmark
+Primary outcome
+A benchmark with evidence labels, real spelling variation and a defensible test protocol
+
+Research question: How should multilingual legal retrieval be evaluated when users write Bengali in multiple scripts and mix Bangla with English?
+
+The benchmark is not a side task. It is a core research artifact.
+Day 1 — Define benchmark cases and annotation rules
+Create a structured annotation guide.
+
+Each case should include:
+- Query ID.
+- Original user query.
+- Language and script labels.
+- Legal domain.
+- Expected supporting provisions.
+- Whether one or multiple provisions are required.
+- Whether the available corpus contains sufficient evidence.
+- Expected answer criteria.
+- Annotation confidence.
+- Reviewer notes.
+Distinguish between a passage that is merely related to the question and a passage that actually supports a defensible answer.
+Day 2 — Build the initial query collection
+Create an initial pool of approximately 200 questions if your reviewer capacity and corpus permit.
+
+Do not divide them equally among all domains simply to create a balanced-looking table. Ensure that each domain has enough meaningful cases to analyze its performance, and explicitly report smaller subgroups where sample sizes remain low.
+
+For each underlying scenario, prepare equivalent queries in:
+- Bangla Unicode.
+- Banglish.
+- English.
+- Code-mixed language.
+Not every translation should be literal. Preserve the user's intended legal meaning and relevant facts.
+Day 3 — Collect realistic Banglish variation
+Self-authored examples alone are not enough to establish robustness to real user spelling.
+
+Develop a process for collecting naturally written Banglish queries from consenting participants or other permitted sources. Avoid collecting sensitive legal stories unnecessarily.
+
+If genuine user data is unavailable, construct controlled spelling variants and clearly label them as synthetic. Do not present synthetic spelling variation as a representative sample of real public usage.
+
+Examples of variation to test include inconsistent transliteration, omitted vowels, alternate spellings, English legal terms and Bengali grammatical structure.
+Day 4 — Annotate the gold evidence
+Have the reviewer or trained annotators identify the supporting provisions for each case.
+
+Tasks:
+1. Provide annotators with the original query and relevant source material.
+2. Allow multiple correct evidence passages where appropriate.
+3. Record unresolved ambiguity instead of forcing a single answer.
+4. Review a shared subset independently to identify annotation disagreements.
+5. Resolve disagreements through a documented procedure.
+6. Record who reviewed which cases and what changes were made.
+If no qualified reviewer is available, preserve the annotations as provisional and separate retrieval relevance judgments from legal correctness judgments.
+Day 5 — Freeze development and test sets
+Create separate development and held-out test sets.
+
+Group paraphrases and translations of the same underlying scenario together so that near-duplicate questions cannot leak across splits.
+
+Also prevent source or clause leakage from making the task artificially easy. Record the corpus version used for each evaluation.
+
+For a small corpus, Recall@10 can be inflated because many queries have only a few plausible candidate passages. Therefore:
+- Include realistic irrelevant passages and hard negatives.
+- Report the number of eligible corpus passages.
+- Report Recall@5 and Recall@10 alongside MRR and nDCG.
+- Inspect retrieval failures manually.
+- Avoid claims of broad generalization from a small benchmark.
+Week 3 deliverables
+- benchmark_dev.jsonl
+- benchmark_test.jsonl
+- annotation_guidelines.md
+- banglish_variation_protocol.md
+- An annotation agreement and quality report.
+Exit gate: Every benchmark query must have a traceable annotation status, and the held-out test set must remain untouched during model tuning.
+
+Week 4 — Run retrieval experiments and test the Banglish contribution
+Primary outcome
+An ablation study comparing lexical, semantic, hybrid and Banglish-aware retrieval
+
+Research question: Which retrieval methods improve access to Bangladesh legal provisions across language and script variations?
+Day 1 — Establish the BM25 baseline
+Run BM25 against the development and test sets using the documented tokenization configuration.
+
+Report:
+- Recall@5 and Recall@10.
+- MRR@10.
+- nDCG@10.
+- Per-language results.
+- Per-domain results.
+- Retrieval latency.
+Inspect the failures before introducing additional models. A baseline that has not been properly tuned or tokenized can make every later method look better than it really is.
+Day 2 — Evaluate embedding and hybrid retrieval
+Run:
+- Multilingual-E5-base.
+- BGE-M3.
+- BM25 + embedding retrieval using a documented fusion method.
+Use the same corpus and benchmark across all conditions.
+
+For hybrid retrieval, compare a simple rank-fusion approach such as RRF against any alternative only if you can justify the additional experiment.
+Day 3 — Compare Banglish strategies
+Implement at least two meaningful alternatives to the unmodified baseline.
+A. Character n-gram lexical retrieval
+
+Use a documented character n-gram TF-IDF or BM25-style retrieval baseline to tolerate spelling variation without requiring translation.
+
+
+B. Banglish-aware embedding retrieval
+
+Evaluate a candidate such as triBne-E5-small on the same benchmark, checking its model card, licence and suitability for legal retrieval.
+
+
+C. Optional query rewriting
+
+Generate a standard Bengali or English search query while preserving the original input. Treat this as a separate condition, not a hidden preprocessing step applied only to one model.
+
+
+The objective is to discover whether Banglish-aware embeddings, character n-grams or query rewriting provide the most reliable improvement. Do not assume that translating every query into standard Bengali is best.
+Day 4 — Add reranking if it is justified
+Run a multilingual cross-encoder over retrieved candidates if the model fits your memory budget.
+
+Measure the change in ranking quality and inference time. If reranking offers little improvement or makes the system impractical, retain the simpler retrieval configuration.
+
+A reranker should be an experimental component, not a required architectural dependency.
+Day 5 — Analyze the results and freeze the winning retrieval configuration
+Prepare an ablation table covering:
+Experiment	BM25	Embeddings	Hybrid	Banglish method	Reranking
+E1	Yes	No	No	None	No
+E2	No	Yes	No	None	No
+E3	Yes	Yes	Yes	None	No
+E4	Yes	Yes	Yes	Character n-grams	No
+E5	Yes	Yes	Yes	Banglish-aware embeddings	No
+E6	Yes	Yes	Yes	Best validated method	Optional
+
+The table defines experiments to run; it does not imply that any method has already won.
+
+Report confidence intervals where appropriate, and avoid presenting a tiny numerical difference as meaningful without considering sample size and uncertainty.
+
+Week 4 deliverables
+- Reproducible retrieval evaluation scripts.
+- Retrieval ablation results.
+- Per-language and per-domain error analysis.
+- A selected retrieval configuration with documented reasons.
+Exit gate: The benchmark and retrieval results must be stable enough to support answer-generation experiments in Week 5.
+
+Week 5 — Grounded legal answers and citation validation
+Primary outcome
+A Q&A pipeline that returns evidence-backed answers or abstains
+
+Research question: Does adding a language model improve the usefulness of retrieved legal evidence without reducing citation reliability?
+Day 1 — Implement the extractive answer baseline
+Before generating free-form answers, implement a baseline that returns:
+- A short summary assembled from retrieved evidence, where feasible.
+- The exact supporting passage.
+- The Act and section identifiers.
+- The original source URL.
+- A notice when the corpus does not provide enough evidence.
+This is the fallback if local generation is unreliable. It also establishes how useful the system is without a generative model.
+Day 2 — Integrate the selected LLM
+Use the model selected in Week 1.
+
+Give it only the query, relevant context and retrieved evidence. Ask it to produce an answer in the user's preferred language.
+
+Require the answer to distinguish:
+- What the source explicitly says.
+- How that provision may relate to the user's facts.
+- Which facts are missing.
+- What remains uncertain.
+Keep generation temperature and other parameters fixed for controlled comparisons.
+Day 3 — Build citation validation
+Implement deterministic checks before returning the answer.
+1. Every citation must reference an actual database record.
+2. The section identifier and Act title must match the source record.
+3. The URL must come from the stored source metadata.
+4. The supporting quotation must be traceable to the retrieved passage.
+5. Citations must not be fabricated by the model.
+6. Invalid citations must be rejected, removed or trigger a safe fallback.
+Citation validity is necessary but not sufficient. A valid citation can still fail to support the statement.
+Day 4 — Evaluate claim-level support and abstention
+Split generated answers into material factual or legal claims.
+
+For each claim, evaluate:
+- Whether it is supported by the cited passage.
+- Whether it contradicts retrieved evidence.
+- Whether it relies on facts not supplied by the user.
+- Whether it should have been qualified or withheld.
+Use a human-reviewed sample for claim-level support. Automated semantic checks can help identify suspicious answers, but they should not be treated as legal validation.
+
+Build an insufficient-evidence test set containing questions whose answers cannot be established from the corpus.
+Day 5 — Compare answer-generation conditions
+Run at least these conditions:
+- Extractive evidence with citations.
+- Local LLM with retrieved evidence.
+- Local LLM with citation validation and abstention.
+If a hosted model is used as a comparison, keep its results separate and disclose the external inference dependency.
+
+Evaluate answer usefulness, citation support, factual correctness, language quality, abstention behavior, latency and RAM use.
+
+Week 5 deliverables
+- /api/v1/legal/ask or an equivalent callable pipeline.
+- Citation-validation module.
+- Extractive fallback.
+- Answer-generation evaluation report.
+- Human-reviewed claim-support sample.
+Exit gate: The system must never silently invent a legal source. Unsupported answers must be handled explicitly.
+
+Week 6 — Amendment awareness and preliminary document review
+Primary outcome
+Version-aware retrieval where supported by evidence, plus a clause-review prototype
+
+This week has two tracks. Amendment-aware retrieval supports the research claim; document review is a supporting product feature. Do not allow the latter to replace the former.
+Track A: Legal versioning
+Day 1 — Audit amendment metadata
+Inspect the actual corpus for:
+- Original enactment dates.
+- Amendment instruments.
+- Effective dates.
+- Repeals and replacements.
+- Consolidated text.
+- Missing or conflicting version information.
+For each amendment relationship, record whether it is directly supported by an official source or manually inferred and awaiting review.
+Day 2 — Implement conservative date filtering
+Implement an optional as_of_date parameter.
+
+The retrieval system should:
+1. Filter to provisions with reliable applicability information.
+2. Preserve uncertainty for records with unknown effective dates.
+3. Avoid presenting unverified historical versions as established fact.
+4. Return the corpus verification date.
+5. Fall back to a qualified response if the relevant legal status cannot be established.
+If the source metadata is insufficient, restrict the research claim to version-aware filtering on the subset that can be validated. Do not report a historical-law accuracy percentage without a trustworthy reference set.
+Track B: Document review
+Day 3 — Implement clause extraction
+Accept PDF and DOCX documents, preserve page and clause references, and extract the text.
+
+Use OCR only for scanned documents that require it. If OCR is unreliable, flag the document for manual correction rather than making confident findings from corrupted text.
+Day 4 — Implement a single-clause review workflow
+Start with one clause at a time.
+
+The pipeline should:
+1. Extract the selected clause.
+2. Identify its apparent subject.
+3. Retrieve relevant legal provisions.
+4. Generate a preliminary explanation of potential concerns.
+5. Attach source-backed citations.
+6. Label the result as a drafting concern, possible legal issue or unsupported finding.
+Test on synthetic agreements and other documents that you are permitted to use.
+Day 5 — Test document security and version-aware retrieval
+For document review, verify that:
+- Every finding points to the original clause.
+- A user cannot access another user's upload.
+- Deletion works.
+- Untrusted document text cannot override system instructions.
+- Sensitive documents are not included in logs unnecessarily.
+For versioning, test current-law and historical-law questions only on the subset with verified effective-date metadata.
+
+Week 6 deliverables
+- Amendment metadata audit.
+- Conservative date-aware retrieval.
+- Single-clause review pipeline.
+- Document permissions and deletion tests.
+- A report describing where historical-law retrieval is supported and where it remains unresolved.
+Exit gate: Never claim that the system knows the law as of a particular historical date unless the relevant version is supported by adequate evidence.
+
+Week 7 — Integration, multilingual interface, and end-to-end testing
+Primary outcome
+A usable research prototype that exposes retrieval evidence and known limitations
+
+Objective: Integrate the research pipeline into a usable interface without compromising reproducibility or source traceability.
+Day 1 — Build the minimum interface
+Use Streamlit or Gradio for a local research prototype. Do not build a full React/Django product unless the interface itself is a research requirement.
+
+The interface should provide:
+- A legal question input.
+- A language preference.
+- An answer panel.
+- Retrieved passages and citations.
+- A source-opening action.
+- An uncertainty indicator.
+- An optional single-clause document-review panel.
+Keep the underlying retrieval and generation logic independent of the UI. The same functions should be callable from a command-line evaluation script.
+Day 2 — Integrate Bangla, Banglish and English
+Test language handling end to end.
+
+For each query, preserve:
+- Original user text.
+- Detected language or language mixture.
+- Any normalized or rewritten query.
+- Retrieved source passages.
+- Final answer language.
+Allow the user to override automatic language detection. Do not silently replace the original question with a translated version.
+
+Run paired tests where the same scenario is expressed in different languages. Compare whether the system retrieves the same core evidence and reaches a consistent conclusion.
+Day 3 — Add source transparency and failure messages
+The interface should distinguish:
+- A retrieved source.
+- A source verified against the corpus.
+- A source whose current legal status remains uncertain.
+- An answer that lacks sufficient evidence.
+- A possible document concern requiring review.
+Make it possible to inspect the actual provision text rather than asking users to trust a generated summary.
+Day 4 — Security and reliability testing
+Test:
+- Invalid or unsupported uploads.
+- Oversized files.
+- Malformed PDFs.
+- Missing source records.
+- Model loading failures.
+- Database disconnections.
+- Invalid citations.
+- Prompt injection in uploaded text.
+- Unauthorized document access.
+- Deletion and retention behavior.
+For a local-only research prototype, authentication can remain minimal if the application is not exposed to other users. However, do not expose the development server publicly with private document handling and no access controls.
+Day 5 — Add voice only if the core system is stable
+Voice is a stretch feature, not a prerequisite for the research contribution.
+
+If proceeding:
+1. Test a local Whisper-family ASR model with Bangla and code-mixed speech.
+2. Measure transcription errors on names, dates, amounts and negations.
+3. Show the transcript for correction.
+4. Submit corrected text to the existing RAG pipeline.
+5. Evaluate a Bengali-capable TTS option only if the licence and local performance are acceptable.
+Do not run ASR, embeddings, reranking and LLM generation simultaneously by default. Load models sequentially and benchmark actual RAM use.
+
+If the core evaluation still has unresolved problems, use this day for error analysis instead of adding voice.
+
+Week 7 deliverables
+- Local demonstration interface.
+- Multilingual end-to-end tests.
+- Visible source and uncertainty handling.
+- Security and failure-test report.
+- Optional speech-input prototype.
+Exit gate: The UI must not conceal retrieval failures, source uncertainty or invalid citations. It must expose the same results as the underlying reproducible pipeline.
+
+Week 8 — Final evaluation, error analysis and research write-up
+Primary outcome
+A reproducible experimental report with honest conclusions
+
+Objective: Produce evidence for the research claims, identify limitations and package the work so that another researcher can reproduce the experiments.
+Day 1 — Freeze the corpus, models and benchmark
+Record exact versions of:
+- Legal corpus and source manifest.
+- Embedding models.
+- BM25 configuration and tokenization.
+- Banglish handling method.
+- Reranker, if used.
+- LLM and quantization, if used.
+- Chunking and retrieval parameters.
+- Development and held-out test sets.
+Do not change the held-out set to improve a score. If a defect is discovered in the benchmark, document the correction and rerun the affected experiments transparently.
+Day 2 — Run final retrieval experiments
+Run the selected retrieval configurations on the frozen test set.
+
+Report:
+- Recall@5 and Recall@10.
+- MRR@10 and nDCG@10.
+- Per-language and per-domain performance.
+- Confidence intervals where appropriate.
+- Latency and memory consumption.
+- Performance against the BM25 baseline.
+For a modest dataset, prefer paired comparisons on the same questions and discuss uncertainty. Avoid claiming that a method is superior based solely on a tiny numerical difference.
+Day 3 — Run final answer and citation evaluations
+Evaluate the answer-generation configurations against the reviewed reference criteria.
+
+Report separately:
+- Citation validity.
+- Citation support.
+- Legal correctness on the reviewed sample.
+- Answer completeness.
+- Language quality.
+- Abstention quality.
+- Version correctness on the validated subset.
+Keep retrieval quality separate from generation quality. If retrieval is strong but generation is weak, that is a meaningful research result—not a reason to obscure the failure.
+Day 4 — Conduct error analysis and reviewer audit
+Select representative examples of:
+- Successful Bangla retrieval.
+- Successful Banglish retrieval.
+- English queries over Bangla or English legal sources.
+- Missed provisions.
+- Incorrect rankings.
+- Unsupported answers.
+- Citation failures.
+- Version uncertainty.
+- Clause-review false positives.
+Have the legal reviewer inspect a sample of the most consequential findings and ambiguous cases.
+
+Categorize errors by likely cause: source quality, annotation, tokenization, cross-script mismatch, ranking, version metadata, generation or missing facts.
+Day 5 — Finalize the research package
+Produce:
+- docs/methodology.md
+- docs/corpus_report.md
+- docs/annotation_guidelines.md
+- docs/evaluation_results.md
+- docs/error_analysis.md
+- docs/limitations.md
+- docs/reproducibility.md
+Include the research question, hypotheses, baseline methods, benchmark construction, results, limitations and next experiments.
+
+If you intend to publish the benchmark, verify that its source text, derived data and query examples can legally be redistributed. Otherwise, publish the permitted metadata and evaluation code, with a documented procedure for accessing restricted material.
+
+Week 8 deliverables
+- Frozen test set and corpus version.
+- Final retrieval and citation results.
+- Error-analysis report.
+- Reproducibility instructions.
+- A research manuscript draft or structured technical report.
+- A demonstration that clearly distinguishes validated functionality from experimental features.
+Exit gate: A reader should be able to determine what was tested, which sources were used, what improved, what failed and which claims remain unverified.
+
+3. Go/no-go gates across the eight weeks
+These gates prevent a downstream feature from hiding a broken research foundation.
+Gate	Required evidence	If it fails
+Week 0	Usable sources, access policy and reviewer plan	Reduce corpus claims; resolve access and annotation constraints
+Week 1	Repeatable retrieval and feasible model inference	Use extractive answers; change models or runtime
+Week 2	Traceable provisions and reliable extraction	Fix ingestion before expanding the corpus
+Week 3	Reviewed benchmark with protected test split	Improve annotations before claiming benchmark results
+Week 4	Fair BM25 baseline and comparable retrieval experiments	Fix tokenization or benchmark issues before selecting a method
+Week 5	Deterministic citation validation and abstention	Do not trust generated legal answers until the failures are addressed
+Week 6	Evidence-backed version filtering and secure document handling	Limit historical-law claims or defer document uploads
+Week 8	Reproducible results and documented limitations	Report the work as preliminary rather than overstating the findings
+
+4. What the final project should prioritize
+Research-critical
+
+Versioned legal corpus, section-aware extraction, BM25 baseline, multilingual embeddings, Banglish evaluation, hybrid retrieval, citation validation and held-out testing.
+
+
+
+Supporting product features
+
+Local interface, grounded Q&A, source viewer and preliminary single-clause review. These should reuse the tested retrieval pipeline.
+
+
+
+Optional extensions
+
+Full-document risk analysis, Bengali TTS, robust scanned-Gazette OCR, public deployment, broad historical-law coverage and fine-tuning.
+
+
+
+5. Recommended research framing
+I would frame the primary study as:
+
+“Cross-Script and Multilingual Legal Retrieval for Bangladesh: Evaluating Banglish-Aware Retrieval, Hybrid Search and Citation Grounding.”
+
+The main research questions would be:
+1. How do lexical and multilingual semantic retrieval compare on Bangladesh legal texts?
+2. Does a Banglish-aware method improve retrieval over a well-configured BM25 baseline?
+3. Which approach works best for cross-lingual queries when the question and statutory text use different languages?
+4. Does improved retrieval lead to better citation support in generated legal answers?
+5. How do source quality and incomplete version metadata affect legal retrieval reliability?
+The benchmark may become the most reusable research artifact. A well-documented dataset with reviewed evidence labels and realistic Banglish variation can support future work even if your first interface or local LLM is imperfect.
+
+My final judgment: Proceed with the eight-week plan, but make the research result—not the number of features—the measure of success. Keep all-domain extensibility in the architecture, validate a smaller corpus deeply, establish a serious BM25 baseline, and test Banglish handling against alternatives rather than assuming query translation is the solution. That gives Legal Aid BD a clear technical contribution and a credible foundation for expanding into a public-facing legal aid product later.

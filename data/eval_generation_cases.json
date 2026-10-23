@@ -1,0 +1,161 @@
+{
+  "benchmark_name": "Legal Aid BD Day 4 Generation Evaluation Suite",
+  "version": "1.0.0",
+  "description": "Controlled 14-case benchmark for evaluating local LLM legal explanation vs extractive baseline across Bangla, English, and Banglish.",
+  "cases": [
+    {
+      "case_id": "CASE_01_A_EN_STATUTE_BN_EXP",
+      "category": "A_EN_STATUTE_BN_EXP",
+      "query": "চুক্তিতে আবদ্ধ হওয়ার জন্য একজন ব্যক্তির কি কি আইনগত যোগ্যতা থাকতে হবে?",
+      "query_language": "bn",
+      "target_provision_ids": ["CA1872_S11"],
+      "is_answerable": true,
+      "expected_concepts": ["প্রাপ্তবয়স্ক (age of majority)", "সুস্থ মস্তিষ্ক (sound mind)", "আইন দ্বারা অযোগ্য ঘোষিত না হওয়া (not disqualified from contracting)"],
+      "prohibited_hallucinations": ["সরকারি নিবন্ধন", "আর্থিক জামানত", "নোটারি পাবলিক"],
+      "description": "English statute (Contract Act 1872 Section 11) to Bangla explanation of legal competency."
+    },
+    {
+      "case_id": "CASE_02_A_EN_STATUTE_BN_EXP",
+      "category": "A_EN_STATUTE_BN_EXP",
+      "query": "লিখিত চুক্তি না থাকলে কৃষিকাজের উদ্দেশ্যে সম্পত্তি ইজারা দেওয়ার ক্ষেত্রে কতদিনের নোটিশ দিয়ে ইজারা বাতিল করা যাবে?",
+      "query_language": "bn",
+      "target_provision_ids": ["TPA1882_S106"],
+      "is_answerable": true,
+      "expected_concepts": ["ছয় মাসের নোটিশ (six months' notice)", "বছরের শেষে সমাপ্তি (expiring with the end of a year of the tenancy)", "বাৎসরিক ইজারা (lease from year to year)"],
+      "prohibited_hallucinations": ["৩০ দিনের নোটিশ", "কোর্ট ফি", "সহকারী কমিশনার (ভূমি)"],
+      "description": "English statute (Transfer of Property Act 1882 Section 106) to Bangla explanation of lease termination notice."
+    },
+    {
+      "case_id": "CASE_03_B_BN_STATUTE_EN_EXP",
+      "category": "B_BN_STATUTE_EN_EXP",
+      "query": "What is the legal penalty under Bangladesh consumer protection law if a shopkeeper sells packaged goods without displaying the expiration date?",
+      "query_language": "en",
+      "target_provision_ids": ["CRPA2009_S৩৭"],
+      "is_answerable": true,
+      "expected_concepts": ["imprisonment up to 1 year", "fine up to 50,000 Taka", "or both"],
+      "prohibited_hallucinations": ["cancellation of trade license", "life imprisonment", "3 years imprisonment"],
+      "description": "Bangla statute (Consumer Rights 2009 Section 37) to English explanation of penal sanctions."
+    },
+    {
+      "case_id": "CASE_04_B_BN_STATUTE_EN_EXP",
+      "category": "B_BN_STATUTE_EN_EXP",
+      "query": "Under the Premises Rent Control Act, can a landlord evict a tenant who pays the standard rent regularly?",
+      "query_language": "en",
+      "target_provision_ids": ["PRCA1991_S১৮"],
+      "is_answerable": true,
+      "expected_concepts": ["no order or decree for eviction can be issued", "as long as tenant pays rent regularly", "and complies with conditions of tenancy"],
+      "prohibited_hallucinations": ["police can evict directly", "notice of 15 days is sufficient without cause"],
+      "description": "Bangla statute (Premises Rent Control 1991 Section 18) to English explanation of tenant eviction protections."
+    },
+    {
+      "case_id": "CASE_05_C_TWO_PROVISION",
+      "category": "C_TWO_PROVISION",
+      "query": "What conditions make an agreement a valid enforceable contract, and who legally possesses the capacity to enter into such an agreement?",
+      "query_language": "en",
+      "target_provision_ids": ["CA1872_S10", "CA1872_S11"],
+      "is_answerable": true,
+      "expected_concepts": ["free consent of parties", "competent to contract", "lawful consideration and lawful object", "age of majority, sound mind, not disqualified by law"],
+      "prohibited_hallucinations": ["written stamp paper worth 300 Taka", "two witnesses mandatory"],
+      "description": "Two-provision synthesis across Contract Act Sections 10 and 11."
+    },
+    {
+      "case_id": "CASE_06_C_TWO_PROVISION",
+      "category": "C_TWO_PROVISION",
+      "query": "বাড়ি ভাড়া নিয়ন্ত্রণ আইনে মানসম্মত ভাড়া কে নির্ধারণ করে এবং নির্ধারিত ভাড়া নিয়মিত পরিশোধ করলে বাড়িওয়ালা কি ভাড়াটিয়াকে উচ্ছেদ করতে পারবে?",
+      "query_language": "bn",
+      "target_provision_ids": ["PRCA1991_S১৩", "PRCA1991_S১৮"],
+      "is_answerable": true,
+      "expected_concepts": ["নিয়ন্ত্রক (Rent Controller) মানসম্মত ভাড়া নির্ধারণ করেন", "ভাড়াটিয়া নিয়মিত ভাড়া দিলে এবং শর্ত পালন করলে উচ্ছেদ ডিক্রি দেওয়া যাবে না"],
+      "prohibited_hallucinations": ["সিটি কর্পোরেশন মেয়র নির্ধারণ করবেন", "পুলিশ দিয়ে উচ্ছেদ"],
+      "description": "Two-provision synthesis across Premises Rent Control Act Sections 13 and 18."
+    },
+    {
+      "case_id": "CASE_07_D_INSUFFICIENT_EVID",
+      "category": "D_INSUFFICIENT_EVID",
+      "query": "What is the statutory limitation period in years to file a civil money recovery suit under Bangladesh limitation law?",
+      "query_language": "en",
+      "target_provision_ids": [],
+      "is_answerable": false,
+      "expected_concepts": ["insufficient evidence", "passages do not contain limitation period", "Limitation Act not available in corpus"],
+      "prohibited_hallucinations": ["3 years", "12 years", "Limitation Act 1908 Section 19"],
+      "description": "Insufficient evidence inquiry. Must explicitly state available passages cannot answer."
+    },
+    {
+      "case_id": "CASE_08_D_INSUFFICIENT_EVID",
+      "category": "D_INSUFFICIENT_EVID",
+      "query": "সামাজিক যোগাযোগ মাধ্যমে মানহানিকর বক্তব্য পোস্ট করলে সাইবার নিরাপত্তা আইনে কত বছরের কারাদণ্ড হতে পারে?",
+      "query_language": "bn",
+      "target_provision_ids": [],
+      "is_answerable": false,
+      "expected_concepts": ["তথ্য অপ্রতুল / অপর্যাপ্ত প্রমাণ", "সরবরাহকৃত আইনে সাইবার নিরাপত্তা সংক্রান্ত বিধান নেই"],
+      "prohibited_hallucinations": ["৫ বছর জেল", "ধারা ২৫", "ডিজিটাল নিরাপত্তা ট্রাইব্যুনাল"],
+      "description": "Insufficient evidence inquiry in Bangla. Must explicitly abstain without hallucinating."
+    },
+    {
+      "case_id": "CASE_09_E_CITATION_GROUNDING",
+      "category": "E_CITATION_GROUNDING",
+      "query": "Under Bangladesh Labour Act, what written notice period or compensation must an employer provide to terminate a permanent worker?",
+      "query_language": "en",
+      "target_provision_ids": ["BLA2006_S২৬"],
+      "is_answerable": true,
+      "expected_concepts": ["120 days written notice", "or 120 days wages in lieu of notice", "permanent worker"],
+      "prohibited_hallucinations": ["30 days notice", "60 days notice", "BLA2006_S23"],
+      "description": "Strict citation grounding to BLA2006_S২৬."
+    },
+    {
+      "case_id": "CASE_10_E_CITATION_GROUNDING",
+      "category": "E_CITATION_GROUNDING",
+      "query": "সেবা প্রদানকারীর অবহেলার কারণে সেবাগ্রহীতার জীবন বা অর্থহানি ঘটলে ভোক্তা-অধিকার সংরক্ষণ আইনে কি দণ্ড নির্ধারিত আছে?",
+      "query_language": "bn",
+      "target_provision_ids": ["CRPA2009_S৪৫"],
+      "is_answerable": true,
+      "expected_concepts": ["অনূর্ধ্ব ৩ বৎসর কারাদণ্ড", "অনধিক ২ লক্ষ টাকা অর্থদণ্ড", "উভয় দণ্ড"],
+      "prohibited_hallucinations": ["১০ লক্ষ টাকা জরিমানা", "লাইসেন্স বাতিল"],
+      "description": "Strict citation grounding to CRPA2009_S৪৫."
+    },
+    {
+      "case_id": "CASE_11_F_BANGLA",
+      "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+      "query": "দোকানদার পণ্যের গায়ে মেয়াদোত্তীর্ণের তারিখ না লিখে বিক্রি করলে ভোক্তা অধিকার সংরক্ষণ আইনে কি শাস্তি হবে?",
+      "query_language": "bn",
+      "target_provision_ids": ["CRPA2009_S৩৭"],
+      "is_answerable": true,
+      "expected_concepts": ["অনূর্ধ্ব ১ বছর কারাদণ্ড", "অনধিক ৫০,০০০ টাকা অর্থদণ্ড", "উভয় দণ্ড"],
+      "prohibited_hallucinations": ["দোকান সিলগালা"],
+      "description": "Bangla variant of expiration date penal inquiry for consistency testing."
+    },
+    {
+      "case_id": "CASE_12_F_BANGLISH",
+      "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+      "query": "Dokandar expiry date na likhe ponno sell korle consumer rights law onujayi ki shasti hobe?",
+      "query_language": "banglish",
+      "target_provision_ids": ["CRPA2009_S৩৭"],
+      "is_answerable": true,
+      "expected_concepts": ["অনূর্ধ্ব ১ বছর কারাদণ্ড / 1 year imprisonment", "অনধিক ৫০,০০০ টাকা জরিমানা / 50,000 Taka fine", "উভয় দণ্ড"],
+      "prohibited_hallucinations": ["দোকান সিলগালা"],
+      "description": "Banglish variant of expiration date penal inquiry for consistency testing."
+    },
+    {
+      "case_id": "CASE_13_F_BANGLA",
+      "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+      "query": "মালিক নোটিশ ছাড়া স্থায়ী শ্রমিককে বরখাস্ত বা চাকরি অবসান করতে চাইলে কত দিনের নোটিশ বা মজুরি দিতে হবে?",
+      "query_language": "bn",
+      "target_provision_ids": ["BLA2006_S২৬"],
+      "is_answerable": true,
+      "expected_concepts": ["১২০ দিনের লিখিত নোটিশ", "অথবা নোটিশের পরিবর্তে ১২০ দিনের মজুরি"],
+      "prohibited_hallucinations": ["৩০ দিনের নোটিশ"],
+      "description": "Bangla variant of permanent worker termination notice for consistency testing."
+    },
+    {
+      "case_id": "CASE_14_F_BANGLISH",
+      "category": "F_BANGLA_BANGLISH_CONSISTENCY",
+      "query": "Malik notice chara permanent worker ke terminate korle koto diner notice ba salary dite hobe labour law onujayi?",
+      "query_language": "banglish",
+      "target_provision_ids": ["BLA2006_S২৬"],
+      "is_answerable": true,
+      "expected_concepts": ["120 days notice / ১২০ দিনের নোটিশ", "120 days salary in lieu / ১২০ দিনের মজুরি"],
+      "prohibited_hallucinations": ["30 days notice"],
+      "description": "Banglish variant of permanent worker termination notice for consistency testing."
+    }
+  ]
+}
