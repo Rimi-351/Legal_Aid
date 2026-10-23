@@ -1,0 +1,145 @@
+# ==============================================================================
+# Legal Aid BD — Week 1 Retrieval Experiment Configuration
+# Hardware Target: Windows 11 PC (16 GB RAM Budget, CPU-Only Inference)
+# ==============================================================================
+
+experiment:
+  name: "week1_lexical_dense_comparison"
+  phase: "Week 1 — Research Foundation & Model Feasibility"
+  version: "1.0.0"
+  random_seed: 42
+  top_k: 5
+
+corpus:
+  provisions_path: "data/processed/provisions.jsonl"
+  manifest_path: "data/manifests/processed_manifest.jsonl"
+  filter_quarantined: true
+
+models:
+  bm25:
+    k1: 1.5
+    b: 0.75
+    use_char_ngrams: false
+
+  bm25_ngram:
+    k1: 1.5
+    b: 0.75
+    use_char_ngrams: true
+    ngram_n: 3
+
+  dense:
+    model_name: "intfloat/multilingual-e5-small"
+    fallback_offline_model: "csebuetnlp/banglabert"
+    batch_size: 4
+    max_length: 512
+    device: "cpu"
+    cache_dir: "experiments/cache"
+
+  hybrid:
+    k_rrf: 60
+    weight_bm25: 1.0
+    weight_dense: 1.0
+
+# Scenario-Grouped Evaluation Queries (Scenario-grouped anti-leakage splitting)
+# Annotation Status: "researcher_annotated_provisional" (per Week 0 reviewer fallback protocol)
+evaluation_queries:
+  # Scenario 1: Expiry date not printed on packaged consumer goods
+  - query_id: "Q01_BN"
+    scenario_id: "SCENARIO_CRPA_01"
+    split: "dev"
+    language: "bn"
+    text: "দোকানদার পণ্যের গায়ে মেয়াদোত্তীর্ণের তারিখ না লিখে বিক্রি করলে কি শাস্তি হবে?"
+    expected_provisions: ["CRPA2009_S৩৭"]
+    annotation_status: "researcher_annotated_provisional"
+
+  - query_id: "Q01_BANGLISH"
+    scenario_id: "SCENARIO_CRPA_01"
+    split: "dev"
+    language: "banglish"
+    text: "Dokandar expiry date na likhe ponno sell korle ki shasti hobe consumer rights law te?"
+    expected_provisions: ["CRPA2009_S৩৭"]
+    annotation_status: "researcher_annotated_provisional"
+
+  - query_id: "Q01_EN"
+    scenario_id: "SCENARIO_CRPA_01"
+    split: "dev"
+    language: "en"
+    text: "What is the penalty if a seller sells goods without mentioning expiration date on packaging?"
+    expected_provisions: ["CRPA2009_S৩৭"]
+    annotation_status: "researcher_annotated_provisional"
+
+  # Scenario 2: Termination of permanent labour without notice
+  - query_id: "Q02_BN"
+    scenario_id: "SCENARIO_BLA_02"
+    split: "dev"
+    language: "bn"
+    text: "চাকরির বয়স শেষ না হতেই মালিক নোটিশ ছাড়া বরখাস্ত করলে কত দিনের মজুরি দিতে হবে?"
+    expected_provisions: ["BLA2006_S২৬"]
+    annotation_status: "researcher_annotated_provisional"
+
+  - query_id: "Q02_BANGLISH"
+    scenario_id: "SCENARIO_BLA_02"
+    split: "dev"
+    language: "banglish"
+    text: "Chakri theke notice chara terminate korle koto diner salary pabo labour law onujayi?"
+    expected_provisions: ["BLA2006_S২৬"]
+    annotation_status: "researcher_annotated_provisional"
+
+  - query_id: "Q02_EN"
+    scenario_id: "SCENARIO_BLA_02"
+    split: "dev"
+    language: "en"
+    text: "How many days notice or compensation must an employer provide to terminate a permanent worker?"
+    expected_provisions: ["BLA2006_S২৬"]
+    annotation_status: "researcher_annotated_provisional"
+
+  # Scenario 3: Arbitrary rent escalation and tenant eviction
+  - query_id: "Q03_BN"
+    scenario_id: "SCENARIO_PRCA_03"
+    split: "dev"
+    language: "bn"
+    text: "বাড়িওয়ালা কি ইচ্ছামত ভাড়া বাড়িয়ে আমাকে বাড়ি থেকে উচ্ছেদ করতে পারবে?"
+    expected_provisions: ["PRCA1991_S১৮", "PRCA1991_S১৩"]
+    annotation_status: "researcher_annotated_provisional"
+
+  - query_id: "Q03_BANGLISH"
+    scenario_id: "SCENARIO_PRCA_03"
+    split: "dev"
+    language: "banglish"
+    text: "Bariwala iccha moto rent bariye keno evict korte parbe? Rent control law te ki ache?"
+    expected_provisions: ["PRCA1991_S১৮", "PRCA1991_S১৩"]
+    annotation_status: "researcher_annotated_provisional"
+
+  # Scenario 4: Minor competency in contract
+  - query_id: "Q04_EN"
+    scenario_id: "SCENARIO_CA_04"
+    split: "dev"
+    language: "en"
+    text: "Can a minor enter into a legally binding business agreement under Bangladesh Contract Act?"
+    expected_provisions: ["CA1872_S11", "CA1872_S10"]
+    annotation_status: "researcher_annotated_provisional"
+
+  - query_id: "Q04_BANGLISH"
+    scenario_id: "SCENARIO_CA_04"
+    split: "dev"
+    language: "banglish"
+    text: "Minor ba 18 bochorer kom boyosher keu business contract sign korle oita ki valid?"
+    expected_provisions: ["CA1872_S11", "CA1872_S10"]
+    annotation_status: "researcher_annotated_provisional"
+
+  # Scenario 5: Immovable property sale and mandatory registration
+  - query_id: "Q05_EN"
+    scenario_id: "SCENARIO_TPA_05"
+    split: "dev"
+    language: "en"
+    text: "When is a registered instrument required to transfer ownership of land or immovable property?"
+    expected_provisions: ["TPA1882_S54"]
+    annotation_status: "researcher_annotated_provisional"
+
+  - query_id: "Q05_BANGLISH"
+    scenario_id: "SCENARIO_TPA_05"
+    split: "dev"
+    language: "banglish"
+    text: "Jomi ba flat sell korle deed registration kora ki mandatory?"
+    expected_provisions: ["TPA1882_S54"]
+    annotation_status: "researcher_annotated_provisional"

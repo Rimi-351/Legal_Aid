@@ -62,3 +62,7 @@ $RECYCLE.BIN/
 # Scratch and sensitive files
 data/raw/scanned_quarantine/
 *.pdf.tmp
+
+# Large binary vector caches
+experiments/cache/
+*.npz

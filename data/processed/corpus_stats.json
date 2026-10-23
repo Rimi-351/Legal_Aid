@@ -1,0 +1,9 @@
+{
+  "total_source_files": 8,
+  "quarantined_files": 2,
+  "valid_files": 6,
+  "total_extracted_provisions": 19,
+  "valid_provisions_count": 17,
+  "output_provisions_file": "data/processed/provisions.jsonl",
+  "manifest_file": "data/manifests/processed_manifest.jsonl"
+}
