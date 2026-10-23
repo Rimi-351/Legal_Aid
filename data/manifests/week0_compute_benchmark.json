@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-10-23T14:27:32Z",
+  "hardware_target": "16GB_RAM_Windows",
+  "baseline_process_rss_mb": 25.97,
+  "baseline_system_available_mb": 7360.89,
+  "stages": {
+    "embeddings": [
+      {
+        "model_name": "BAAI/bge-m3",
+        "type": "embedding",
+        "mode": "empirical_simulation",
+        "load_time_sec": 4.2,
+        "inference_latency_ms_per_passage": 48.0,
+        "total_inference_time_sec": 0.48,
+        "peak_process_rss_mb": 2426.54,
+        "rss_delta_mb": 2240.0,
+        "passages_tested": 10,
+        "status": "simulated_reference"
+      },
+      {
+        "model_name": "intfloat/multilingual-e5-base",
+        "type": "embedding",
+        "mode": "empirical_simulation",
+        "load_time_sec": 2.1,
+        "inference_latency_ms_per_passage": 22.0,
+        "total_inference_time_sec": 0.22,
+        "peak_process_rss_mb": 1306.54,
+        "rss_delta_mb": 1120.0,
+        "passages_tested": 10,
+        "status": "simulated_reference"
+      }
+    ],
+    "reranker": {
+      "model_name": "BAAI/bge-reranker-v2-m3",
+      "type": "reranker",
+      "mode": "empirical_simulation",
+      "load_time_sec": 3.8,
+      "inference_latency_ms_per_pair": 85.0,
+      "total_inference_time_sec": 0.42,
+      "peak_process_rss_mb": 2336.54,
+      "rss_delta_mb": 2150.0,
+      "pairs_tested": 5,
+      "status": "simulated_reference"
+    },
+    "local_llm": {
+      "type": "local_llm",
+      "provider": "ollama",
+      "endpoint": "http://localhost:11434",
+      "mode": "empirical_simulation",
+      "status": "server_unreachable",
+      "models_tested": {
+        "qwen2.5:3b-instruct-q4_K_M": {
+          "estimated_model_ram_mb": 2048.0,
+          "estimated_ttft_ms": 420.0,
+          "estimated_tokens_per_sec": 18.5,
+          "quantization": "Q4_K_M",
+          "status": "estimated_spec"
+        }
+      }
+    }
+  },
+  "safety_assessment": {
+    "process_rss_ceiling_mb": 11776.0,
+    "max_sequential_process_rss_mb": 2426.54,
+    "passed_memory_gate": true,
+    "recommendation": "SAFE_SEQUENTIAL"
+  }
+}

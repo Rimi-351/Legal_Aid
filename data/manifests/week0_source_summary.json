@@ -1,0 +1,18 @@
+{
+  "total_documents_audited": 8,
+  "format_distribution": {
+    "HTML": 6,
+    "Plain Text": 2
+  },
+  "language_distribution": {
+    "bn": 4,
+    "en": 4
+  },
+  "extractable_sections_count": 6,
+  "extractable_sections_percentage": 75.0,
+  "documents_with_date_metadata": 6,
+  "date_metadata_percentage": 75.0,
+  "scanned_pdfs_requiring_ocr": 0,
+  "suspect_bijoy_encodings_detected": 1,
+  "manifest_path": "data/manifests/week0_source_audit_log.jsonl"
+}
