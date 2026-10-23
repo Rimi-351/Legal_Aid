@@ -157,19 +157,20 @@ class BM25Index:
                     scores[doc_idx] += term_idf * (numerator / denominator)
                     matched_tokens_per_doc[doc_idx].add(q_term)
 
-        # Rank documents with non-zero score
+        # Rank documents with non-zero score; secondary tie breaker by provision_id
         scored_docs = [
-            (idx, scores[idx]) for idx in range(self.num_docs) if scores[idx] > 0.0
+            (idx, scores[idx], self.corpus[idx].get("provision_id", f"DOC_{idx}"))
+            for idx in range(self.num_docs) if scores[idx] > 0.0
         ]
-        scored_docs.sort(key=lambda x: x[1], reverse=True)
+        scored_docs.sort(key=lambda x: (-x[1], x[2]))
 
         results: List[SearchResult] = []
-        for rank, (idx, score) in enumerate(scored_docs[:top_k], start=1):
+        for rank, (idx, score, pid) in enumerate(scored_docs[:top_k], start=1):
             p = self.corpus[idx]
             results.append(SearchResult(
                 rank=rank,
                 score=score,
-                provision_id=p.get("provision_id", f"DOC_{idx}"),
+                provision_id=p.get("provision_id", pid),
                 act_title=p.get("act_title", ""),
                 section_number=p.get("section_number", ""),
                 section_heading=p.get("section_heading", ""),

@@ -46,8 +46,8 @@ class HybridRetriever:
                 provision_map[pid] = res
             rrf_scores[pid] = rrf_scores.get(pid, 0.0) + (self.weight_dense / (self.k_rrf + res.rank))
 
-        # 3. Sort by fused score
-        sorted_pids = sorted(rrf_scores.keys(), key=lambda pid: rrf_scores[pid], reverse=True)
+        # 3. Sort by fused score descending, then provision_id ascending for deterministic tie-breaking
+        sorted_pids = sorted(rrf_scores.keys(), key=lambda pid: (-rrf_scores[pid], pid))
 
         fused_results: List[SearchResult] = []
         for rank, pid in enumerate(sorted_pids[:top_k], start=1):

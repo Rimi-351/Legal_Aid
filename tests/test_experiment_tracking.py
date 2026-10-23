@@ -53,6 +53,34 @@ class TestRetrievalMetrics(unittest.TestCase):
         # No hit -> 0.0
         self.assertEqual(compute_ndcg_at_k(["doc_a", "doc_b"], gold, k=2), 0.0)
 
+    def test_reciprocal_rank_with_k_cutoff(self):
+        """Regression test: verify hit at rank > k returns 0.0 when k is specified."""
+        gold = {"target"}
+        retrieved = ["a", "b", "c", "d", "e", "target"]  # target at rank 6
+        # When cutoff is k=5, rank 6 is outside cutoff -> 0.0
+        self.assertEqual(compute_reciprocal_rank(retrieved, gold, k=5), 0.0)
+        # When cutoff is k=10, rank 6 is within cutoff -> 1/6
+        self.assertAlmostEqual(compute_reciprocal_rank(retrieved, gold, k=10), 1.0 / 6.0)
+
+    def test_duplicate_retrieved_ids_protection(self):
+        """Regression test: duplicate IDs in retrieved list do not inflate precision or gain."""
+        gold = {"target"}
+        # Duplicate target in top 4
+        retrieved = ["target", "target", "other_1", "other_2"]
+        # Without deduplication, precision would be 2/4 = 0.5. With protection, exactly 1/4 = 0.25
+        self.assertEqual(compute_precision_at_k(retrieved, gold, k=4), 0.25)
+        # nDCG should only reward the first occurrence
+        self.assertAlmostEqual(compute_ndcg_at_k(retrieved, gold, k=4), 1.0)
+
+    def test_empty_gold_and_edge_cases(self):
+        """Verify empty gold sets or invalid cutoffs return 0.0 safely."""
+        self.assertEqual(compute_reciprocal_rank(["a", "b"], set()), 0.0)
+        self.assertEqual(compute_recall_at_k(["a", "b"], set(), k=5), 0.0)
+        self.assertEqual(compute_precision_at_k(["a", "b"], set(), k=5), 0.0)
+        self.assertEqual(compute_ndcg_at_k(["a", "b"], set(), k=5), 0.0)
+        self.assertEqual(compute_precision_at_k(["a"], {"a"}, k=0), 0.0)
+        self.assertEqual(compute_precision_at_k(["a"], {"a"}, k=-1), 0.0)
+
 
 class TestExperimentLoggerAndSplitIntegrity(unittest.TestCase):
 

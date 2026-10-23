@@ -142,6 +142,31 @@ class TestDocumentParser(unittest.TestCase):
         self.assertIn("QUARANTINED", provisions[0].provision_id.upper())
         self.assertIn("Bijoy", provisions[0].quarantine_reason)
 
+    def test_amendment_title_preservation_and_unique_ids(self):
+        """Regression test: verify amendment act titles preserve parenthetical modifiers and avoid ID collisions."""
+        amendment_html = """<!DOCTYPE html>
+<html>
+<head><title>বাংলাদেশ শ্রম (সংশোধন) আইন, ২০১৩ (২০১৩ সনের ৩০ নং আইন)</title></head>
+<body>
+    <h1>বাংলাদেশ শ্রম (সংশোধন) আইন, ২০১৩</h1>
+    <h3>২০১৩ সনের ৩০ নং আইন</h3>
+    <div class="section">
+        <h4>১। সংক্ষিপ্ত শিরোনাম</h4>
+        <p>এই আইন বাংলাদেশ শ্রম (সংশোধন) আইন, ২০১৩ নামে অভিহিত হইবে।</p>
+    </div>
+</body>
+</html>"""
+        file_path = self.temp_path / "sample_labour_amendment_2013.html"
+        file_path.write_text(amendment_html, encoding="utf-8")
+
+        provisions = self.parser.parse_file(file_path)
+        self.assertEqual(len(provisions), 1)
+        p = provisions[0]
+        # Title must preserve (সংশোধন)
+        self.assertIn("সংশোধন", p.act_title)
+        # ID must derive BLAA2013 rather than colliding with base act BLA2006
+        self.assertEqual(p.provision_id, "BLAA2013_S১")
+
 
 if __name__ == "__main__":
     unittest.main()

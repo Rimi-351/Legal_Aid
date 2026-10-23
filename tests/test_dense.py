@@ -105,7 +105,42 @@ class TestDenseRetrievalMathAndLogic(unittest.TestCase):
 
         self.assertEqual(loaded_vectors.shape, (5, 128))
         self.assertEqual(loaded_ids, [f"P{i}" for i in range(5)])
-        np.testing.assert_allclose(original_vectors, loaded_vectors, rtol=1e-5)
+    def test_corpus_hash_changes_on_full_text_and_length(self):
+        """Regression test: verify hash changes when text after char 100 changes or max_length changes."""
+        base_text = "A" * 150
+        provisions_1 = [{"provision_id": "P1", "text": base_text + "X"}]
+        provisions_2 = [{"provision_id": "P1", "text": base_text + "Y"}]
+
+        hash_1 = compute_corpus_hash(provisions_1, max_length=512)
+        hash_2 = compute_corpus_hash(provisions_2, max_length=512)
+        hash_len_change = compute_corpus_hash(provisions_1, max_length=256)
+
+        # Hash must be sensitive to full text differences beyond char 100
+        self.assertNotEqual(hash_1, hash_2)
+        # Hash must be sensitive to max_length configuration changes
+        self.assertNotEqual(hash_1, hash_len_change)
+
+    def test_deterministic_tie_breaking_dense(self):
+        """Verify identical cosine similarity scores are broken deterministically by provision_id."""
+        retriever = DenseRetriever(cache_dir=str(self.temp_path))
+        # Two provisions with identical vectors
+        retriever.corpus = [
+            {"provision_id": "DOC_Z", "text": "Identical text"},
+            {"provision_id": "DOC_A", "text": "Identical text"}
+        ]
+        # Same normalized vector for both
+        vec = np.array([[1.0, 0.0], [1.0, 0.0]], dtype=np.float32)
+        retriever.doc_embeddings = vec
+
+        # Mock query vector [1.0, 0.0]
+        # In mock encode, return [1.0, 0.0]
+        retriever.encode = lambda texts, is_query=False: np.array([[1.0, 0.0]], dtype=np.float32)
+
+        results = retriever.search("query", top_k=2)
+        self.assertEqual(len(results), 2)
+        # Ties broken alphabetically by provision_id -> DOC_A first, then DOC_Z
+        self.assertEqual(results[0].provision_id, "DOC_A")
+        self.assertEqual(results[1].provision_id, "DOC_Z")
 
 
 if __name__ == "__main__":

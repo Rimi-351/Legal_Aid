@@ -84,7 +84,7 @@ def evaluate_query_set(retriever, queries: List[Dict[str, Any]], top_k: int = 5)
 
         retrieved_pids = [r.provision_id for r in results]
 
-        rr = compute_reciprocal_rank(retrieved_pids, expected)
+        rr = compute_reciprocal_rank(retrieved_pids, expected, k=top_k)
         recall = compute_recall_at_k(retrieved_pids, expected, k=top_k)
         precision = compute_precision_at_k(retrieved_pids, expected, k=top_k)
         ndcg = compute_ndcg_at_k(retrieved_pids, expected, k=top_k)
@@ -248,12 +248,17 @@ def run_single_method(method: str, cfg: Dict[str, Any], provisions: List[Dict[st
 def main():
     parser = argparse.ArgumentParser(description="Legal Aid BD: Retrieval Experiment Runner")
     parser.add_argument("--config", default="configs/week1_retrieval_config.yaml", help="Path to config YAML")
-    parser.add_argument("--method", default="all", choices=["bm25", "bm25_ngram", "dense", "hybrid", "all"],
+    parser.add_argument("--method", default="all",
+                        choices=["bm25", "bm25_ngram", "bm25_char_ngram", "dense", "hybrid", "all"],
                         help="Retrieval method to evaluate")
     parser.add_argument("--model-name", default=None, help="Override dense model identifier")
     parser.add_argument("--top-k", type=int, default=5, help="Number of results to retrieve per query")
 
     args = parser.parse_args()
+
+    # Normalize method alias
+    if args.method == "bm25_char_ngram":
+        args.method = "bm25_ngram"
 
     cfg_path = Path(args.config)
     if not cfg_path.exists():

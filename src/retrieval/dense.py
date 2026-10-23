@@ -24,12 +24,15 @@ except ImportError:
 from .bm25 import SearchResult
 
 
-def compute_corpus_hash(provisions: List[Dict[str, Any]]) -> str:
-    """Computes stable SHA-256 hash of provision IDs and texts."""
+def compute_corpus_hash(provisions: List[Dict[str, Any]], max_length: int = 512) -> str:
+    """Computes stable SHA-256 hash of complete provision contents and encoding length."""
     h = hashlib.sha256()
+    h.update(str(max_length).encode("utf-8"))
     for p in sorted(provisions, key=lambda x: x.get("provision_id", "")):
         h.update(p.get("provision_id", "").encode("utf-8"))
-        h.update(p.get("text", "")[:100].encode("utf-8"))
+        h.update(p.get("act_title", "").encode("utf-8"))
+        h.update(p.get("section_heading", "").encode("utf-8"))
+        h.update(p.get("text", "").encode("utf-8"))
     return h.hexdigest()[:16]
 
 
@@ -151,16 +154,28 @@ class DenseRetriever:
             self.doc_embeddings = np.empty((0, 768), dtype=np.float32)
             return
 
-        self.corpus_hash = compute_corpus_hash(self.corpus)
+        self.corpus_hash = compute_corpus_hash(self.corpus, max_length=self.max_length)
         sanitized_model_id = self.model_name.replace("/", "_").replace(":", "_")
-        cache_path = self.cache_dir / f"embeddings_{sanitized_model_id}_{self.corpus_hash}.npz"
+        cache_path = self.cache_dir / f"embeddings_{sanitized_model_id}_len{self.max_length}_{self.corpus_hash}.npz"
 
+        current_pids = [p.get("provision_id", "") for p in self.corpus]
+
+        cache_valid = False
         if not force_recompute and cache_path.exists():
-            print(f"[*] Loading cached document embeddings from: {cache_path}")
-            data = np.load(cache_path)
-            self.doc_embeddings = data["embeddings"]
-            print(f"[+] Loaded {len(self.doc_embeddings)} cached embeddings (Dim: {self.doc_embeddings.shape[1]})")
-        else:
+            try:
+                data = np.load(cache_path)
+                cached_pids = data["provision_ids"].tolist() if "provision_ids" in data else []
+                if cached_pids == current_pids:
+                    print(f"[*] Loading cached document embeddings from: {cache_path}")
+                    self.doc_embeddings = data["embeddings"]
+                    print(f"[+] Loaded {len(self.doc_embeddings)} cached embeddings (Dim: {self.doc_embeddings.shape[1]})")
+                    cache_valid = True
+                else:
+                    print(f"[!] Cache PID mismatch (cached {len(cached_pids)} != current {len(current_pids)}). Invalidation triggered.")
+            except Exception as e:
+                print(f"[!] Warning reading cache ({e}). Recomputing embeddings.")
+
+        if not cache_valid:
             print(f"[*] Generating embeddings for {len(self.corpus)} provisions using '{self.model_name}'...")
             t0 = time.perf_counter()
             doc_texts = [
@@ -171,8 +186,15 @@ class DenseRetriever:
             elapsed = time.perf_counter() - t0
             print(f"[+] Encoded {len(self.corpus)} provisions in {elapsed:.2f} s ({round(elapsed / len(self.corpus) * 1000, 2)} ms/passage)")
 
-            # Save to cache
-            np.savez_compressed(cache_path, embeddings=self.doc_embeddings)
+            # Save to cache with verified provision_ids
+            np.savez_compressed(
+                cache_path,
+                embeddings=self.doc_embeddings,
+                provision_ids=np.array(current_pids),
+                corpus_hash=self.corpus_hash,
+                model_name=self.model_name,
+                max_length=self.max_length
+            )
             print(f"[+] Cached embeddings saved to: {cache_path}")
 
     def search(self, query: str, top_k: int = 5) -> List[SearchResult]:
@@ -182,20 +204,23 @@ class DenseRetriever:
 
         query_vec = self.encode([query], is_query=True)[0]  # shape: (dim,)
 
-        # Cosine similarity is simply dot product because vectors are L2-normalized
+        # Cosine similarity is dot product because vectors are L2-normalized
         similarities = np.dot(self.doc_embeddings, query_vec)
 
-        # Rank documents
-        ranked_indices = np.argsort(similarities)[::-1][:top_k]
+        # Deterministic ranking: sort by descending similarity, then ascending provision_id for ties
+        scored_candidates = [
+            (float(similarities[i]), self.corpus[i].get("provision_id", f"DOC_{i}"), i)
+            for i in range(len(self.corpus))
+        ]
+        scored_candidates.sort(key=lambda x: (-x[0], x[1]))
 
         results: List[SearchResult] = []
-        for rank, idx in enumerate(ranked_indices, start=1):
-            score = float(similarities[idx])
+        for rank, (score, pid, idx) in enumerate(scored_candidates[:top_k], start=1):
             p = self.corpus[idx]
             results.append(SearchResult(
                 rank=rank,
                 score=score,
-                provision_id=p.get("provision_id", f"DOC_{idx}"),
+                provision_id=p.get("provision_id", pid),
                 act_title=p.get("act_title", ""),
                 section_number=p.get("section_number", ""),
                 section_heading=p.get("section_heading", ""),

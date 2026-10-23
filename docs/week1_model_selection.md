@@ -4,7 +4,7 @@
 **Research Project**: *Cross-Script and Multilingual Legal Retrieval for Bangladesh*  
 **Milestone**: Week 1 Model Feasibility & Empirical Selection  
 **Hardware Profile**: Intel CPU (4 Cores / 4 Threads), 15.6 GB RAM, CPU-only Execution  
-**Status**: APPROVED & EMPIRICALLY VERIFIED  
+**Status**: PROVISIONAL (Exploratory Dev Split; Pending Unseen Test Split & Lawyer Validation)  
 
 ---
 
@@ -14,6 +14,9 @@ The central research question guiding Week 1 is:
 > *Can consumer-grade hardware (Windows 11 PC, 16 GB RAM, 4-core CPU, zero discrete GPU) process selected Bangladesh legal text and retrieve useful Bengali-English legal provisions under strict latency and memory constraints?*
 
 To answer this, candidate models were evaluated against empirical CPU measurements rather than synthetic estimates. Based on real CPU inference benchmarks on statutory provisions, **`csebuetnlp/banglabert` (110M parameters, ELECTRA architecture)** is selected as the dense bi-encoder baseline for Week 1, paired with **BM25 character 3-gram tokenization** as the lexical baseline.
+
+> [!WARNING]
+> **Provisional Model Selection Notice**: All 12 evaluation queries currently reside in the `dev` split (`split: "dev"`). Because these queries were examined during initial error analysis and heuristic tuning, these scores represent exploratory development performance. Model selection remains **provisional** until an independent, unseen test split is evaluated with formal legal annotations.
 
 ---
 
@@ -48,21 +51,22 @@ In Week 0, model feasibility was reported using a combination of empirical hardw
 
 ---
 
-## 4. Empirical Retrieval Performance
+## 4. Empirical Retrieval Performance (Post-Validation Fresh Runs)
 
-On the 12 scenario-grouped multilingual legal benchmark queries (Contract Act, Consumer Protection, Labour Act, Rent Control, Property Law):
+On the 12 scenario-grouped multilingual legal benchmark queries (Contract Act, Consumer Protection, Labour Act, Rent Control, Property Law) evaluated after resolving parser ID collisions and metric cutoff bounding:
 
-| Model / Pipeline Configuration | Overall MRR@5 | Overall Recall@5 | Overall nDCG@5 | Bangla MRR | English MRR | Banglish MRR | Peak RSS (MB) |
-|---|---|---|---|---|---|---|---|
-| **BM25 Word Tokens** | 0.4444 | 0.4583 | 0.4568 | **1.0000** | 0.3333 | 0.2000 | **38.2 MB** |
-| **BM25 Character 3-Grams** | **0.5417** | 0.5417 | **0.5489** | **1.0000** | **0.3750** | **0.4000** | 41.5 MB |
-| **Dense (`csebuetnlp/banglabert`)** | 0.4375 | **0.6250** | 0.4851 | 0.8333 | 0.2500 | **0.4000** | 505.6 MB |
-| **Hybrid RRF (`banglabert` + BM25)**| 0.4194 | **0.6250** | 0.4780 | 0.8333 | 0.3333 | 0.2400 | 505.6 MB |
+| Run ID | Model / Pipeline Configuration | Overall MRR@5 | Overall Recall@5 | Overall nDCG@5 | Bangla MRR | English MRR | Banglish MRR | Peak RSS (MB) |
+|---|---|---|---|---|---|---|---|---|
+| `EXP_20261023_214154_290942` | **BM25 Word Tokens** | 0.4444 | 0.4583 | 0.4288 | **1.0000** | 0.3333 | 0.2000 | **38.6 MB** |
+| `EXP_20261023_214428_ab22be` | **BM25 Character 3-Grams** | **0.5417** | 0.5833 | **0.5476** | **1.0000** | **0.3750** | **0.4000** | 41.8 MB |
+| `EXP_20261023_214458_0bcd7a` | **Dense (`csebuetnlp/banglabert`)** | 0.4375 | **0.6250** | 0.4680 | 0.8333 | 0.2500 | **0.4000** | 512.4 MB |
+| `EXP_20261023_214529_be0621` | **Hybrid RRF (`banglabert` + BM25)**| 0.5069 | **0.6250** | 0.5418 | 0.8333 | **0.3750** | **0.4000** | 512.5 MB |
 
 ### 4.1 Key Empirical Findings
 1. **Hypothesis $H_{1,2}$ Validated (Banglish Transliteration)**: Word-level BM25 degrades severely on Banglish transliteration queries ($MRR = 0.2000$) due to phonetic spelling variations. Character 3-gram BM25 doubles performance to $MRR = 0.4000$ (+100% relative improvement) without any translation dictionary.
 2. **Dense Recall Superiority**: Dense retrieval achieved the highest overall Recall@5 ($0.6250$ vs $0.4583$ for word BM25), successfully matching statutory provisions that expressed identical legal concepts using synonyms not present in the user query.
-3. **BanglaBERT Domain Fit**: BUET's `banglabert` demonstrated remarkable zero-shot Bengali legal capability while maintaining a lean 506 MB RAM footprint on CPU.
+3. **Hybrid RRF Stability**: With deterministic secondary tie-breaking and collision-free provision IDs, Hybrid RRF achieved $MRR@5 = 0.5069$ (improved from historical $0.4194$) while matching Dense retrieval's top $Recall@5 = 0.6250$.
+4. **BanglaBERT Domain Fit**: BUET's `banglabert` demonstrated remarkable zero-shot Bengali legal capability while maintaining a lean 512 MB RAM footprint on CPU.
 
 ---
 

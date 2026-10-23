@@ -61,7 +61,7 @@ def compute_sha256(filepath: Path) -> str:
 
 def derive_act_code(act_title: str, filepath: Path) -> str:
     """Derives a short, stable mnemonic code for the Act."""
-    clean_title = act_title.lower()
+    clean_title = f"{act_title} {filepath.stem}".lower()
     if "contract" in clean_title:
         return "CA1872"
     elif "consumer" in clean_title or "ভোক্তা" in clean_title:
@@ -162,11 +162,17 @@ class LegalDocumentParser:
         """Parses HTML statutory files with DOM hierarchy."""
         soup = BeautifulSoup(html_content, "html.parser")
 
-        # Document-level title
-        title_tag = soup.find("title") or soup.find("h1")
-        act_title = title_tag.get_text().strip() if title_tag else filepath.stem
-        # Clean title suffix if exists
-        act_title = act_title.split("(")[0].strip() if "(" in act_title else act_title
+        # Document-level title: prioritize <h1> if available, else clean <title>
+        h1_tag = soup.find("h1")
+        title_tag = soup.find("title")
+        if h1_tag and h1_tag.get_text().strip():
+            act_title = h1_tag.get_text().strip()
+        elif title_tag and title_tag.get_text().strip():
+            raw_title = title_tag.get_text().strip()
+            # Only strip trailing parenthetical Act No suffix like (২০১৩ সনের ৩০ নং আইন) or (Act No. IX of 1872)
+            act_title = re.sub(r"\s*\((?:\d{4}|[০-৯]{4}|Act\s+No).*?\)\s*$", "", raw_title)
+        else:
+            act_title = filepath.stem
 
         # Act No
         act_no = None
