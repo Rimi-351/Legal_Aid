@@ -59,8 +59,11 @@ Desktop.ini
 $RECYCLE.BIN/
 .DS_Store
 
-# Scratch and sensitive files
+# Scratch, raw data, and sensitive files
+data/raw/
 data/raw/scanned_quarantine/
+*.pem
+*.key
 *.pdf.tmp
 
 # Large binary vector caches
