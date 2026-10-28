@@ -35,8 +35,6 @@ except ImportError:
     YAML_AVAILABLE = False
 
 from src.retrieval.bm25 import BM25Index
-from src.retrieval.dense import DenseRetriever
-from src.retrieval.hybrid import HybridRetriever
 from src.evaluation.metrics import (
     compute_reciprocal_rank,
     compute_recall_at_k,
@@ -131,7 +129,7 @@ def evaluate_query_set(retriever, queries: List[Dict[str, Any]], top_k: int = 5)
 
 def run_single_method(method: str, cfg: Dict[str, Any], provisions: List[Dict[str, Any]],
                       queries: List[Dict[str, Any]], top_k: int, logger: ExperimentLogger,
-                      dense_retriever_instance: Optional[DenseRetriever] = None) -> Dict[str, Any]:
+                      dense_retriever_instance: Optional[Any] = None) -> Dict[str, Any]:
     """Runs a single retrieval experiment condition and logs results."""
     print(f"\n=======================================================")
     print(f"  RUNNING RETRIEVAL EXPERIMENT: [{method.upper()}]")
@@ -164,9 +162,10 @@ def run_single_method(method: str, cfg: Dict[str, Any], provisions: List[Dict[st
 
     elif method == "dense":
         dense_cfg = cfg.get("models", {}).get("dense", {})
-        m_name = dense_cfg.get("model_name", "intfloat/multilingual-e5-small")
-        if m_name == "unselected":
-            m_name = dense_cfg.get("baseline_named_model", "csebuetnlp/banglabert")
+        m_name = dense_cfg.get("model_name")
+        if not m_name or m_name == "unselected":
+            sys.exit("dense model unselected; pass --model-name")
+        from src.retrieval.dense import DenseRetriever
         if dense_retriever_instance:
             dense = dense_retriever_instance
         else:
@@ -183,15 +182,17 @@ def run_single_method(method: str, cfg: Dict[str, Any], provisions: List[Dict[st
         model_name = dense.model_name
 
     elif method == "hybrid":
+        dense_cfg = cfg.get("models", {}).get("dense", {})
+        h_model = dense_cfg.get("model_name")
+        if not h_model or h_model == "unselected":
+            sys.exit("dense model unselected; pass --model-name")
+        from src.retrieval.dense import DenseRetriever
+        from src.retrieval.hybrid import HybridRetriever
         # Build both BM25 and Dense
         bm25_cfg = cfg.get("models", {}).get("bm25", {})
         bm25 = BM25Index(k1=bm25_cfg.get("k1", 1.5), b=bm25_cfg.get("b", 0.75))
         bm25.fit(provisions)
 
-        dense_cfg = cfg.get("models", {}).get("dense", {})
-        h_model = dense_cfg.get("model_name", "intfloat/multilingual-e5-small")
-        if h_model == "unselected":
-            h_model = dense_cfg.get("baseline_named_model", "csebuetnlp/banglabert")
         if dense_retriever_instance:
             dense = dense_retriever_instance
         else:
@@ -277,6 +278,11 @@ def main():
 
     if args.model_name:
         cfg.setdefault("models", {}).setdefault("dense", {})["model_name"] = args.model_name
+
+    dense_cfg = cfg.get("models", {}).get("dense", {})
+    dense_model = args.model_name or dense_cfg.get("model_name")
+    if args.method in ("dense", "hybrid", "all") and (not dense_model or dense_model == "unselected"):
+        sys.exit("dense model unselected; pass --model-name")
 
     provisions_file = Path(cfg.get("corpus", {}).get("provisions_path", "data/processed/provisions.jsonl"))
     provisions = load_provisions(provisions_file, filter_quarantined=True)
