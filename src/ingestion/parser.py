@@ -27,6 +27,23 @@ except ImportError:
     BS4_AVAILABLE = False
 
 
+class FixtureIngestionError(ValueError):
+    """Raised when fixture data is detected when building a production corpus or benchmark."""
+    pass
+
+
+def is_fixture_source(filepath_or_record: Any) -> bool:
+    """Returns True if the file path or manifest/provision record indicates a test fixture."""
+    if isinstance(filepath_or_record, dict):
+        if filepath_or_record.get("provenance") == "fixture":
+            return True
+        path_str = str(filepath_or_record.get("filepath", "") or filepath_or_record.get("source_file", ""))
+    else:
+        path_str = str(filepath_or_record)
+    normalized = path_str.replace("\\", "/").lower()
+    return "tests/fixtures" in normalized or "fixtures/" in normalized or "sample_audit_files" in normalized
+
+
 @dataclass
 class Provision:
     """Represents a discrete statutory legal provision (Section/Dhara)."""
@@ -45,6 +62,7 @@ class Provision:
     commencement_date: Optional[str] = None
     is_quarantined: bool = False
     quarantine_reason: Optional[str] = None
+    provenance: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -97,8 +115,22 @@ class LegalDocumentParser:
         self.re_sec_heading_bn = re.compile(r"^(?:ধারা\s+)?([০-৯\d]+[ক-হ]?)\।\s*(.*)$")
         self.re_subsection = re.compile(r"\(([০-৯\d]+|[a-z]|[ক-হ])\)")
 
-    def parse_file(self, filepath: Path) -> List[Provision]:
+    def guard_fixture_record(self, record_or_path: Any, building_corpus_or_benchmark: bool = True) -> None:
+        """Refuses fixture records when building a corpus or benchmark."""
+        if building_corpus_or_benchmark and is_fixture_source(record_or_path):
+            identifier = getattr(record_or_path, "name", str(record_or_path))
+            if isinstance(record_or_path, dict):
+                identifier = record_or_path.get("filename") or record_or_path.get("filepath") or identifier
+            raise FixtureIngestionError(
+                f"Ingestion guard rejected fixture source '{identifier}': "
+                "fixture records are strictly prohibited when building a production corpus or benchmark."
+            )
+
+    def parse_file(self, filepath: Path, for_corpus_or_benchmark: bool = False) -> List[Provision]:
         """Parses a single legal document file and returns all extracted provisions."""
+        if for_corpus_or_benchmark:
+            self.guard_fixture_record(filepath, building_corpus_or_benchmark=True)
+
         if not filepath.exists() or not filepath.is_file():
             return []
 
@@ -332,8 +364,17 @@ class LegalDocumentParser:
 
         return None, heading
 
-    def parse_directory(self, dir_path: Path, output_file: Path, manifest_file: Path) -> Dict[str, Any]:
+    def parse_directory(
+        self,
+        dir_path: Path,
+        output_file: Path,
+        manifest_file: Path,
+        for_corpus_or_benchmark: bool = False
+    ) -> Dict[str, Any]:
         """Parses all documents in a directory and writes processed JSONL output."""
+        if for_corpus_or_benchmark:
+            self.guard_fixture_record(dir_path, building_corpus_or_benchmark=True)
+
         output_file.parent.mkdir(parents=True, exist_ok=True)
         manifest_file.parent.mkdir(parents=True, exist_ok=True)
 
@@ -346,7 +387,10 @@ class LegalDocumentParser:
         valid_provisions_count = 0
 
         for f in files:
-            provisions = self.parse_file(f)
+            if for_corpus_or_benchmark:
+                self.guard_fixture_record(f, building_corpus_or_benchmark=True)
+
+            provisions = self.parse_file(f, for_corpus_or_benchmark=for_corpus_or_benchmark)
             file_quarantined = any(p.is_quarantined for p in provisions)
             if file_quarantined:
                 quarantined_count += 1
@@ -355,10 +399,15 @@ class LegalDocumentParser:
 
             all_provisions.extend(provisions)
 
+            is_fixture = is_fixture_source(f)
             manifest_entries.append({
                 "filename": f.name,
                 "filepath": str(f.as_posix()),
+                "source_url": None,
+                "acquired_at": None,
                 "sha256": compute_sha256(f),
+                "license_note": None,
+                "provenance": "fixture" if is_fixture else "official_source",
                 "provisions_extracted": len([p for p in provisions if not p.is_quarantined]),
                 "is_quarantined": file_quarantined,
                 "quarantine_reason": provisions[0].quarantine_reason if provisions and provisions[0].is_quarantined else None

@@ -167,6 +167,19 @@ class TestDocumentParser(unittest.TestCase):
         # ID must derive BLAA2013 rather than colliding with base act BLA2006
         self.assertEqual(p.provision_id, "BLAA2013_S১")
 
+    def test_guard_refuses_fixtures_when_building_corpus(self):
+        """Verify ingestion guard refuses fixture paths or records when building corpus or benchmark."""
+        from src.ingestion.parser import FixtureIngestionError
+        fixture_file = Path("tests/fixtures/sample_contract_act_1872.html")
+        # Direct parse_file with for_corpus_or_benchmark=True must raise FixtureIngestionError
+        with self.assertRaises(FixtureIngestionError):
+            self.parser.parse_file(fixture_file, for_corpus_or_benchmark=True)
+
+        # Record validation must reject fixture records
+        fixture_record = {"filename": "sample.html", "filepath": "tests/fixtures/sample.html", "provenance": "fixture"}
+        with self.assertRaises(FixtureIngestionError):
+            self.parser.guard_fixture_record(fixture_record, building_corpus_or_benchmark=True)
+
 
 if __name__ == "__main__":
     unittest.main()
