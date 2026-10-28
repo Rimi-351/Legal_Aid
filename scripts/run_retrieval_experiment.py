@@ -165,6 +165,8 @@ def run_single_method(method: str, cfg: Dict[str, Any], provisions: List[Dict[st
     elif method == "dense":
         dense_cfg = cfg.get("models", {}).get("dense", {})
         m_name = dense_cfg.get("model_name", "intfloat/multilingual-e5-small")
+        if m_name == "unselected":
+            m_name = dense_cfg.get("baseline_named_model", "csebuetnlp/banglabert")
         if dense_retriever_instance:
             dense = dense_retriever_instance
         else:
@@ -187,11 +189,14 @@ def run_single_method(method: str, cfg: Dict[str, Any], provisions: List[Dict[st
         bm25.fit(provisions)
 
         dense_cfg = cfg.get("models", {}).get("dense", {})
+        h_model = dense_cfg.get("model_name", "intfloat/multilingual-e5-small")
+        if h_model == "unselected":
+            h_model = dense_cfg.get("baseline_named_model", "csebuetnlp/banglabert")
         if dense_retriever_instance:
             dense = dense_retriever_instance
         else:
             dense = DenseRetriever(
-                model_name=dense_cfg.get("model_name", "intfloat/multilingual-e5-small"),
+                model_name=h_model,
                 cache_dir=dense_cfg.get("cache_dir", "experiments/cache")
             )
             dense.fit(provisions)
