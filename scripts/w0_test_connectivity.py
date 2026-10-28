@@ -4,6 +4,9 @@ Quick connectivity test for official Bangladesh legal portals:
 - http://bdlaws.minlaw.gov.bd/
 - https://legislativediv.gov.bd/
 """
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 import urllib.request
 import ssl
 
