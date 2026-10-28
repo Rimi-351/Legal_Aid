@@ -1,0 +1,572 @@
+[
+  {
+    "condition": "E1: BM25 Word Tokens",
+    "num_queries": 48,
+    "overall": {
+      "recall_at_5": 0.4583,
+      "recall_at_10": 0.4583,
+      "mrr_at_10": 0.3767,
+      "ndcg_at_10": 0.4002,
+      "avg_latency_ms": 0.05,
+      "peak_rss_mb": 22.32
+    },
+    "by_modality": {
+      "bn_unicode": {
+        "count": 12,
+        "recall_at_5": 0.4167,
+        "recall_at_10": 0.4167,
+        "mrr_at_10": 0.375,
+        "ndcg_at_10": 0.3911
+      },
+      "banglish": {
+        "count": 12,
+        "recall_at_5": 0.4167,
+        "recall_at_10": 0.4167,
+        "mrr_at_10": 0.3194,
+        "ndcg_at_10": 0.3495
+      },
+      "en": {
+        "count": 12,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.3958,
+        "ndcg_at_10": 0.4218
+      },
+      "code_mixed": {
+        "count": 12,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.4167,
+        "ndcg_at_10": 0.4385
+      }
+    },
+    "by_domain": {
+      "land_tenancy": {
+        "count": 8,
+        "recall_at_5": 0.625,
+        "recall_at_10": 0.625,
+        "mrr_at_10": 0.625,
+        "ndcg_at_10": 0.625
+      },
+      "employment_labour": {
+        "count": 16,
+        "recall_at_5": 0.25,
+        "recall_at_10": 0.25,
+        "mrr_at_10": 0.2188,
+        "ndcg_at_10": 0.2308
+      },
+      "consumer_protection": {
+        "count": 8,
+        "recall_at_5": 0.125,
+        "recall_at_10": 0.125,
+        "mrr_at_10": 0.125,
+        "ndcg_at_10": 0.125
+      },
+      "contractual_obligations": {
+        "count": 16,
+        "recall_at_5": 0.75,
+        "recall_at_10": 0.75,
+        "mrr_at_10": 0.5365,
+        "ndcg_at_10": 0.5948
+      }
+    },
+    "failure_count": 26,
+    "sample_failures": [
+      {
+        "query_id": "BNCH_LAND_005_BN_UNICODE",
+        "modality": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "জমি বা স্থাবর সম্পত্তি হস্তান্তরের ক্ষেত্রে কি দলিল রেজিস্ট্রি করা বাধ্যতামূলক?",
+        "expected": [
+          "TPA1882_S54"
+        ],
+        "top_retrieved": [
+          "BLA2006_S২০",
+          "BLA2006_S২৬",
+          "CRPA2009_S৪৫"
+        ]
+      },
+      {
+        "query_id": "BNCH_LAND_006_BANGLISH",
+        "modality": "banglish",
+        "domain": "land_tenancy",
+        "query_text": "Jomi ba flat sell korle deed registration kora ki mandatory?",
+        "expected": [
+          "TPA1882_S54"
+        ],
+        "top_retrieved": []
+      },
+      {
+        "query_id": "BNCH_LAND_013_BN_UNICODE",
+        "modality": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "চুক্তিপত্র না থাকিলে স্থাবর সম্পত্তির ইজারা বা ভাড়া অবসানের জন্য কত দিনের নোটিশ দিতে হইবে?",
+        "expected": [
+          "TPA1882_S106"
+        ],
+        "top_retrieved": [
+          "PRCA1991_S১৩",
+          "BLA2006_S২৬",
+          "PRCA1991_S১৮"
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_062_BANGLISH",
+        "modality": "banglish",
+        "domain": "employment_labour",
+        "query_text": "Chakri theke notice chara terminate korle koto diner salary pabo labour law onujayi?",
+        "expected": [
+          "BLA2006_S২৬"
+        ],
+        "top_retrieved": [
+          "TPA1882_S106",
+          "CA1872_S11"
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_063_EN",
+        "modality": "en",
+        "domain": "employment_labour",
+        "query_text": "How many days notice or compensation must an employer provide to terminate a permanent worker?",
+        "expected": [
+          "BLA2006_S২৬"
+        ],
+        "top_retrieved": [
+          "TPA1882_S106",
+          "TPA1882_S54",
+          "CA1872_S2"
+        ]
+      }
+    ]
+  },
+  {
+    "condition": "E1-N: BM25 Char 3-Grams",
+    "num_queries": 48,
+    "overall": {
+      "recall_at_5": 0.4792,
+      "recall_at_10": 0.5,
+      "mrr_at_10": 0.4714,
+      "ndcg_at_10": 0.4705,
+      "avg_latency_ms": 0.19,
+      "peak_rss_mb": 22.52
+    },
+    "by_modality": {
+      "bn_unicode": {
+        "count": 12,
+        "recall_at_5": 0.4167,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.4271,
+        "ndcg_at_10": 0.4363
+      },
+      "banglish": {
+        "count": 12,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.5,
+        "ndcg_at_10": 0.4933
+      },
+      "en": {
+        "count": 12,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.5,
+        "ndcg_at_10": 0.4898
+      },
+      "code_mixed": {
+        "count": 12,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.4583,
+        "ndcg_at_10": 0.4626
+      }
+    },
+    "by_domain": {
+      "land_tenancy": {
+        "count": 8,
+        "recall_at_5": 0.75,
+        "recall_at_10": 0.75,
+        "mrr_at_10": 0.75,
+        "ndcg_at_10": 0.75
+      },
+      "employment_labour": {
+        "count": 16,
+        "recall_at_5": 0.25,
+        "recall_at_10": 0.25,
+        "mrr_at_10": 0.25,
+        "ndcg_at_10": 0.245
+      },
+      "consumer_protection": {
+        "count": 8,
+        "recall_at_5": 0.125,
+        "recall_at_10": 0.25,
+        "mrr_at_10": 0.1406,
+        "ndcg_at_10": 0.1644
+      },
+      "contractual_obligations": {
+        "count": 16,
+        "recall_at_5": 0.75,
+        "recall_at_10": 0.75,
+        "mrr_at_10": 0.7188,
+        "ndcg_at_10": 0.7092
+      }
+    },
+    "failure_count": 24,
+    "sample_failures": [
+      {
+        "query_id": "BNCH_LAND_005_BN_UNICODE",
+        "modality": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "জমি বা স্থাবর সম্পত্তি হস্তান্তরের ক্ষেত্রে কি দলিল রেজিস্ট্রি করা বাধ্যতামূলক?",
+        "expected": [
+          "TPA1882_S54"
+        ],
+        "top_retrieved": [
+          "BLA2006_S২০",
+          "CRPA2009_S৩৭",
+          "BLAA2013_S৭"
+        ]
+      },
+      {
+        "query_id": "BNCH_LAND_013_BN_UNICODE",
+        "modality": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "চুক্তিপত্র না থাকিলে স্থাবর সম্পত্তির ইজারা বা ভাড়া অবসানের জন্য কত দিনের নোটিশ দিতে হইবে?",
+        "expected": [
+          "TPA1882_S106"
+        ],
+        "top_retrieved": [
+          "BLA2006_S২৬",
+          "PRCA1991_S১৩",
+          "PRCA1991_S১৮"
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_062_BANGLISH",
+        "modality": "banglish",
+        "domain": "employment_labour",
+        "query_text": "Chakri theke notice chara terminate korle koto diner salary pabo labour law onujayi?",
+        "expected": [
+          "BLA2006_S২৬"
+        ],
+        "top_retrieved": [
+          "TPA1882_S106",
+          "TPA1882_S54",
+          "CA1872_S11"
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_063_EN",
+        "modality": "en",
+        "domain": "employment_labour",
+        "query_text": "How many days notice or compensation must an employer provide to terminate a permanent worker?",
+        "expected": [
+          "BLA2006_S২৬"
+        ],
+        "top_retrieved": [
+          "TPA1882_S106",
+          "CA1872_S2",
+          "TPA1882_S54"
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_064_CODE_MIXED",
+        "modality": "code_mixed",
+        "domain": "employment_labour",
+        "query_text": "Employer permanent worker ke notice period chara discharge korle severance salary koto pabe?",
+        "expected": [
+          "BLA2006_S২৬"
+        ],
+        "top_retrieved": [
+          "TPA1882_S106",
+          "TPA1882_S54",
+          "CA1872_S2"
+        ]
+      }
+    ]
+  },
+  {
+    "condition": "E1-QE: BM25 + Query Expansion",
+    "num_queries": 48,
+    "overall": {
+      "recall_at_5": 0.4583,
+      "recall_at_10": 0.4583,
+      "mrr_at_10": 0.3767,
+      "ndcg_at_10": 0.4002,
+      "avg_latency_ms": 0.06,
+      "peak_rss_mb": 22.58
+    },
+    "by_modality": {
+      "bn_unicode": {
+        "count": 12,
+        "recall_at_5": 0.4167,
+        "recall_at_10": 0.4167,
+        "mrr_at_10": 0.375,
+        "ndcg_at_10": 0.3911
+      },
+      "banglish": {
+        "count": 12,
+        "recall_at_5": 0.4167,
+        "recall_at_10": 0.4167,
+        "mrr_at_10": 0.3194,
+        "ndcg_at_10": 0.3495
+      },
+      "en": {
+        "count": 12,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.3958,
+        "ndcg_at_10": 0.4218
+      },
+      "code_mixed": {
+        "count": 12,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.4167,
+        "ndcg_at_10": 0.4385
+      }
+    },
+    "by_domain": {
+      "land_tenancy": {
+        "count": 8,
+        "recall_at_5": 0.625,
+        "recall_at_10": 0.625,
+        "mrr_at_10": 0.625,
+        "ndcg_at_10": 0.625
+      },
+      "employment_labour": {
+        "count": 16,
+        "recall_at_5": 0.25,
+        "recall_at_10": 0.25,
+        "mrr_at_10": 0.2188,
+        "ndcg_at_10": 0.2308
+      },
+      "consumer_protection": {
+        "count": 8,
+        "recall_at_5": 0.125,
+        "recall_at_10": 0.125,
+        "mrr_at_10": 0.125,
+        "ndcg_at_10": 0.125
+      },
+      "contractual_obligations": {
+        "count": 16,
+        "recall_at_5": 0.75,
+        "recall_at_10": 0.75,
+        "mrr_at_10": 0.5365,
+        "ndcg_at_10": 0.5948
+      }
+    },
+    "failure_count": 26,
+    "sample_failures": [
+      {
+        "query_id": "BNCH_LAND_005_BN_UNICODE",
+        "modality": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "জমি বা স্থাবর সম্পত্তি হস্তান্তরের ক্ষেত্রে কি দলিল রেজিস্ট্রি করা বাধ্যতামূলক?",
+        "expected": [
+          "TPA1882_S54"
+        ],
+        "top_retrieved": [
+          "BLA2006_S২০",
+          "BLA2006_S২৬",
+          "CRPA2009_S৪৫"
+        ]
+      },
+      {
+        "query_id": "BNCH_LAND_006_BANGLISH",
+        "modality": "banglish",
+        "domain": "land_tenancy",
+        "query_text": "Jomi ba flat sell korle deed registration kora ki mandatory?",
+        "expected": [
+          "TPA1882_S54"
+        ],
+        "top_retrieved": []
+      },
+      {
+        "query_id": "BNCH_LAND_013_BN_UNICODE",
+        "modality": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "চুক্তিপত্র না থাকিলে স্থাবর সম্পত্তির ইজারা বা ভাড়া অবসানের জন্য কত দিনের নোটিশ দিতে হইবে?",
+        "expected": [
+          "TPA1882_S106"
+        ],
+        "top_retrieved": [
+          "PRCA1991_S১৩",
+          "BLA2006_S২৬",
+          "PRCA1991_S১৮"
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_062_BANGLISH",
+        "modality": "banglish",
+        "domain": "employment_labour",
+        "query_text": "Chakri theke notice chara terminate korle koto diner salary pabo labour law onujayi?",
+        "expected": [
+          "BLA2006_S২৬"
+        ],
+        "top_retrieved": [
+          "TPA1882_S106",
+          "CA1872_S11"
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_063_EN",
+        "modality": "en",
+        "domain": "employment_labour",
+        "query_text": "How many days notice or compensation must an employer provide to terminate a permanent worker?",
+        "expected": [
+          "BLA2006_S২৬"
+        ],
+        "top_retrieved": [
+          "TPA1882_S106",
+          "TPA1882_S54",
+          "CA1872_S2"
+        ]
+      }
+    ]
+  },
+  {
+    "condition": "E1-N-QE: BM25 Char 3-Grams + QE",
+    "num_queries": 48,
+    "overall": {
+      "recall_at_5": 0.4792,
+      "recall_at_10": 0.5,
+      "mrr_at_10": 0.4714,
+      "ndcg_at_10": 0.4705,
+      "avg_latency_ms": 0.18,
+      "peak_rss_mb": 22.84
+    },
+    "by_modality": {
+      "bn_unicode": {
+        "count": 12,
+        "recall_at_5": 0.4167,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.4271,
+        "ndcg_at_10": 0.4363
+      },
+      "banglish": {
+        "count": 12,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.5,
+        "ndcg_at_10": 0.4933
+      },
+      "en": {
+        "count": 12,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.5,
+        "ndcg_at_10": 0.4898
+      },
+      "code_mixed": {
+        "count": 12,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.4583,
+        "ndcg_at_10": 0.4626
+      }
+    },
+    "by_domain": {
+      "land_tenancy": {
+        "count": 8,
+        "recall_at_5": 0.75,
+        "recall_at_10": 0.75,
+        "mrr_at_10": 0.75,
+        "ndcg_at_10": 0.75
+      },
+      "employment_labour": {
+        "count": 16,
+        "recall_at_5": 0.25,
+        "recall_at_10": 0.25,
+        "mrr_at_10": 0.25,
+        "ndcg_at_10": 0.245
+      },
+      "consumer_protection": {
+        "count": 8,
+        "recall_at_5": 0.125,
+        "recall_at_10": 0.25,
+        "mrr_at_10": 0.1406,
+        "ndcg_at_10": 0.1644
+      },
+      "contractual_obligations": {
+        "count": 16,
+        "recall_at_5": 0.75,
+        "recall_at_10": 0.75,
+        "mrr_at_10": 0.7188,
+        "ndcg_at_10": 0.7092
+      }
+    },
+    "failure_count": 24,
+    "sample_failures": [
+      {
+        "query_id": "BNCH_LAND_005_BN_UNICODE",
+        "modality": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "জমি বা স্থাবর সম্পত্তি হস্তান্তরের ক্ষেত্রে কি দলিল রেজিস্ট্রি করা বাধ্যতামূলক?",
+        "expected": [
+          "TPA1882_S54"
+        ],
+        "top_retrieved": [
+          "BLA2006_S২০",
+          "CRPA2009_S৩৭",
+          "BLAA2013_S৭"
+        ]
+      },
+      {
+        "query_id": "BNCH_LAND_013_BN_UNICODE",
+        "modality": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "চুক্তিপত্র না থাকিলে স্থাবর সম্পত্তির ইজারা বা ভাড়া অবসানের জন্য কত দিনের নোটিশ দিতে হইবে?",
+        "expected": [
+          "TPA1882_S106"
+        ],
+        "top_retrieved": [
+          "BLA2006_S২৬",
+          "PRCA1991_S১৩",
+          "PRCA1991_S১৮"
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_062_BANGLISH",
+        "modality": "banglish",
+        "domain": "employment_labour",
+        "query_text": "Chakri theke notice chara terminate korle koto diner salary pabo labour law onujayi?",
+        "expected": [
+          "BLA2006_S২৬"
+        ],
+        "top_retrieved": [
+          "TPA1882_S106",
+          "TPA1882_S54",
+          "CA1872_S11"
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_063_EN",
+        "modality": "en",
+        "domain": "employment_labour",
+        "query_text": "How many days notice or compensation must an employer provide to terminate a permanent worker?",
+        "expected": [
+          "BLA2006_S২৬"
+        ],
+        "top_retrieved": [
+          "TPA1882_S106",
+          "CA1872_S2",
+          "TPA1882_S54"
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_064_CODE_MIXED",
+        "modality": "code_mixed",
+        "domain": "employment_labour",
+        "query_text": "Employer permanent worker ke notice period chara discharge korle severance salary koto pabe?",
+        "expected": [
+          "BLA2006_S২৬"
+        ],
+        "top_retrieved": [
+          "TPA1882_S106",
+          "TPA1882_S54",
+          "CA1872_S2"
+        ]
+      }
+    ]
+  }
+]

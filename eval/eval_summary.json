@@ -1,0 +1,112 @@
+{
+  "backend": {
+    "name": "ollama",
+    "model": "qwen2.5:3b",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": 42,
+    "num_predict": 1024,
+    "num_ctx": 4096,
+    "keep_alive": "30m",
+    "base_url": "http://127.0.0.1:11434",
+    "llm_timeout_sec": 300.0,
+    "evidence_capping": {
+      "max_records": 3,
+      "max_chars_per_record": 1200
+    }
+  },
+  "contamination_note": "The test split's retrieval scores were inspected during development before the final threshold was chosen. Threshold values tried were 5.0, 10.5, 30.0. Clean holdout is not claimed.",
+  "dev_threshold_tuning": {
+    "dev_tuned_threshold": 30.0,
+    "sweep_file": "eval/threshold_sweep.csv",
+    "note": "Tuned strictly on development split without test set scores."
+  },
+  "audit_status": {
+    "audit_file": "eval/insufficient_audit.csv",
+    "audit_completed": false,
+    "excluded_y_count": 0
+  },
+  "evaluation_split": "test",
+  "conditions": {
+    "extractive": {
+      "condition": "extractive",
+      "n": 42,
+      "timeout_rate": 0.0,
+      "unreachable_rate": 0.0,
+      "parse_failure_rate": 0.0,
+      "truncation_rate": 0.0,
+      "fallback_rate": 0.0,
+      "validator_pass_rate": "1.0000",
+      "llm_claim_count": "n=24",
+      "abstain_precision": "not computable",
+      "abstain_recall": "not computable",
+      "false_abstain_rate": 0.3667,
+      "latency_p50_ms": 0.02,
+      "latency_p95_ms": 0.05,
+      "timeout_unreachable_count": 0,
+      "python_rss_mb": 33.74,
+      "ollama_rss_mb": 2251.39,
+      "total_peak_rss_mb": 2285.12
+    },
+    "llm": {
+      "condition": "llm",
+      "n": 42,
+      "timeout_rate": 0.0,
+      "unreachable_rate": 0.0,
+      "parse_failure_rate": 0.119,
+      "truncation_rate": 0.0238,
+      "fallback_rate": 0.0714,
+      "validator_pass_rate": "0.7632",
+      "llm_claim_count": "n=38",
+      "abstain_precision": "not computable",
+      "abstain_recall": "not computable",
+      "false_abstain_rate": 0.0667,
+      "latency_p50_ms": 34982.1,
+      "latency_p95_ms": 131258.87,
+      "timeout_unreachable_count": 0,
+      "python_rss_mb": 34.32,
+      "ollama_rss_mb": 3978.62,
+      "total_peak_rss_mb": 4012.93
+    },
+    "llm_validated_noabstain": {
+      "condition": "llm_validated_noabstain",
+      "n": 42,
+      "timeout_rate": 0.0,
+      "unreachable_rate": 0.0,
+      "parse_failure_rate": 0.119,
+      "truncation_rate": 0.0238,
+      "fallback_rate": 0.5952,
+      "validator_pass_rate": "1.0000",
+      "llm_claim_count": "n=16",
+      "abstain_precision": "not computable",
+      "abstain_recall": "not computable",
+      "false_abstain_rate": 0.0667,
+      "latency_p50_ms": 34982.21,
+      "latency_p95_ms": 131259.14,
+      "timeout_unreachable_count": 0,
+      "python_rss_mb": 34.31,
+      "ollama_rss_mb": 3978.62,
+      "total_peak_rss_mb": 4012.93
+    },
+    "llm_validated": {
+      "condition": "llm_validated",
+      "n": 42,
+      "timeout_rate": 0.0,
+      "unreachable_rate": 0.0,
+      "parse_failure_rate": 0.0476,
+      "truncation_rate": 0.0238,
+      "fallback_rate": 0.2619,
+      "validator_pass_rate": "1.0000",
+      "llm_claim_count": "n=12",
+      "abstain_precision": "not computable",
+      "abstain_recall": "not computable",
+      "false_abstain_rate": 0.4,
+      "latency_p50_ms": 21637.49,
+      "latency_p95_ms": 78160.02,
+      "timeout_unreachable_count": 0,
+      "python_rss_mb": 34.36,
+      "ollama_rss_mb": 3978.62,
+      "total_peak_rss_mb": 4012.98
+    }
+  }
+}

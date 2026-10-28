@@ -1,0 +1,69 @@
+# ==============================================================================
+# Legal Aid BD — Production Retrieval Configuration (Week 4 Frozen Pipeline)
+# Architecture: Hybrid RRF (Character N-Gram BM25 + Dense Bi-Encoder + Banglish Expansion)
+# Hardware Target: 16 GB Physical RAM (CPU-Only Execution Envelope)
+# ==============================================================================
+
+version: "1.0.0"
+pipeline_id: "PIPELINE_W4_HYBRID_FROZEN"
+freeze_date: "2026-10-28"
+status: "PRODUCTION_BASELINE_FROZEN"
+
+corpus:
+  provisions_path: "data/processed/provisions.jsonl"
+  manifest_path: "data/manifests/processed_manifest.jsonl"
+  filter_quarantined: true
+
+retrieval:
+  top_k: 10
+  candidate_pool_size: 20
+  tie_breaker: "provision_id_asc"
+
+  # 1. Lexical Component (Okapi BM25 with Character 3-Grams)
+  lexical:
+    engine: "okapi_bm25"
+    k1: 1.5
+    b: 0.75
+    tokenizer:
+      use_char_ngrams: true
+      ngram_n: 3
+      strip_suffixes: true
+      expand_banglish: true
+
+  # 2. Dense Semantic Component (Bi-Encoder)
+  dense:
+    selected_model: "intfloat/multilingual-e5-base"
+    revision: "d128750597153bb5987e10b1c3493a34e5a4502a"
+    backup_model: "BAAI/bge-m3"
+    backup_revision: "5617a9f61b028005a4858fdac845db406aefb181"
+    vector_dimension: 768
+    max_length: 512
+    batch_size: 2
+    device: "cpu"
+    cache_dir: "experiments/cache"
+    l2_normalize: true
+    e5_prefix_query: "query: "
+    e5_prefix_passage: "passage: "
+
+  # 3. Reciprocal Rank Fusion (RRF)
+  hybrid_fusion:
+    method: "reciprocal_rank_fusion"
+    k_rrf: 60
+    weight_lexical: 1.0
+    weight_dense: 1.0
+
+  # 4. Cross-Encoder Reranking (Evaluated & Deferred)
+  reranker:
+    enabled: false
+    reason_deferred: "CPU latency overhead (350-500 ms/query) exceeds budget for marginal +0.02 nDCG gain."
+    model_name: "BAAI/bge-reranker-v2-m3"
+    candidate_depth: 10
+
+evaluation:
+  benchmark_dev_path: "data/benchmarks/benchmark_dev.jsonl"
+  metrics:
+    - "recall_at_5"
+    - "recall_at_10"
+    - "mrr_at_10"
+    - "ndcg_at_10"
+

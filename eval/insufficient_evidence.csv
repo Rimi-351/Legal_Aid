@@ -1,0 +1,25 @@
+id,question,lang,type,expected
+INSUF_01,মালিক কি কোনো কারণ ছাড়াই কারখানা বন্ধ ঘোষণা করিতে পারেন এবং কত টাকা পাইব?,bn,right_act_missing_facts,abstain
+INSUF_02,Can an employer lay off workers without prior notification or stating statutory grounds?,en,right_act_missing_facts,abstain
+INSUF_03,দোকানদার পণ্যের ক্যাশ মেমো না দিলে কি সরাসরি পুলিশ গ্রেপ্তার করিতে পারিবে?,bn,right_act_missing_facts,abstain
+INSUF_04,Under what circumstances can a tenant withhold rent due to minor property defects?,en,right_act_missing_facts,abstain
+INSUF_05,ভারতে বাড়ি ভাড়ার ক্ষেত্রে কি মডেল টেন্যান্সি অ্যাক্ট অনুযায়ী নোটিশ কার্যকর হয়?,bn,wrong_jurisdiction,abstain
+INSUF_06,How does the UK Consumer Rights Act 2015 regulate digital content refunds?,en,wrong_jurisdiction,abstain
+INSUF_07,পশ্চিমবঙ্গের শ্রমিক বিরোধ নিষ্পত্তি আইন অনুযায়ী লেবার ট্রাইব্যুনালের নিয়ম কী?,bn,wrong_jurisdiction,abstain
+INSUF_08,What is the statutory limitation for contract breach under the California Civil Code?,en,wrong_jurisdiction,abstain
+INSUF_09,ভোক্তা অধিকার সংরক্ষণ আইনের ৯৯৯ ধারায় কী বিশেষ অপরাধের উল্লেখ আছে?,bn,nonexistent_section,abstain
+INSUF_10,What is the penalty prescribed under Section 450 of the Bangladesh Labour Act 2006?,en,nonexistent_section,abstain
+INSUF_11,বাড়ি ভাড়া নিয়ন্ত্রণ আইনের ধারা ৮৫ অনুযায়ী বাড়িওয়ালার বিরুদ্ধে কী ডিক্রি হয়?,bn,nonexistent_section,abstain
+INSUF_12,Can a contract be rescinded under Section 312 of the Contract Act 1872?,en,nonexistent_section,abstain
+INSUF_13,ইলিশ মাছ রান্নার জন্য খাঁটি সরিষার তেলের সঠিক প্রণালী কী?,bn,off_topic,abstain
+INSUF_14,What are the ICC cricket pitch preparation regulations for test matches?,en,off_topic,abstain
+INSUF_15,বাংলাদেশের সংবিধান প্রণয়ন কমিটির প্রথম বৈঠকের সভাপতি কে ছিলেন?,bn,off_topic,abstain
+INSUF_16,How does the James Webb Space Telescope calibrate its infrared sensors in deep space?,en,off_topic,abstain
+INSUF_17,পোশাক কারখানায় দুপুরের খাবারের বিরতি ৩০ মিনিট দিলে মালিককে কি জরিমানা করা যাইবে?,bn,right_act_missing_facts,abstain
+INSUF_18,Can an IT startup employee in Dhaka claim overtime if their employment contract specifies a consolidated fixed stipend?,en,right_act_missing_facts,abstain
+INSUF_19,ভাড়াটিয়া অগ্রিম দুই মাসের ভাড়া দিয়ে চুক্তি না করলে কি বাড়িওয়ালা পুলিশ ডেকে উচ্ছেদ করতে পারবে?,bn,right_act_missing_facts,abstain
+INSUF_20,Does a residential landlord have the legal right to inspect premises at midnight without prior notice?,en,right_act_missing_facts,abstain
+INSUF_21,অনলাইনে কেনা জামা সাইজে না মিললে বিক্রেতা কি ডেলিভারি চার্জ ফেরত দিতে বাধ্য?,bn,right_act_missing_facts,abstain
+INSUF_22,Can a buyer claim full damages from a merchant if they broke the seal before discovering an undeclared ingredient?,en,right_act_missing_facts,abstain
+INSUF_23,মৌখিক চুক্তিতে জমি বিক্রির বায়না টাকা ফেরত না দিলে কি সুনির্দিষ্ট প্রতিকার পাওয়া যাবে?,bn,right_act_missing_facts,abstain
+INSUF_24,"Under the Contract Act 1872, is an agreement made via WhatsApp voice call legally binding if audio is deleted?",en,right_act_missing_facts,abstain
