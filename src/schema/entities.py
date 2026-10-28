@@ -173,6 +173,49 @@ class Source:
 
 
 # =====================================================================
+# 1b. Manifest Record Entity
+# =====================================================================
+
+@dataclass
+class ManifestRecord:
+    """
+    Schema for ingested source manifests with full provenance.
+    Provenance fields: source_url, acquired_at, sha256, license_note. Unknown = None (null).
+    """
+    filename: str
+    filepath: str
+    sha256: str
+    source_url: Optional[str] = None
+    acquired_at: Optional[str] = None
+    license_note: Optional[str] = None
+    provenance: Optional[str] = None
+    provisions_extracted: int = 0
+    is_quarantined: bool = False
+    quarantine_reason: Optional[str] = None
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self):
+        self.filename = _validate_non_empty(self.filename, "filename", "ManifestRecord")
+        self.filepath = _validate_non_empty(self.filepath, "filepath", "ManifestRecord")
+        self.sha256 = _validate_checksum(self.sha256, "ManifestRecord")
+        if self.source_url is not None:
+            self.source_url = str(self.source_url).strip() or None
+        if self.acquired_at is not None:
+            self.acquired_at = str(self.acquired_at).strip() or None
+        if self.license_note is not None:
+            self.license_note = _normalize_text(str(self.license_note)) or None
+        if self.provenance is not None:
+            self.provenance = str(self.provenance).strip() or None
+
+    def to_dict(self) -> Dict[str, Any]:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> ManifestRecord:
+        return cls(**data)
+
+
+# =====================================================================
 # 2. Document Entity
 # =====================================================================
 
