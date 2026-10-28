@@ -110,7 +110,7 @@ All diagnostic scripts, configuration templates, audit matrices, reviewer onboar
 ### Action Items for Week 1 Day 1 (Immediate Next Steps):
 1. **Initialize Git Repository**: Add `.gitignore` excluding Python bytecode, large model caches (`~/.cache/huggingface`), virtual environments, and raw scanned PDFs.
 2. **Initialize Ingestion Environment**: Configure the baseline directory tree (`src/ingestion/`, `src/retrieval/`, `src/generation/`, `src/evaluation/`).
-3. **Setup PostgreSQL & pgvector**: Run schema migrations for `Source`, `Document`, `Version`, `Provision`, and `Chunk` tables based on the Week 0 verified dimensions (768d and 1024d).
+3. **Database Architecture**: PostgreSQL + pgvector deferred, in-memory retrieval used for current milestone.
 4. **Begin Week 1 Task 1.1**: Connect database and implement the first reproducible baseline query script.
 
 **Gate 0 Status**: **FORMALLY CLOSED & APPROVED FOR WEEK 1 LAUNCH.**

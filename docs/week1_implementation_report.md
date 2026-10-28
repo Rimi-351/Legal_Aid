@@ -94,7 +94,7 @@ Four distinct retrieval paradigms were evaluated against the 12 scenario-grouped
 
 ## 4. PostgreSQL and pgvector Decision
 
-**Recommendation: DEFER INSTALLATION TO WEEK 6.**
+**Decision: DEFERRED, IN-MEMORY RETRIEVAL USED.**
 
 ### Justification & Analysis:
 1. **Scale vs Overhead**:

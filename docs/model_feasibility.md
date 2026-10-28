@@ -20,7 +20,7 @@ To ensure reproducible empirical research on a consumer-grade workstation (Windo
 - **GPU Architecture**: **Intel(R) Iris(R) Plus Graphics (Integrated, 1 GB shared VRAM)**. Discrete NVIDIA GPU is **ABSENT**. `torch.cuda.is_available()` evaluates to `False`. All embedding and LLM execution MUST run on CPU.
 - **Disk Storage**: 105.5 GB Free Space on NTFS Workspace Drive
 - **Installed Runtimes**: Python 3.13.5 (64-bit), PyTorch 2.8.0 (CPU-only build), Transformers 5.1.0, Psycopg 3.3.6, Pypdf 6.16.2, BeautifulSoup4 4.13.4, DuckDB 1.4.4.
-- **PostgreSQL / pgvector Status**: **NOT RUNNING / NOT CONFIGURED**. `where.exe psql` and Windows service query (`Get-Service *postgres*`) confirmed PostgreSQL is not currently running as an active Windows service. The pgvector test script `scripts/w0_check_env_and_pgvector.py` is ready to execute upon database provisioning; in the interim, DuckDB or in-memory vector indexing (`numpy`/`faiss-cpu`) serves as the verified fallback.
+- **PostgreSQL / pgvector Status**: **DEFERRED, IN-MEMORY RETRIEVAL USED**. PostgreSQL with pgvector is deferred in favor of in-memory vector indexing and caching (`numpy`/`.npz`). Windows service query (`Get-Service *postgres*`) confirmed PostgreSQL is not currently running as an active Windows service; in-memory vector indexing serves as the active verified retrieval engine.
 - **Ollama Status**: **SERVER OFFLINE**. Connection to `http://localhost:11434` was actively refused (`WinError 10061`), indicating Ollama is not currently active on port 11434.
 
 ### 1.2 The 11.5 GB Process RSS Memory Ceiling
