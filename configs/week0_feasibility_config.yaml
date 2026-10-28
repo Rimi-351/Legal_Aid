@@ -36,12 +36,14 @@ audit_paths:
 models:
   embeddings:
     - name: "BAAI/bge-m3"
+      revision: "5617a9f61b028005a4858fdac845db406aefb181"
       dimension: 1024
       max_seq_length: 8192
       device_preference: "cpu"      # 'cuda' if GPU with >=6GB VRAM available, else 'cpu'
       batch_size: 4
       rss_limit_mb: 4096.0
     - name: "intfloat/multilingual-e5-base"
+      revision: "d128750597153bb5987e10b1c3493a34e5a4502a"
       dimension: 768
       max_seq_length: 512
       device_preference: "cpu"
@@ -50,6 +52,7 @@ models:
 
   rerankers:
     - name: "BAAI/bge-reranker-v2-m3"
+      revision: "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e"
       device_preference: "cpu"
       batch_size: 2
       rss_limit_mb: 3584.0

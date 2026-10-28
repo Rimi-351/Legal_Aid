@@ -29,7 +29,9 @@ models:
 
   dense:
     model_name: "intfloat/multilingual-e5-small"
+    model_revision: "614241f622f53c4eeff9890bdc4f31cfecc418b3"
     fallback_offline_model: "csebuetnlp/banglabert"
+    fallback_offline_revision: "9ce791f330578f50da6bc52b54205166fb5d1c8c"
     batch_size: 4
     max_length: 512
     device: "cpu"
