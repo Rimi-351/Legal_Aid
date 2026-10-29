@@ -181,15 +181,39 @@ def load_corpus(corpus_path: Path) -> List[Dict[str, Any]]:
     return records
 
 
-def run_evaluation(query_limit: Optional[int] = None, eval_conditions: Optional[List[str]] = None):
+def check_git_status() -> Tuple[bool, List[str]]:
+    """Checks git working tree status and returns (is_dirty, uncommitted_paths)."""
+    import subprocess
+    try:
+        res = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, check=True)
+        lines = [l.strip() for l in res.stdout.strip().split("\n") if l.strip()]
+        paths = [l[2:].strip() for l in lines]
+        return len(paths) > 0, paths
+    except Exception as e:
+        return False, [str(e)]
+
+
+def run_evaluation(
+    query_limit: Optional[int] = None,
+    eval_conditions: Optional[List[str]] = None,
+    allow_dirty: bool = False
+):
     print("=" * 80)
     print("  Legal Aid BD — Week 5 Hardened RAG Pipeline Evaluation")
     print("=" * 80)
 
-    # 1. Verify split integrity
+    # 1. Verify split integrity and working tree cleanliness
     split_path = Path("eval/split.json")
     sha_path = Path("eval/split.sha256")
     verify_split_integrity(split_path, sha_path)
+
+    is_dirty, uncommitted = check_git_status()
+    if is_dirty and not allow_dirty and query_limit is None:
+        print(f"ERROR: Refusing full evaluation because working tree is dirty ({len(uncommitted)} uncommitted files)!", file=sys.stderr)
+        print("Commit changes or pass --allow-dirty to explicitly override and record.", file=sys.stderr)
+        sys.exit(1)
+    elif is_dirty and allow_dirty:
+        print(f"[!] WARNING: Evaluation proceeding with dirty working tree (--allow-dirty set, {len(uncommitted)} uncommitted files).")
 
     # 2. Enforce live Ollama backend
     print(f"[*] Checking local Ollama connectivity at {settings.llm_base_url}...")
@@ -326,7 +350,7 @@ def run_evaluation(query_limit: Optional[int] = None, eval_conditions: Optional[
     if eval_conditions:
         conditions = [c for c in conditions if c in eval_conditions]
 
-    outputs_path = Path("eval/outputs.jsonl")
+    outputs_path = Path("eval/outputs.jsonl") if query_limit is None else Path("eval/smoke_outputs.jsonl")
     outputs_path.parent.mkdir(parents=True, exist_ok=True)
     out_file = open(outputs_path, "w", encoding="utf-8")
 
@@ -754,7 +778,7 @@ def run_evaluation(query_limit: Optional[int] = None, eval_conditions: Optional[
 
     rng.shuffle(review_sheet_rows)
 
-    review_path = Path("eval/human_review_sheet.csv")
+    review_path = Path("eval/human_review_sheet.csv") if query_limit is None else Path("eval/smoke_human_review_sheet.csv")
     if review_sheet_rows:
         with open(review_path, "w", encoding="utf-8", newline="") as f:
             fieldnames = list(review_sheet_rows[0].keys())
@@ -763,7 +787,7 @@ def run_evaluation(query_limit: Optional[int] = None, eval_conditions: Optional[
             for r in review_sheet_rows:
                 writer.writerow(r)
 
-    key_path = Path("eval/review_key.csv")
+    key_path = Path("eval/review_key.csv") if query_limit is None else Path("eval/smoke_review_key.csv")
     if review_key_rows:
         with open(key_path, "w", encoding="utf-8", newline="") as f:
             fieldnames = ["sample_id", "condition", "query_id", "lang"]
@@ -793,7 +817,7 @@ def run_evaluation(query_limit: Optional[int] = None, eval_conditions: Optional[
     print("=" * 135)
 
     # 11. Save eval_summary.json
-    summary_path = Path("eval/eval_summary.json")
+    summary_path = Path("eval/eval_summary.json") if query_limit is None else Path("eval/smoke_eval_summary.json")
     summary_payload = {
         "backend": {
             "name": "ollama",
@@ -825,6 +849,11 @@ def run_evaluation(query_limit: Optional[int] = None, eval_conditions: Optional[
             "audit_completed": audit_completed,
             "excluded_y_count": len(excluded_insuf_ids)
         },
+        "git_status": {
+            "git_dirty": is_dirty,
+            "allow_dirty": allow_dirty,
+            "uncommitted_count": len(uncommitted) if is_dirty else 0
+        },
         "evaluation_split": "test",
         "conditions": results_by_cond
     }
@@ -838,7 +867,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Week 5 Legal RAG Pipeline Evaluation")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of test queries evaluated")
     parser.add_argument("--conditions", type=str, default=None, help="Comma-separated conditions to run")
+    parser.add_argument("--allow-dirty", action="store_true", help="Allow running evaluation with uncommitted git changes")
     args = parser.parse_args()
 
     cond_list = [c.strip() for c in args.conditions.split(",")] if args.conditions else None
-    run_evaluation(query_limit=args.limit, eval_conditions=cond_list)
+    run_evaluation(query_limit=args.limit, eval_conditions=cond_list, allow_dirty=args.allow_dirty)

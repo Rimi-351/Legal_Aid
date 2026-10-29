@@ -3,7 +3,7 @@
 **Document Identifier**: `DOC-VAL-W1-001`  
 **Research Project**: *Cross-Script and Multilingual Legal Retrieval for Bangladesh*  
 **Milestone**: Week 1 Post-Audit Quality Gate & Empirical Validation  
-**Reviewer**: Senior Applied ML & Legal Informatics Research Engineer  
+**Reviewer**: [Placeholder / Unverified]  
 **Hardware Profile**: Windows 11 Pro (64-bit AMD64, 4 CPU Cores, 15.6 GB RAM, Intel Iris Plus Graphics, No Discrete GPU)  
 **Date**: October 23, 2026  
 **Decision**: **CONDITIONAL GO (Approved for Phase 2 under Explicit Constraints)**  

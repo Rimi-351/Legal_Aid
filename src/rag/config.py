@@ -151,5 +151,15 @@ class RAGSettings:
     corpus_path: Path = Path(os.getenv("RAG_CORPUS_PATH", "data/processed/provisions.jsonl"))
     retrieval_top_k: int = 5
 
+    # Quote Citation Mode (Week 8 Quote-Copy Fix)
+    # When True: LLM emits evidence_id + sentence_index (e.g., "E1:S2"); quote is extracted verbatim by construction.
+    # When False: LLM copies verbatim quote text directly (legacy Week 5 mode).
+    use_sentence_index_citations: bool = bool(int(os.getenv("USE_SENTENCE_INDEX_CITATIONS", "1")))
+
+    # Document Upload & Security Settings (Week 7)
+    max_upload_size_mb: float = float(os.getenv("MAX_UPLOAD_SIZE_MB", "25.0"))
+    allowed_upload_extensions: Tuple[str, ...] = (".pdf", ".docx")
+    ui_host: str = os.getenv("STREAMLIT_SERVER_ADDRESS", "127.0.0.1")
+
 
 settings = RAGSettings()

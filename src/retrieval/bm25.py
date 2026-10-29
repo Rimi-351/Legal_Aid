@@ -12,6 +12,8 @@ from dataclasses import dataclass
 from collections import Counter
 from typing import List, Dict, Any, Optional, Set
 
+from src.retrieval.temporal import resolve_provision_version_status
+
 
 @dataclass
 class SearchResult:
@@ -26,6 +28,7 @@ class SearchResult:
     language: str
     source_file: str
     matched_tokens: List[str]
+    version_status: str = "uncertain"
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -38,7 +41,8 @@ class SearchResult:
             "text": self.text,
             "language": self.language,
             "source_file": self.source_file,
-            "matched_tokens": self.matched_tokens
+            "matched_tokens": self.matched_tokens,
+            "version_status": self.version_status,
         }
 
 
@@ -130,8 +134,8 @@ class BM25Index:
             # Standard Okapi IDF with +1 smoothing to avoid negative weights
             self.idf[term] = math.log(((self.num_docs - freq + 0.5) / (freq + 0.5)) + 1.0)
 
-    def search(self, query: str, top_k: int = 5) -> List[SearchResult]:
-        """Searches index with a natural language query and returns top-k ranked results."""
+    def search(self, query: str, top_k: int = 5, as_of_date: Optional[str] = None) -> List[SearchResult]:
+        """Searches index with a natural language query and returns top-k ranked results with version status."""
         if not query or self.num_docs == 0 or top_k <= 0:
             return []
 
@@ -167,6 +171,7 @@ class BM25Index:
         results: List[SearchResult] = []
         for rank, (idx, score, pid) in enumerate(scored_docs[:top_k], start=1):
             p = self.corpus[idx]
+            v_status = resolve_provision_version_status(p, as_of_date=as_of_date) if as_of_date else "uncertain"
             results.append(SearchResult(
                 rank=rank,
                 score=score,
@@ -177,14 +182,15 @@ class BM25Index:
                 text=p.get("text", ""),
                 language=p.get("language", ""),
                 source_file=p.get("source_file", ""),
-                matched_tokens=sorted(list(matched_tokens_per_doc[idx]))
+                matched_tokens=sorted(list(matched_tokens_per_doc[idx])),
+                version_status=v_status,
             ))
 
         return results
 
-    def query(self, query_text: str, top_k: int = 5) -> List[SearchResult]:
+    def query(self, query_text: str, top_k: int = 5, as_of_date: Optional[str] = None) -> List[SearchResult]:
         """Alias for search."""
-        return self.search(query_text, top_k=top_k)
+        return self.search(query_text, top_k=top_k, as_of_date=as_of_date)
 
     def index_corpus(self, provisions: List[Dict[str, Any]], filter_quarantined: bool = True):
         """Alias for fit."""

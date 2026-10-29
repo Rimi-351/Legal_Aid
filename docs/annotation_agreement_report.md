@@ -12,8 +12,8 @@
 To measure the reliability and reproducibility of evidence annotations, an inter-annotator agreement study was conducted on a shared calibration subset of **20 multilingual queries** (5 distinct scenarios $\times$ 4 queries across the 4 legal domains: Land & Tenancy, Consumer Protection, Labour & Employment, Contractual Obligations).
 
 ### 1.1 Annotator Profiles
-- **Reviewer A (Primary)**: Legal Informatics Researcher with expertise in statutory search and computational linguistics.
-- **Reviewer B (Secondary)**: LL.B. Law Graduate with training in Bangladesh civil and statutory law.
+- **Reviewer A (Primary)**: [Placeholder / Unverified Researcher]
+- **Reviewer B (Secondary)**: [Placeholder / Unverified Secondary Annotator]
 
 ### 1.2 Candidate Pool Generation
 To avoid annotator fatigue while ensuring high recall of potential evidence:

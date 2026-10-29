@@ -1,0 +1,38 @@
+scenario_id,domain,language,query_text,expected_provisions,human_review_status,notes
+scenario_01,labour,bn,শ্রমিককে কোনো নোটিশ ছাড়া চাকরি থেকে বরখাস্ত করলে কত দিনের ক্ষতিপূরণ দিতে হবে?,BLA2006_S26,needs human review,Termination without notice compensation
+scenario_01,labour,banglish,shromik ke kono notice chara chakri theke borkhasto korle koto diner khotipuron dite hobe?,BLA2006_S26,needs human review,Termination without notice compensation
+scenario_01,labour,en,What compensation is payable if a worker is terminated without any notice?,BLA2006_S26,needs human review,Termination without notice compensation
+scenario_02,labour,bn,মাসিক বেতনের স্থায়ী শ্রমিক পদত্যাগ করতে চাইলে কত দিন পূর্বে লিখিত নোটিশ দিতে হবে?,BLA2006_S27,needs human review,Permanent worker resignation notice
+scenario_02,labour,banglish,mashik betoner sthayi shromik podotag korte chaile koto din age likhito notice dite hobe?,BLA2006_S27,needs human review,Permanent worker resignation notice
+scenario_02,labour,en,How many days of prior written notice must a monthly rated permanent worker provide to resign?,BLA2006_S27,needs human review,Permanent worker resignation notice
+scenario_03,tenancy,bn,ভাড়া পরিশোধে দুই দিন বিলম্ব হলে কি বাড়িওয়ালা ভাড়াটিয়াকে উচ্ছেদ করতে পারবে?,PRCA1991_S18,needs human review,Tenant eviction on rent delay
+scenario_03,tenancy,banglish,bhara porishodhe dui din deri hole ki bariwala bharatiya ke ucched korte parbe?,PRCA1991_S18,needs human review,Tenant eviction on rent delay
+scenario_03,tenancy,en,Can a landlord evict a tenant immediately if rent payment is delayed by two days?,PRCA1991_S18,needs human review,Tenant eviction on rent delay
+scenario_04,tenancy,bn,ভাড়া নিয়ন্ত্রক কর্তৃক বাড়ির মানসম্মত ভাড়া নির্ধারণের নিয়মাবলী কী?,PRCA1991_S15,needs human review,Standard rent fixation
+scenario_04,tenancy,banglish,bhara niyontrok kortrik barir manshommoto bhara nirdharon er niyamaboli ki?,PRCA1991_S15,needs human review,Standard rent fixation
+scenario_04,tenancy,en,What are the rules for determining standard rent of premises by the Rent Controller?,PRCA1991_S15,needs human review,Standard rent fixation
+scenario_05,consumer,bn,পণ্যের মোড়কে খুচরা বিক্রয় মূল্য এবং মেয়াদ উত্তীর্ণের তারিখ না লিখলে কী শাস্তি হবে?,CRPA2009_S37,needs human review,Omission of price and expiry on packaging
+scenario_05,consumer,banglish,ponner moroke khuchra bikroy mullo ebong meyad uttirner tarikh na likhle ki shasti hobe?,CRPA2009_S37,needs human review,Omission of price and expiry on packaging
+scenario_05,consumer,en,What is the penalty for not displaying retail price and expiry date on product packaging?,CRPA2009_S37,needs human review,Omission of price and expiry on packaging
+scenario_06,consumer,bn,ভেজাল খাদ্য বা মানবস্বাস্থ্যের জন্য ক্ষতিকর পণ্য বিক্রয় করলে কী দণ্ড হতে পারে?,CRPA2009_S41,needs human review,Adulterated food or toxic goods penalty
+scenario_06,consumer,banglish,bhejal khaddo ba manobshasther jonno khotikor ponno bikroy korle ki dondo hote pare?,CRPA2009_S41,needs human review,Adulterated food or toxic goods penalty
+scenario_06,consumer,en,What punishment is prescribed for selling adulterated food or goods harmful to human health?,CRPA2009_S41,needs human review,Adulterated food or toxic goods penalty
+scenario_07,contract,bn,চুক্তি আইনের আওতায় নাবালক ব্যক্তি কি কোনো বৈধ চুক্তি সম্পাদন করতে পারে?,CA1872_S11,needs human review,Contractual capacity of minors
+scenario_07,contract,banglish,chukti ainer awtay nabalok bekti ki kono boidho chukti shompashon korte parbe?,CA1872_S11,needs human review,Contractual capacity of minors
+scenario_07,contract,en,Under the Contract Act is a minor person competent to enter into a contract?,CA1872_S11,needs human review,Contractual capacity of minors
+scenario_08,contract,bn,ভয়ভীতি বা বলপ্রয়োগের মাধ্যমে সম্মতি নিয়ে চুক্তি করলে তা কি বাতিলযোগ্য হবে?,CA1872_S14,needs human review,Coercion and voidability of agreement
+scenario_08,contract,banglish,bhoybheeti ba bolproyog er maddhome shommoti niye chukti korle ta ki batiljoggo hobe?,CA1872_S14,needs human review,Coercion and voidability of agreement
+scenario_08,contract,en,Is an agreement voidable if consent was obtained through coercion or threat?,CA1872_S14,needs human review,Coercion and voidability of agreement
+scenario_09,labour,bn,নারী শ্রমিক প্রসূতি কল্যাণ সুবিধার অর্থ পাওয়ার ক্ষেত্রে কী কী শর্ত প্রযোজ্য?,BLA2006_S46,needs human review,Maternity benefit eligibility conditions
+scenario_09,labour,banglish,nari shromik proshuti kolyan shubidhar ortho pawar khetre ki ki shorto projojjo?,BLA2006_S46,needs human review,Maternity benefit eligibility conditions
+scenario_09,labour,en,What are the eligibility conditions for a female worker to claim maternity benefit?,BLA2006_S46,needs human review,Maternity benefit eligibility conditions
+scenario_10,contract,bn,চুক্তি ভঙ্গের ক্ষেত্রে চুক্তিতে উল্লেখিত যুক্তিসঙ্গত ক্ষতিপূরণের দাবি কীভাবে নিষ্পত্তি হয়?,CA1872_S74,needs human review,Liquidated damages and breach penalty
+scenario_10,contract,banglish,chukti bhonger khetre chuktite ullekhito juktishonggoto khotipuron er dabi kivabe nishpotti hoy?,CA1872_S74,needs human review,Liquidated damages and breach penalty
+scenario_10,contract,en,How is reasonable compensation determined when a contract specifies a penalty for breach?,CA1872_S74,needs human review,Liquidated damages and breach penalty
+scenario_11,contract,bn,কোন কোন ক্ষেত্রে চুক্তির উদ্দেশ্য বা প্রতিদান আইনত অবৈধ বলে গণ্য হয়?,CA1872_S23,needs human review,Unlawful consideration or object
+scenario_11,contract,banglish,kon kon khetre chuktir uddesho ba protidan ainoto oboidho bole gonno hoy?,CA1872_S23,needs human review,Unlawful consideration or object
+scenario_11,contract,en,Under what circumstances is the consideration or object of an agreement unlawful?,CA1872_S23,needs human review,Unlawful consideration or object
+scenario_12,negative,bn,মার্কিন যুক্তরাষ্ট্রের ক্যালিফোর্নিয়া অঙ্গরাজ্যের শ্রম আইনের আওতায় ন্যূনতম মজুরি কত?,NONE,needs human review,Foreign jurisdiction negative control query
+scenario_12,negative,banglish,united states er california state er labour law onujayi minimum wage koto?,NONE,needs human review,Foreign jurisdiction negative control query
+scenario_12,negative,en,What is the minimum wage under California United States labour law?,NONE,needs human review,Foreign jurisdiction negative control query
+

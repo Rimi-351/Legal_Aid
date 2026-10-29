@@ -1,0 +1,1051 @@
+{
+  "metadata": {
+    "git_dirty": true,
+    "allow_dirty": true,
+    "uncommitted_paths": [
+      "docs/annotation_agreement_report.md",
+      "docs/annotation_guidelines.md",
+      "docs/week1_validation_report.md",
+      "eval/run_rag_eval.py",
+      "src/rag/api.py",
+      "src/rag/citation_validator.py",
+      "src/rag/config.py",
+      "src/rag/llm_answer.py",
+      "src/retrieval/bm25.py",
+      "app/",
+      "docs/corpus_report.md",
+      "docs/error_analysis.md",
+      "docs/evaluation_results.md",
+      "docs/limitations.md",
+      "docs/methodology.md",
+      "docs/reproducibility.md",
+      "docs/ui_manual_check.md",
+      "eval/diagnosis.json",
+      "eval/error_cases.csv",
+      "eval/freeze_manifest.json",
+      "eval/frozen_retrieval_metrics.json",
+      "eval/paired_language_tests.csv",
+      "eval/reviewer_audit_sheet.csv",
+      "eval/smoke_eval_summary.json",
+      "eval/smoke_human_review_sheet.csv",
+      "eval/smoke_outputs.jsonl",
+      "eval/smoke_review_key.csv",
+      "eval/version_audit.csv",
+      "scripts/audit_versions.py",
+      "scripts/build_error_analysis_and_audit_sheets.py",
+      "scripts/diagnose_corpus.py",
+      "scripts/eval_paired_languages.py",
+      "scripts/gen_metrics.py",
+      "scripts/run_frozen_eval.py",
+      "scripts/test_live_injection.py",
+      "src/pipeline.py",
+      "src/retrieval/temporal.py",
+      "src/review/",
+      "tests/fixtures/synthetic_commercial_lease.pdf",
+      "tests/fixtures/synthetic_employment_agreement.docx",
+      "tests/fixtures/synthetic_scanned_contract_garbled.pdf",
+      "tests/test_failures.py",
+      "tests/test_metrics_fix.py",
+      "tests/test_pipeline.py",
+      "tests/test_quote_path.py",
+      "tests/test_review.py",
+      "tests/test_ui.py",
+      "tests/test_versions.py"
+    ],
+    "corpus_size": 17,
+    "corpus_size_annotation": "(N=17 provisions)",
+    "total_answerable_test_queries": 30,
+    "queries_with_gold_in_corpus": 15,
+    "fraction_gold_present": 0.5,
+    "recall_ceiling_all_30": 0.4667,
+    "recall_ceiling_gold_present": 0.9333
+  },
+  "conditions": [
+    {
+      "name": "Random_Ranking_Baseline",
+      "overall_all_30": {
+        "recall_at_5": 0.1373,
+        "recall_at_10": 0.2745,
+        "mrr_at_10": 0.1062,
+        "ndcg_at_10": 0.1368,
+        "avg_latency_ms": 0.0,
+        "peak_rss_mb": 0.0
+      },
+      "overall_gold_present": {
+        "recall_at_5": 0.2745,
+        "recall_at_10": 0.549,
+        "mrr_at_10": 0.2124,
+        "ndcg_at_10": 0.2736,
+        "avg_latency_ms": 0.0,
+        "peak_rss_mb": 0.0
+      },
+      "per_language": {
+        "bn_unicode": {
+          "count": 11,
+          "recall_at_5_mean": 0.08021390374331551,
+          "recall_at_5_ci95": [
+            0.0,
+            0.16042780748663102
+          ],
+          "recall_at_10_mean": 0.16042780748663102,
+          "recall_at_10_ci95": [
+            0.0,
+            0.32085561497326204
+          ],
+          "mrr_at_10_mean": 0.0688614081996435,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.137722816399287
+          ],
+          "ndcg_at_10_mean": 0.08388792487345968,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.17327414904390312
+          ]
+        },
+        "en": {
+          "count": 15,
+          "recall_at_5_mean": 0.14705882352941177,
+          "recall_at_5_ci95": [
+            0.07843137254901959,
+            0.2156862745098039
+          ],
+          "recall_at_10_mean": 0.29411764705882354,
+          "recall_at_10_ci95": [
+            0.15686274509803919,
+            0.4313725490196078
+          ],
+          "mrr_at_10_mean": 0.10792911609088081,
+          "mrr_at_10_ci95": [
+            0.0539645580454404,
+            0.16192086348428222
+          ],
+          "ndcg_at_10_mean": 0.14371431355687253,
+          "ndcg_at_10_ci95": [
+            0.0712715190288368,
+            0.21329629743298578
+          ]
+        },
+        "banglish": {
+          "count": 4,
+          "recall_at_5_mean": 0.2573529411764706,
+          "recall_at_5_ci95": [
+            0.18382352941176472,
+            0.29411764705882354
+          ],
+          "recall_at_10_mean": 0.5147058823529412,
+          "recall_at_10_ci95": [
+            0.36764705882352944,
+            0.5882352941176471
+          ],
+          "mrr_at_10_mean": 0.20236709267040148,
+          "mrr_at_10_ci95": [
+            0.1722922502334267,
+            0.2625167775443511
+          ],
+          "ndcg_at_10_mean": 0.2565401564134287,
+          "ndcg_at_10_ci95": [
+            0.18972310732389422,
+            0.31262916555825393
+          ]
+        }
+      },
+      "per_domain": {
+        "consumer_protection": {
+          "count": 6,
+          "recall_at_5_mean": 0.14705882352941177,
+          "recall_at_5_ci95": [
+            0.049019607843137254,
+            0.2450980392156863
+          ],
+          "recall_at_10_mean": 0.29411764705882354,
+          "recall_at_10_ci95": [
+            0.09803921568627451,
+            0.4901960784313726
+          ],
+          "mrr_at_10_mean": 0.1148615001556178,
+          "mrr_at_10_ci95": [
+            0.0574307500778089,
+            0.17229225023342673
+          ],
+          "ndcg_at_10_mean": 0.14371431355687253,
+          "ndcg_at_10_ci95": [
+            0.05462491477082654,
+            0.23280371234291852
+          ]
+        },
+        "contractual_obligations": {
+          "count": 5,
+          "recall_at_5_mean": 0.23529411764705882,
+          "recall_at_5_ci95": [
+            0.11764705882352941,
+            0.29411764705882354
+          ],
+          "recall_at_10_mean": 0.47058823529411764,
+          "recall_at_10_ci95": [
+            0.23529411764705882,
+            0.5882352941176471
+          ],
+          "mrr_at_10_mean": 0.18595354808590103,
+          "mrr_at_10_ci95": [
+            0.09297677404295052,
+            0.26853174603174607
+          ],
+          "ndcg_at_10_mean": 0.2380070739932389,
+          "ndcg_at_10_ci95": [
+            0.11900353699661945,
+            0.31565323017159497
+          ]
+        },
+        "employment_labour": {
+          "count": 8,
+          "recall_at_5_mean": 0.11029411764705882,
+          "recall_at_5_ci95": [
+            0.03676470588235294,
+            0.22058823529411764
+          ],
+          "recall_at_10_mean": 0.22058823529411764,
+          "recall_at_10_ci95": [
+            0.07352941176470588,
+            0.4411764705882353
+          ],
+          "mrr_at_10_mean": 0.09468443627450981,
+          "mrr_at_10_ci95": [
+            0.021536531279178338,
+            0.18286976248832867
+          ],
+          "ndcg_at_10_mean": 0.11534589670100706,
+          "ndcg_at_10_ci95": [
+            0.03340852454476725,
+            0.22313163186866147
+          ]
+        },
+        "land_tenancy": {
+          "count": 11,
+          "recall_at_5_mean": 0.10695187165775401,
+          "recall_at_5_ci95": [
+            0.026737967914438502,
+            0.18716577540106955
+          ],
+          "recall_at_10_mean": 0.21390374331550802,
+          "recall_at_10_ci95": [
+            0.053475935828877004,
+            0.3743315508021391
+          ],
+          "mrr_at_10_mean": 0.07358803369832781,
+          "mrr_at_10_ci95": [
+            0.015662931839402428,
+            0.137722816399287
+          ],
+          "ndcg_at_10_mean": 0.10268673433630666,
+          "ndcg_at_10_ci95": [
+            0.024297108759830724,
+            0.18657465920976632
+          ]
+        }
+      }
+    },
+    {
+      "name": "BM25_Word_Baseline",
+      "overall_all_30": {
+        "recall_at_5": 0.2,
+        "recall_at_10": 0.2,
+        "mrr_at_10": 0.2,
+        "ndcg_at_10": 0.1973,
+        "avg_latency_ms": 0.06,
+        "peak_rss_mb": 41.35
+      },
+      "overall_gold_present": {
+        "recall_at_5": 0.4,
+        "recall_at_10": 0.4,
+        "mrr_at_10": 0.4,
+        "ndcg_at_10": 0.3946,
+        "avg_latency_ms": 0.06,
+        "peak_rss_mb": 41.35
+      },
+      "per_language": {
+        "bn_unicode": {
+          "count": 11,
+          "recall_at_5_mean": 0.09090909090909091,
+          "recall_at_5_ci95": [
+            0.0,
+            0.2727272727272727
+          ],
+          "recall_at_10_mean": 0.09090909090909091,
+          "recall_at_10_ci95": [
+            0.0,
+            0.2727272727272727
+          ],
+          "mrr_at_10_mean": 0.09090909090909091,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.2727272727272727
+          ],
+          "ndcg_at_10_mean": 0.08361098083165341,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.25083294249496024
+          ]
+        },
+        "en": {
+          "count": 15,
+          "recall_at_5_mean": 0.26666666666666666,
+          "recall_at_5_ci95": [
+            0.06666666666666667,
+            0.5333333333333333
+          ],
+          "recall_at_10_mean": 0.26666666666666666,
+          "recall_at_10_ci95": [
+            0.06666666666666667,
+            0.5333333333333333
+          ],
+          "mrr_at_10_mean": 0.26666666666666666,
+          "mrr_at_10_ci95": [
+            0.06666666666666667,
+            0.5333333333333333
+          ],
+          "ndcg_at_10_mean": 0.26666666666666666,
+          "ndcg_at_10_ci95": [
+            0.06666666666666667,
+            0.5333333333333333
+          ]
+        },
+        "banglish": {
+          "count": 4,
+          "recall_at_5_mean": 0.25,
+          "recall_at_5_ci95": [
+            0.0,
+            0.75
+          ],
+          "recall_at_10_mean": 0.25,
+          "recall_at_10_ci95": [
+            0.0,
+            0.75
+          ],
+          "mrr_at_10_mean": 0.25,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.75
+          ],
+          "ndcg_at_10_mean": 0.25,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.75
+          ]
+        }
+      },
+      "per_domain": {
+        "consumer_protection": {
+          "count": 6,
+          "recall_at_5_mean": 0.0,
+          "recall_at_5_ci95": [
+            0.0,
+            0.0
+          ],
+          "recall_at_10_mean": 0.0,
+          "recall_at_10_ci95": [
+            0.0,
+            0.0
+          ],
+          "mrr_at_10_mean": 0.0,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.0
+          ],
+          "ndcg_at_10_mean": 0.0,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "contractual_obligations": {
+          "count": 5,
+          "recall_at_5_mean": 0.6,
+          "recall_at_5_ci95": [
+            0.2,
+            1.0
+          ],
+          "recall_at_10_mean": 0.6,
+          "recall_at_10_ci95": [
+            0.2,
+            1.0
+          ],
+          "mrr_at_10_mean": 0.6,
+          "mrr_at_10_ci95": [
+            0.2,
+            1.0
+          ],
+          "ndcg_at_10_mean": 0.6,
+          "ndcg_at_10_ci95": [
+            0.2,
+            1.0
+          ]
+        },
+        "employment_labour": {
+          "count": 8,
+          "recall_at_5_mean": 0.0,
+          "recall_at_5_ci95": [
+            0.0,
+            0.0
+          ],
+          "recall_at_10_mean": 0.0,
+          "recall_at_10_ci95": [
+            0.0,
+            0.0
+          ],
+          "mrr_at_10_mean": 0.0,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.0
+          ],
+          "ndcg_at_10_mean": 0.0,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "land_tenancy": {
+          "count": 11,
+          "recall_at_5_mean": 0.2727272727272727,
+          "recall_at_5_ci95": [
+            0.0,
+            0.5454545454545454
+          ],
+          "recall_at_10_mean": 0.2727272727272727,
+          "recall_at_10_ci95": [
+            0.0,
+            0.5454545454545454
+          ],
+          "mrr_at_10_mean": 0.2727272727272727,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.5454545454545454
+          ],
+          "ndcg_at_10_mean": 0.26542916264983524,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.5308583252996705
+          ]
+        }
+      }
+    },
+    {
+      "name": "BM25_Char_Ngram (Production)",
+      "overall_all_30": {
+        "recall_at_5": 0.2333,
+        "recall_at_10": 0.2667,
+        "mrr_at_10": 0.2375,
+        "ndcg_at_10": 0.2398,
+        "avg_latency_ms": 0.14,
+        "peak_rss_mb": 41.52
+      },
+      "overall_gold_present": {
+        "recall_at_5": 0.4667,
+        "recall_at_10": 0.5333,
+        "mrr_at_10": 0.475,
+        "ndcg_at_10": 0.4795,
+        "avg_latency_ms": 0.14,
+        "peak_rss_mb": 41.52
+      },
+      "per_language": {
+        "bn_unicode": {
+          "count": 11,
+          "recall_at_5_mean": 0.09090909090909091,
+          "recall_at_5_ci95": [
+            0.0,
+            0.2727272727272727
+          ],
+          "recall_at_10_mean": 0.18181818181818182,
+          "recall_at_10_ci95": [
+            0.0,
+            0.45454545454545453
+          ],
+          "mrr_at_10_mean": 0.10227272727272728,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.29545454545454547
+          ],
+          "ndcg_at_10_mean": 0.1195877160714299,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.3300845230519507
+          ]
+        },
+        "en": {
+          "count": 15,
+          "recall_at_5_mean": 0.26666666666666666,
+          "recall_at_5_ci95": [
+            0.06666666666666667,
+            0.5333333333333333
+          ],
+          "recall_at_10_mean": 0.26666666666666666,
+          "recall_at_10_ci95": [
+            0.06666666666666667,
+            0.5333333333333333
+          ],
+          "mrr_at_10_mean": 0.26666666666666666,
+          "mrr_at_10_ci95": [
+            0.06666666666666667,
+            0.5333333333333333
+          ],
+          "ndcg_at_10_mean": 0.2584810210225366,
+          "ndcg_at_10_ci95": [
+            0.06666666666666667,
+            0.4924051051126831
+          ]
+        },
+        "banglish": {
+          "count": 4,
+          "recall_at_5_mean": 0.5,
+          "recall_at_5_ci95": [
+            0.0,
+            1.0
+          ],
+          "recall_at_10_mean": 0.5,
+          "recall_at_10_ci95": [
+            0.0,
+            1.0
+          ],
+          "mrr_at_10_mean": 0.5,
+          "mrr_at_10_ci95": [
+            0.0,
+            1.0
+          ],
+          "ndcg_at_10_mean": 0.5,
+          "ndcg_at_10_ci95": [
+            0.0,
+            1.0
+          ]
+        }
+      },
+      "per_domain": {
+        "consumer_protection": {
+          "count": 6,
+          "recall_at_5_mean": 0.0,
+          "recall_at_5_ci95": [
+            0.0,
+            0.0
+          ],
+          "recall_at_10_mean": 0.16666666666666666,
+          "recall_at_10_ci95": [
+            0.0,
+            0.5
+          ],
+          "mrr_at_10_mean": 0.020833333333333332,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.0625
+          ],
+          "ndcg_at_10_mean": 0.052577479464288125,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.15773243839286438
+          ]
+        },
+        "contractual_obligations": {
+          "count": 5,
+          "recall_at_5_mean": 0.6,
+          "recall_at_5_ci95": [
+            0.2,
+            1.0
+          ],
+          "recall_at_10_mean": 0.6,
+          "recall_at_10_ci95": [
+            0.2,
+            1.0
+          ],
+          "mrr_at_10_mean": 0.6,
+          "mrr_at_10_ci95": [
+            0.2,
+            1.0
+          ],
+          "ndcg_at_10_mean": 0.57544306306761,
+          "ndcg_at_10_ci95": [
+            0.17544306306760987,
+            0.9754430630676099
+          ]
+        },
+        "employment_labour": {
+          "count": 8,
+          "recall_at_5_mean": 0.0,
+          "recall_at_5_ci95": [
+            0.0,
+            0.0
+          ],
+          "recall_at_10_mean": 0.0,
+          "recall_at_10_ci95": [
+            0.0,
+            0.0
+          ],
+          "mrr_at_10_mean": 0.0,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.0
+          ],
+          "ndcg_at_10_mean": 0.0,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "land_tenancy": {
+          "count": 11,
+          "recall_at_5_mean": 0.36363636363636365,
+          "recall_at_5_ci95": [
+            0.09090909090909091,
+            0.6363636363636364
+          ],
+          "recall_at_10_mean": 0.36363636363636365,
+          "recall_at_10_ci95": [
+            0.09090909090909091,
+            0.6363636363636364
+          ],
+          "mrr_at_10_mean": 0.36363636363636365,
+          "mrr_at_10_ci95": [
+            0.09090909090909091,
+            0.6363636363636364
+          ],
+          "ndcg_at_10_mean": 0.36363636363636365,
+          "ndcg_at_10_ci95": [
+            0.09090909090909091,
+            0.6363636363636364
+          ]
+        }
+      }
+    },
+    {
+      "name": "BM25_Banglish_Expanded",
+      "overall_all_30": {
+        "recall_at_5": 0.2333,
+        "recall_at_10": 0.3167,
+        "mrr_at_10": 0.2464,
+        "ndcg_at_10": 0.2573,
+        "avg_latency_ms": 0.21,
+        "peak_rss_mb": 41.53
+      },
+      "overall_gold_present": {
+        "recall_at_5": 0.4667,
+        "recall_at_10": 0.6333,
+        "mrr_at_10": 0.4929,
+        "ndcg_at_10": 0.5146,
+        "avg_latency_ms": 0.21,
+        "peak_rss_mb": 41.53
+      },
+      "per_language": {
+        "bn_unicode": {
+          "count": 11,
+          "recall_at_5_mean": 0.09090909090909091,
+          "recall_at_5_ci95": [
+            0.0,
+            0.2727272727272727
+          ],
+          "recall_at_10_mean": 0.18181818181818182,
+          "recall_at_10_ci95": [
+            0.0,
+            0.45454545454545453
+          ],
+          "mrr_at_10_mean": 0.10227272727272728,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.29545454545454547
+          ],
+          "ndcg_at_10_mean": 0.1195877160714299,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.3300845230519507
+          ]
+        },
+        "en": {
+          "count": 15,
+          "recall_at_5_mean": 0.26666666666666666,
+          "recall_at_5_ci95": [
+            0.06666666666666667,
+            0.5333333333333333
+          ],
+          "recall_at_10_mean": 0.3333333333333333,
+          "recall_at_10_ci95": [
+            0.13333333333333333,
+            0.6
+          ],
+          "mrr_at_10_mean": 0.27619047619047615,
+          "mrr_at_10_ci95": [
+            0.06666666666666667,
+            0.5333333333333333
+          ],
+          "ndcg_at_10_mean": 0.2807032432447588,
+          "ndcg_at_10_ci95": [
+            0.06666666666666667,
+            0.5111111111111111
+          ]
+        },
+        "banglish": {
+          "count": 4,
+          "recall_at_5_mean": 0.5,
+          "recall_at_5_ci95": [
+            0.0,
+            1.0
+          ],
+          "recall_at_10_mean": 0.625,
+          "recall_at_10_ci95": [
+            0.25,
+            1.0
+          ],
+          "mrr_at_10_mean": 0.53125,
+          "mrr_at_10_ci95": [
+            0.0625,
+            1.0
+          ],
+          "ndcg_at_10_mean": 0.5483566009043177,
+          "ndcg_at_10_ci95": [
+            0.09671320180863541,
+            1.0
+          ]
+        }
+      },
+      "per_domain": {
+        "consumer_protection": {
+          "count": 6,
+          "recall_at_5_mean": 0.0,
+          "recall_at_5_ci95": [
+            0.0,
+            0.0
+          ],
+          "recall_at_10_mean": 0.25,
+          "recall_at_10_ci95": [
+            0.0,
+            0.5833333333333334
+          ],
+          "mrr_at_10_mean": 0.041666666666666664,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.08333333333333333
+          ],
+          "ndcg_at_10_mean": 0.08481521340049993,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.18997017232907618
+          ]
+        },
+        "contractual_obligations": {
+          "count": 5,
+          "recall_at_5_mean": 0.6,
+          "recall_at_5_ci95": [
+            0.2,
+            1.0
+          ],
+          "recall_at_10_mean": 0.6,
+          "recall_at_10_ci95": [
+            0.2,
+            1.0
+          ],
+          "mrr_at_10_mean": 0.6,
+          "mrr_at_10_ci95": [
+            0.2,
+            1.0
+          ],
+          "ndcg_at_10_mean": 0.57544306306761,
+          "ndcg_at_10_ci95": [
+            0.17544306306760987,
+            0.9754430630676099
+          ]
+        },
+        "employment_labour": {
+          "count": 8,
+          "recall_at_5_mean": 0.0,
+          "recall_at_5_ci95": [
+            0.0,
+            0.0
+          ],
+          "recall_at_10_mean": 0.125,
+          "recall_at_10_ci95": [
+            0.0,
+            0.375
+          ],
+          "mrr_at_10_mean": 0.017857142857142856,
+          "mrr_at_10_ci95": [
+            0.0,
+            0.05357142857142857
+          ],
+          "ndcg_at_10_mean": 0.041666666666666664,
+          "ndcg_at_10_ci95": [
+            0.0,
+            0.125
+          ]
+        },
+        "land_tenancy": {
+          "count": 11,
+          "recall_at_5_mean": 0.36363636363636365,
+          "recall_at_5_ci95": [
+            0.09090909090909091,
+            0.6363636363636364
+          ],
+          "recall_at_10_mean": 0.36363636363636365,
+          "recall_at_10_ci95": [
+            0.09090909090909091,
+            0.6363636363636364
+          ],
+          "mrr_at_10_mean": 0.36363636363636365,
+          "mrr_at_10_ci95": [
+            0.09090909090909091,
+            0.6363636363636364
+          ],
+          "ndcg_at_10_mean": 0.36363636363636365,
+          "ndcg_at_10_ci95": [
+            0.09090909090909091,
+            0.6363636363636364
+          ]
+        }
+      }
+    }
+  ],
+  "holm_bonferroni_comparisons": {
+    "mrr": [
+      {
+        "comparison": "Char_Ngram vs Word_Baseline",
+        "candidate": "BM25_Char_Ngram (Production)",
+        "baseline": "BM25_Word_Baseline",
+        "rank": 3,
+        "multiplier": 1,
+        "mean_delta": 0.0375,
+        "raw_ci": [
+          0.0,
+          0.1083
+        ],
+        "raw_p_value": 0.2666,
+        "step_alpha": 0.05,
+        "adj_ci": [
+          0.0,
+          0.1083
+        ],
+        "adj_p_value": 0.5096,
+        "significant_after_holm": false
+      },
+      {
+        "comparison": "Banglish_Expanded vs Word_Baseline",
+        "candidate": "BM25_Banglish_Expanded",
+        "baseline": "BM25_Word_Baseline",
+        "rank": 1,
+        "multiplier": 3,
+        "mean_delta": 0.0464,
+        "raw_ci": [
+          0.0042,
+          0.1179
+        ],
+        "raw_p_value": 0.0276,
+        "step_alpha": 0.016667,
+        "adj_ci": [
+          0.0,
+          0.1458
+        ],
+        "adj_p_value": 0.0828,
+        "significant_after_holm": false
+      },
+      {
+        "comparison": "Banglish_Expanded vs Char_Ngram",
+        "candidate": "BM25_Banglish_Expanded",
+        "baseline": "BM25_Char_Ngram (Production)",
+        "rank": 2,
+        "multiplier": 2,
+        "mean_delta": 0.0089,
+        "raw_ci": [
+          0.0,
+          0.0226
+        ],
+        "raw_p_value": 0.2548,
+        "step_alpha": 0.025,
+        "adj_ci": [
+          0.0,
+          0.0256
+        ],
+        "adj_p_value": 0.5096,
+        "significant_after_holm": false
+      }
+    ],
+    "ndcg": [
+      {
+        "comparison": "Char_Ngram vs Word_Baseline",
+        "candidate": "BM25_Char_Ngram (Production)",
+        "baseline": "BM25_Word_Baseline",
+        "rank": 2,
+        "multiplier": 2,
+        "mean_delta": 0.0424,
+        "raw_ci": [
+          -0.0055,
+          0.121
+        ],
+        "raw_p_value": 0.1918,
+        "step_alpha": 0.025,
+        "adj_ci": [
+          -0.0082,
+          0.1342
+        ],
+        "adj_p_value": 0.3836,
+        "significant_after_holm": false
+      },
+      {
+        "comparison": "Banglish_Expanded vs Word_Baseline",
+        "candidate": "BM25_Banglish_Expanded",
+        "baseline": "BM25_Word_Baseline",
+        "rank": 1,
+        "multiplier": 3,
+        "mean_delta": 0.06,
+        "raw_ci": [
+          0.0038,
+          0.1398
+        ],
+        "raw_p_value": 0.0272,
+        "step_alpha": 0.016667,
+        "adj_ci": [
+          -0.0017,
+          0.1626
+        ],
+        "adj_p_value": 0.0816,
+        "significant_after_holm": false
+      },
+      {
+        "comparison": "Banglish_Expanded vs Char_Ngram",
+        "candidate": "BM25_Banglish_Expanded",
+        "baseline": "BM25_Char_Ngram (Production)",
+        "rank": 3,
+        "multiplier": 1,
+        "mean_delta": 0.0176,
+        "raw_ci": [
+          0.0,
+          0.0462
+        ],
+        "raw_p_value": 0.2548,
+        "step_alpha": 0.05,
+        "adj_ci": [
+          0.0,
+          0.0462
+        ],
+        "adj_p_value": 0.3836,
+        "significant_after_holm": false
+      }
+    ],
+    "r5": [
+      {
+        "comparison": "Char_Ngram vs Word_Baseline",
+        "candidate": "BM25_Char_Ngram (Production)",
+        "baseline": "BM25_Word_Baseline",
+        "rank": 1,
+        "multiplier": 3,
+        "mean_delta": 0.0333,
+        "raw_ci": [
+          0.0,
+          0.1
+        ],
+        "raw_p_value": 0.724,
+        "step_alpha": 0.016667,
+        "adj_ci": [
+          0.0,
+          0.1333
+        ],
+        "adj_p_value": 1.0,
+        "significant_after_holm": false
+      },
+      {
+        "comparison": "Banglish_Expanded vs Word_Baseline",
+        "candidate": "BM25_Banglish_Expanded",
+        "baseline": "BM25_Word_Baseline",
+        "rank": 2,
+        "multiplier": 2,
+        "mean_delta": 0.0333,
+        "raw_ci": [
+          0.0,
+          0.1
+        ],
+        "raw_p_value": 0.724,
+        "step_alpha": 0.025,
+        "adj_ci": [
+          0.0,
+          0.1333
+        ],
+        "adj_p_value": 1.0,
+        "significant_after_holm": false
+      },
+      {
+        "comparison": "Banglish_Expanded vs Char_Ngram",
+        "candidate": "BM25_Banglish_Expanded",
+        "baseline": "BM25_Char_Ngram (Production)",
+        "rank": 3,
+        "multiplier": 1,
+        "mean_delta": 0.0,
+        "raw_ci": [
+          0.0,
+          0.0
+        ],
+        "raw_p_value": 1.0,
+        "step_alpha": 0.05,
+        "adj_ci": [
+          0.0,
+          0.0
+        ],
+        "adj_p_value": 1.0,
+        "significant_after_holm": false
+      }
+    ],
+    "r10": [
+      {
+        "comparison": "Char_Ngram vs Word_Baseline",
+        "candidate": "BM25_Char_Ngram (Production)",
+        "baseline": "BM25_Word_Baseline",
+        "rank": 3,
+        "multiplier": 1,
+        "mean_delta": 0.0667,
+        "raw_ci": [
+          0.0,
+          0.1667
+        ],
+        "raw_p_value": 0.2666,
+        "step_alpha": 0.05,
+        "adj_ci": [
+          0.0,
+          0.1667
+        ],
+        "adj_p_value": 0.5096,
+        "significant_after_holm": false
+      },
+      {
+        "comparison": "Banglish_Expanded vs Word_Baseline",
+        "candidate": "BM25_Banglish_Expanded",
+        "baseline": "BM25_Word_Baseline",
+        "rank": 1,
+        "multiplier": 3,
+        "mean_delta": 0.1167,
+        "raw_ci": [
+          0.0167,
+          0.2333
+        ],
+        "raw_p_value": 0.0276,
+        "step_alpha": 0.016667,
+        "adj_ci": [
+          0.0,
+          0.2667
+        ],
+        "adj_p_value": 0.0828,
+        "significant_after_holm": false
+      },
+      {
+        "comparison": "Banglish_Expanded vs Char_Ngram",
+        "candidate": "BM25_Banglish_Expanded",
+        "baseline": "BM25_Char_Ngram (Production)",
+        "rank": 2,
+        "multiplier": 2,
+        "mean_delta": 0.05,
+        "raw_ci": [
+          0.0,
+          0.1333
+        ],
+        "raw_p_value": 0.2548,
+        "step_alpha": 0.025,
+        "adj_ci": [
+          0.0,
+          0.15
+        ],
+        "adj_p_value": 0.5096,
+        "significant_after_holm": false
+      }
+    ]
+  }
+}

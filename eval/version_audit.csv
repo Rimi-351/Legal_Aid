@@ -1,0 +1,20 @@
+act_id,provision_id,enactment_date,amendment_instrument,effective_date,relation,consolidated_text,source_url,evidence_type,review_status,conflict_note
+CRPA2009,CRPA2009_S১,"৬ এপ্রিল, ২০০৯",,,none,N,tests/fixtures/sample_consumer_rights_2009.html,unknown,pending,
+CRPA2009,CRPA2009_S৩৭,"৬ এপ্রিল, ২০০৯",,,none,N,tests/fixtures/sample_consumer_rights_2009.html,unknown,pending,
+CRPA2009,CRPA2009_S৪৫,"৬ এপ্রিল, ২০০৯",,,none,N,tests/fixtures/sample_consumer_rights_2009.html,unknown,pending,
+CA1872,CA1872_S1,"25th April, 1872",,,none,N,tests/fixtures/sample_contract_act_1872.html,unknown,pending,
+CA1872,CA1872_S2,"25th April, 1872",,,none,N,tests/fixtures/sample_contract_act_1872.html,unknown,pending,
+CA1872,CA1872_S10,"25th April, 1872",,,none,N,tests/fixtures/sample_contract_act_1872.html,unknown,pending,
+CA1872,CA1872_S11,"25th April, 1872",,,none,N,tests/fixtures/sample_contract_act_1872.html,unknown,pending,
+BLA2006,BLA2006_S১,"১১ অক্টোবর, ২০০৬",,,none,N,tests/fixtures/sample_labour_act_2006.html,unknown,pending,
+BLA2006,BLA2006_S২০,"১১ অক্টোবর, ২০০৬",,,none,N,tests/fixtures/sample_labour_act_2006.html,unknown,pending,
+BLA2006,BLA2006_S২৬,"১১ অক্টোবর, ২০০৬",,,none,N,tests/fixtures/sample_labour_act_2006.html,unknown,pending,
+BLAA2013,BLAA2013_S১,"২২ জুলাই, ২০১৩",BLAA2013,,amend,N,tests/fixtures/sample_labour_amendment_2013.html,unknown,pending,
+BLAA2013,BLAA2013_S৭,"২২ জুলাই, ২০১৩",BLAA2013,,replace,N,tests/fixtures/sample_labour_amendment_2013.html,unknown,pending,
+PRCA1991,PRCA1991_S১,"২৪ মার্চ, ১৯৯১",,,none,N,tests/fixtures/sample_premises_rent_1991.html,unknown,pending,
+PRCA1991,PRCA1991_S১৩,"২৪ মার্চ, ১৯৯১",,,none,N,tests/fixtures/sample_premises_rent_1991.html,unknown,pending,
+PRCA1991,PRCA1991_S১৮,"২৪ মার্চ, ১৯৯১",,,none,N,tests/fixtures/sample_premises_rent_1991.html,unknown,pending,
+SAMPLESC,QUARANTINED_OCR_sample_scanned_gazette_ocr_notice,,,,none,N,tests/fixtures/sample_scanned_gazette_ocr_notice.txt,unknown,pending,Quarantined: Low-confidence or uncorrected scanned OCR output requiring manual verification
+SAMPLESU,QUARANTINED_BIJOY_sample_suspect_bijoy_legacy,,,,none,N,tests/fixtures/sample_suspect_bijoy_legacy.txt,unknown,pending,"Quarantined: Suspect legacy ANSI/Bijoy encoding detected (Signatures: ['AvBb', 'm¤úwË', 'evsjv‡`k', 'AvBbvbyhvqx', 'wba©vwiZ', 'weavb', 'cÖavb', 'ms‡kvab'])"
+TPA1882,TPA1882_S54,"17th February, 1882",,,none,N,tests/fixtures/sample_transfer_of_property_1882.html,unknown,pending,
+TPA1882,TPA1882_S106,"17th February, 1882",,,none,N,tests/fixtures/sample_transfer_of_property_1882.html,unknown,pending,

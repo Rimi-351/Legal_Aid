@@ -30,6 +30,7 @@ from .extractive import (
 from .llm_answer import generate_answer
 from .citation_validator import validate
 from src.retrieval.bm25 import BM25Index
+from src.retrieval.temporal import get_corpus_verification_date, check_temporal_qualification
 from src.evaluation.logger import get_process_memory_mb
 
 logger = logging.getLogger(__name__)
@@ -86,6 +87,7 @@ class AskRequest(BaseModel):
     query: str
     lang: str = "en"
     mode: Literal["extractive", "llm", "llm_validated", "llm_validated_noabstain"] = "llm_validated"
+    as_of_date: Optional[str] = None
 
 
 class AskResponse(BaseModel):
@@ -95,6 +97,8 @@ class AskResponse(BaseModel):
     fallback_used: bool
     latency_ms: float
     peak_rss_mb: float
+    corpus_verification_date: Optional[str] = None
+    warning: Optional[str] = None
 
 
 # -----------------------------------------------------------------------------
@@ -107,9 +111,13 @@ def ask_legal(request: AskRequest) -> AskResponse:
     t0 = time.perf_counter()
 
     retriever, _ = get_retriever()
-    search_results = retriever.search(request.query, top_k=settings.retrieval_top_k)
+    search_results = retriever.search(
+        request.query, top_k=settings.retrieval_top_k, as_of_date=request.as_of_date
+    )
 
-    # Format evidence records
+    corpus_v_date, v_warning = get_corpus_verification_date()
+
+    # Format evidence records with version status
     evidence: List[Dict[str, Any]] = [
         {
             "record_id": r.provision_id,
@@ -122,6 +130,7 @@ def ask_legal(request: AskRequest) -> AskResponse:
             "text": r.text,
             "language": r.language,
             "score": r.score,
+            "version_status": getattr(r, "version_status", "uncertain"),
         }
         for r in search_results
     ]
@@ -130,6 +139,26 @@ def ask_legal(request: AskRequest) -> AskResponse:
     fallback_used = False
     final_answer: str = ""
     final_claims: List[ClaimModel] = []
+
+    # Check temporal qualification gate if as_of_date is provided
+    if request.as_of_date:
+        is_unverified, qualified_text = check_temporal_qualification(
+            request.as_of_date, evidence
+        )
+        if is_unverified:
+            # Hard Rule: No assertions about historical law without verified evidence.
+            latency_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+            peak_rss = get_process_memory_mb()
+            return AskResponse(
+                answer=qualified_text or f"Legal status as of {request.as_of_date} cannot be established.",
+                claims=[],
+                abstained=True,
+                fallback_used=False,
+                latency_ms=latency_ms,
+                peak_rss_mb=peak_rss,
+                corpus_verification_date=corpus_v_date,
+                warning=v_warning,
+            )
 
     # Mode 1: Pure Extractive
     if request.mode == "extractive":
@@ -260,6 +289,15 @@ def ask_legal(request: AskRequest) -> AskResponse:
                     )
                 )
 
+    # Exit gate check: no response claims "as of <date>" unless every cited provision is verified_*
+    if request.as_of_date:
+        cited_ids = {c.citation.record_id for c in final_claims if c.citation and c.citation.record_id}
+        cited_ev = [e for e in evidence if e.get("record_id") in cited_ids or e.get("provision_id") in cited_ids]
+        if cited_ev and not all(e.get("version_status") in ("verified_in_force", "verified_not_in_force") for e in cited_ev):
+            if "as of" in final_answer.lower():
+                final_answer = f"Legal status as of {request.as_of_date} cannot be established."
+                final_claims = []
+
     latency_ms = round((time.perf_counter() - t0) * 1000.0, 2)
     peak_rss = get_process_memory_mb()
 
@@ -270,4 +308,6 @@ def ask_legal(request: AskRequest) -> AskResponse:
         fallback_used=fallback_used,
         latency_ms=latency_ms,
         peak_rss_mb=peak_rss,
+        corpus_verification_date=corpus_v_date,
+        warning=v_warning,
     )

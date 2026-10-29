@@ -12,13 +12,68 @@ from typing import List, Dict, Any, Optional, Callable, Union, Tuple
 
 from .config import settings
 from .extractive import extractive_answer
+from .citation_validator import split_into_sentences, resolve_claim_quote_from_index
 
 
-def build_prompt(query: str, evidence: List[Dict[str, Any]], lang: str) -> str:
+def build_prompt(
+    query: str,
+    evidence: List[Dict[str, Any]],
+    lang: str,
+    use_sentence_index: Optional[bool] = None
+) -> str:
     """
     Constructs prompt containing ONLY query, user language, and text-only evidence blocks.
     Strictly omits Act titles, section numbers, and source URLs.
+    
+    If use_sentence_index is True (or enabled in settings):
+      Formats sentences with tags [E{block}:S{sent}] and instructs LLM to emit
+      evidence_id + sentence_index (e.g. "E1:S2") instead of copying verbatim quotes.
+    If use_sentence_index is False:
+      Legacy Week 5 mode where LLM copies verbatim quote text directly.
     """
+    use_idx = settings.use_sentence_index_citations if use_sentence_index is None else use_sentence_index
+
+    if use_idx:
+        evidence_blocks = []
+        for idx, item in enumerate(evidence, 1):
+            text = item.get("text", "").strip()
+            sents = split_into_sentences(text)
+            if sents:
+                sent_lines = [f"  [E{idx}:S{s_idx}] {s}" for s_idx, s in enumerate(sents, 1)]
+                evidence_blocks.append(f"[E{idx}]:\n" + "\n".join(sent_lines))
+            else:
+                evidence_blocks.append(f"[E{idx}:S1] {text}")
+
+        evidence_text = "\n\n".join(evidence_blocks) if evidence_blocks else "None"
+
+        prompt = (
+            f"You are a legal assistant. Answer the user's question using ONLY the provided evidence blocks.\n\n"
+            f"User Language: {lang}\n"
+            f"User Query: {query}\n\n"
+            f"Evidence Blocks:\n{evidence_text}\n\n"
+            f"INSTRUCTIONS:\n"
+            f"1. If the evidence blocks are insufficient to answer the question, return JSON:\n"
+            f'   {{"abstain": true, "reason": "Brief explanation in {lang}"}}\n'
+            f"2. Otherwise, return JSON matching this exact structure:\n"
+            f"   {{\n"
+            f'     "answer_sections": {{\n'
+            f'       "source_says": ["..."],\n'
+            f'       "relation_to_facts": ["..."],\n'
+            f'       "missing_facts": ["..."],\n'
+            f'       "uncertain": ["..."]\n'
+            f"     }},\n"
+            f'     "claims": [\n'
+            f'       {{"text": "claim text", "evidence_id": "E1:S1"}}\n'
+            f"     ]\n"
+            f"   }}\n"
+            f"3. In claims, cite ONLY evidence_id and sentence_index in format 'E{{block}}:S{{sent}}' (e.g., 'E1:S2').\n"
+            f"   Do NOT copy quotes; code extracts the quote from the stored record directly.\n"
+            f"   NEVER emit Act titles, section numbers, or URLs anywhere in your output.\n"
+            f"4. Answer strictly in {lang}.\n"
+            f"5. Output ONLY valid JSON. No markdown fences or extraneous text."
+        )
+        return prompt
+
     evidence_blocks = []
     for idx, item in enumerate(evidence, 1):
         text = item.get("text", "").strip()
@@ -230,6 +285,13 @@ def generate_answer(
         fallback["truncated"] = truncated
         fallback["schema_missing"] = True
         return fallback
+
+    # Resolve quote from sentence index if active
+    if settings.use_sentence_index_citations:
+        resolved_claims = []
+        for c in parsed_json.get("claims", []):
+            resolved_claims.append(resolve_claim_quote_from_index(c, evidence))
+        parsed_json["claims"] = resolved_claims
 
     parsed_json["fallback_used"] = False
     parsed_json["timeout"] = False

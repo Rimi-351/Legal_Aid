@@ -1,9 +1,21 @@
 # Legal Aid BD — Multilingual Legal Retrieval Annotation Guidelines
 
 **Document Identifier**: `DOC-GUIDE-W3-001`  
-**Milestone**: Week 3 Evaluation Benchmark  
+**Milestone**: Week 3 Evaluation Benchmark & Week 8 Freeze  
 **Research Pipeline**: Cross-Script and Multilingual Legal Retrieval for Bangladesh  
 **Status**: Official Guideline  
+
+---
+
+## Executive Research Metadata
+- **Research Question**: How should multilingual legal retrieval queries and evidence links be annotated when users write in native Bengali script, Banglish phonetic transliteration, English, or Code-mixed variations?
+- **Hypotheses**: Distinguishing direct legal evidence (Grade 2) from topical overlap (Grade 0/1) will prevent hallucinated legal reasoning and ground retrieval benchmarks in verifiable statutory authority.
+- **Baselines**: Topical keyword overlap matching and single-provision greedy lookup.
+- **What Was Tested**: 120 multi-script legal queries evaluated across 4 civil domains, including single-provision, multi-provision dependencies, and unanswerable/negative controls.
+- **Sources Used**: Statutory texts of Contract Act 1872, Transfer of Property Act 1882, Premises Rent Control Act 1991, Bangladesh Labour Act 2006, Consumer Rights Protection Act 2009.
+- **What Improved**: Strict separation of topicality vs legal evidence; clear inter-annotator agreement guidelines with explicit Banglish transliteration protocols.
+- **What Failed**: Cross-lingual semantic alignment remains imperfect when annotators evaluate Banglish idioms against formal Bengali legislative prose.
+- **Which Claims Are Unverified**: Full legal validity of annotations remains provisional until finalized by an enrolled Advocate (`annotation_status: "researcher_annotated_provisional"`).
 
 ---
 

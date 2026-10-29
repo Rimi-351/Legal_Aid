@@ -1,0 +1,1076 @@
+{
+  "split_sha256": "be6697d3aff846d3e85a2af444b4b2a06b95a3b9406833f9466992b1bfa02497",
+  "item_1_corpus_composition": {
+    "total_records": 19,
+    "active_records_count": 17,
+    "quarantined_records_count": 2,
+    "fixture_source_count": 19,
+    "all_are_fixtures": true,
+    "plain_reality_statement": "All 17 active records and 2 quarantined records (19 of 19 records, 100.0%) originate directly from 'tests/fixtures/sample_*.html' and 'tests/fixtures/sample_*.txt' with provenance 'fixture'. NONE of the 17 active records are real official government gazettes or scraped production sources; the current corpus is entirely a synthetic test fixture.",
+    "counts_by_act": {
+      "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯": 3,
+      "The Contract Act, 1872": 4,
+      "বাংলাদেশ শ্রম আইন, ২০০৬": 3,
+      "বাংলাদেশ শ্রম (সংশোধন) আইন, ২০১৩": 2,
+      "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১": 3,
+      "sample_scanned_gazette_ocr_notice": 1,
+      "sample_suspect_bijoy_legacy": 1,
+      "The Transfer of Property Act, 1882": 2
+    },
+    "counts_by_source": {
+      "tests/fixtures/sample_consumer_rights_2009.html": 3,
+      "tests/fixtures/sample_contract_act_1872.html": 4,
+      "tests/fixtures/sample_labour_act_2006.html": 3,
+      "tests/fixtures/sample_labour_amendment_2013.html": 2,
+      "tests/fixtures/sample_premises_rent_1991.html": 3,
+      "tests/fixtures/sample_scanned_gazette_ocr_notice.txt": 1,
+      "tests/fixtures/sample_suspect_bijoy_legacy.txt": 1,
+      "tests/fixtures/sample_transfer_of_property_1882.html": 2
+    },
+    "counts_by_language": {
+      "bn": 11,
+      "en": 6,
+      "undetermined": 2
+    }
+  },
+  "item_2_answerable_test_queries_audit": {
+    "total_answerable_test_queries": 30,
+    "queries_with_all_gold_present_raw": 12,
+    "queries_with_ge_1_gold_present_raw": 14,
+    "queries_with_all_gold_present_norm": 13,
+    "queries_with_ge_1_gold_present_norm": 15,
+    "queries": [
+      {
+        "query_id": "BNCH_CONS_117_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "consumer_protection",
+        "query_text": "দোকানে পণ্যের মূল্য তালিকা প্রদর্শন না করিলে দোকানদারের কী শাস্তি হইতে পারে?",
+        "gold_provision_ids": [
+          "CRPA2009_S৩৮"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "CRPA2009_S৩৮"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "CRPA2009_S৩৮"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_CONS_129_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "consumer_protection",
+        "query_text": "পণ্যের আকর্ষণীয় কিন্তু মিথ্যা বিজ্ঞাপন দিলে আইনের দৃষ্টিতে উহা কী ধরনের অপরাধ?",
+        "gold_provision_ids": [
+          "CRPA2009_S৪৫"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [
+          "CRPA2009_S৪৫"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 1,
+        "present_norm_ids": [
+          "CRPA2009_S৪৫"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 1
+      },
+      {
+        "query_id": "BNCH_CONS_131_EN",
+        "language_and_script": "en",
+        "domain": "consumer_protection",
+        "query_text": "Is publishing false or misleading advertisements to deceive consumers a punishable offense?",
+        "gold_provision_ids": [
+          "CRPA2009_S৪৫"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [
+          "CRPA2009_S৪৫"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 1,
+        "present_norm_ids": [
+          "CRPA2009_S৪৫"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 1
+      },
+      {
+        "query_id": "BNCH_CONS_134_BANGLISH",
+        "language_and_script": "banglish",
+        "domain": "consumer_protection",
+        "query_text": "Packet e price na likhe overprice e sell korle double offense e ki shasti hoy?",
+        "gold_provision_ids": [
+          "CRPA2009_S৩৭",
+          "CRPA2009_S৩৯"
+        ],
+        "gold_count": 2,
+        "present_raw_ids": [
+          "CRPA2009_S৩৭"
+        ],
+        "missing_raw_ids": [
+          "CRPA2009_S৩৯"
+        ],
+        "present_raw_count": 1,
+        "present_norm_ids": [
+          "CRPA2009_S৩৭"
+        ],
+        "missing_norm_ids": [
+          "CRPA2009_S৩৯"
+        ],
+        "present_norm_count": 1
+      },
+      {
+        "query_id": "BNCH_CONS_135_EN",
+        "language_and_script": "en",
+        "domain": "consumer_protection",
+        "query_text": "What is the combined penalty for not marking retail price on packaging and charging above fixed rate?",
+        "gold_provision_ids": [
+          "CRPA2009_S৩৭",
+          "CRPA2009_S৩৯"
+        ],
+        "gold_count": 2,
+        "present_raw_ids": [
+          "CRPA2009_S৩৭"
+        ],
+        "missing_raw_ids": [
+          "CRPA2009_S৩৯"
+        ],
+        "present_raw_count": 1,
+        "present_norm_ids": [
+          "CRPA2009_S৩৭"
+        ],
+        "missing_norm_ids": [
+          "CRPA2009_S৩৯"
+        ],
+        "present_norm_count": 1
+      },
+      {
+        "query_id": "BNCH_CONS_137_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "consumer_protection",
+        "query_text": "দোকানে বাটখারা বা ওজনে কারচুপি করিয়া পণ্য কম দিলে ক্রেতা কীভাবে প্রতিকার পাইবেন?",
+        "gold_provision_ids": [
+          "CRPA2009_S৪৬"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "CRPA2009_S৪৬"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "CRPA2009_S৪৬"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_CONT_159_EN",
+        "language_and_script": "en",
+        "domain": "contractual_obligations",
+        "query_text": "What legal conditions are required for an agreement to be enforceable as a valid contract?",
+        "gold_provision_ids": [
+          "CA1872_S10"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [
+          "CA1872_S10"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 1,
+        "present_norm_ids": [
+          "CA1872_S10"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 1
+      },
+      {
+        "query_id": "BNCH_CONT_162_BANGLISH",
+        "language_and_script": "banglish",
+        "domain": "contractual_obligations",
+        "query_text": "Minor ba 18 bochorer kom boyosher keu business contract sign korle oita ki valid?",
+        "gold_provision_ids": [
+          "CA1872_S11"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [
+          "CA1872_S11"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 1,
+        "present_norm_ids": [
+          "CA1872_S11"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 1
+      },
+      {
+        "query_id": "BNCH_CONT_165_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "contractual_obligations",
+        "query_text": "বিনিময় বা প্রতিদান ছাড়া সম্পাদিত চুক্তি কি আইনের দৃষ্টিতে বাতিল বলিয়া গণ্য হইবে?",
+        "gold_provision_ids": [
+          "CA1872_S25"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "CA1872_S25"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "CA1872_S25"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_CONT_169_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "contractual_obligations",
+        "query_text": "১৮ বছরের কম বয়সী ব্যক্তির সহিত কোনো লিখিত চুক্তিপত্র সম্পাদিত হইলে উহা কেন বাতিল বলিয়া গণ্য হয়?",
+        "gold_provision_ids": [
+          "CA1872_S10",
+          "CA1872_S11"
+        ],
+        "gold_count": 2,
+        "present_raw_ids": [
+          "CA1872_S10",
+          "CA1872_S11"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 2,
+        "present_norm_ids": [
+          "CA1872_S10",
+          "CA1872_S11"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 2
+      },
+      {
+        "query_id": "BNCH_CONT_171_EN",
+        "language_and_script": "en",
+        "domain": "contractual_obligations",
+        "query_text": "Why is an agreement executed with a person below 18 years of age declared void ab initio?",
+        "gold_provision_ids": [
+          "CA1872_S10",
+          "CA1872_S11"
+        ],
+        "gold_count": 2,
+        "present_raw_ids": [
+          "CA1872_S10",
+          "CA1872_S11"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 2,
+        "present_norm_ids": [
+          "CA1872_S10",
+          "CA1872_S11"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 2
+      },
+      {
+        "query_id": "BNCH_EMPL_063_EN",
+        "language_and_script": "en",
+        "domain": "employment_labour",
+        "query_text": "How many days notice or compensation must an employer provide to terminate a permanent worker?",
+        "gold_provision_ids": [
+          "BLA2006_S২৬"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [
+          "BLA2006_S২৬"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 1,
+        "present_norm_ids": [
+          "BLA2006_S২৬"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 1
+      },
+      {
+        "query_id": "BNCH_EMPL_069_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "employment_labour",
+        "query_text": "বাংলাদেশ শ্রম আইন অনুযায়ী শ্রমিকের অবসর গ্রহণের বয়স কত এবং গ্র্যাচুইটি কীভাবে পাইবেন?",
+        "gold_provision_ids": [
+          "BLA2006_S২৭"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "BLA2006_S২৭"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "BLA2006_S২৭"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_EMPL_071_EN",
+        "language_and_script": "en",
+        "domain": "employment_labour",
+        "query_text": "What is the statutory retirement age for industrial workers and their entitlement to gratuity?",
+        "gold_provision_ids": [
+          "BLA2006_S২৭"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "BLA2006_S২৭"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "BLA2006_S২৭"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_EMPL_073_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "employment_labour",
+        "query_text": "শ্রমিক ফৌজদারি অপরাধে সাজাপ্রাপ্ত হইলে মালিক কি নোটিশ ব্যতিরেকে বরখাস্ত করিতে পারেন?",
+        "gold_provision_ids": [
+          "BLA2006_S২৩"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "BLA2006_S২৩"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "BLA2006_S২৩"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_EMPL_075_EN",
+        "language_and_script": "en",
+        "domain": "employment_labour",
+        "query_text": "Can an employer dismiss a worker without notice if the worker is convicted of a criminal offense?",
+        "gold_provision_ids": [
+          "BLA2006_S২৩"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "BLA2006_S২৩"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "BLA2006_S২৩"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_EMPL_082_BANGLISH",
+        "language_and_script": "banglish",
+        "domain": "employment_labour",
+        "query_text": "Simple termination ar misconduct dismissal er moddhe compensation difference ki?",
+        "gold_provision_ids": [
+          "BLA2006_S২৬",
+          "BLAA2013_S৭"
+        ],
+        "gold_count": 2,
+        "present_raw_ids": [
+          "BLA2006_S২৬",
+          "BLAA2013_S৭"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 2,
+        "present_norm_ids": [
+          "BLA2006_S২৬",
+          "BLAA2013_S৭"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 2
+      },
+      {
+        "query_id": "BNCH_EMPL_083_EN",
+        "language_and_script": "en",
+        "domain": "employment_labour",
+        "query_text": "What is the difference in terminal benefits between simple termination and dismissal for misconduct?",
+        "gold_provision_ids": [
+          "BLA2006_S২৬",
+          "BLAA2013_S৭"
+        ],
+        "gold_count": 2,
+        "present_raw_ids": [
+          "BLA2006_S২৬",
+          "BLAA2013_S৭"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 2,
+        "present_norm_ids": [
+          "BLA2006_S২৬",
+          "BLAA2013_S৭"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 2
+      },
+      {
+        "query_id": "BNCH_EMPL_085_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "employment_labour",
+        "query_text": "পাঁচ বছর চাকরির পর শ্রমিক স্বেচ্ছায় পদত্যাগ করিলে কি কোনো ক্ষতিপূরণ পাইবেন?",
+        "gold_provision_ids": [
+          "BLA2006_S২৭"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "BLA2006_S২৭"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "BLA2006_S২৭"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_LAND_001_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "বাড়িওয়ালা কি ইচ্ছামত ভাড়া বাড়িয়ে আমাকে বাড়ি থেকে উচ্ছেদ করতে পারবে?",
+        "gold_provision_ids": [
+          "PRCA1991_S18",
+          "PRCA1991_S13"
+        ],
+        "gold_count": 2,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "PRCA1991_S18",
+          "PRCA1991_S13"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [
+          "PRCA1991_S18",
+          "PRCA1991_S13"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 2
+      },
+      {
+        "query_id": "BNCH_LAND_006_BANGLISH",
+        "language_and_script": "banglish",
+        "domain": "land_tenancy",
+        "query_text": "Jomi ba flat sell korle deed registration kora ki mandatory?",
+        "gold_provision_ids": [
+          "TPA1882_S54"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [
+          "TPA1882_S54"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 1,
+        "present_norm_ids": [
+          "TPA1882_S54"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 1
+      },
+      {
+        "query_id": "BNCH_LAND_007_EN",
+        "language_and_script": "en",
+        "domain": "land_tenancy",
+        "query_text": "Is registration of a deed mandatory to transfer ownership of immovable property?",
+        "gold_provision_ids": [
+          "TPA1882_S54"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [
+          "TPA1882_S54"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 1,
+        "present_norm_ids": [
+          "TPA1882_S54"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 1
+      },
+      {
+        "query_id": "BNCH_LAND_009_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "ভাড়াটিয়া ভাড়া প্রদান করিলে বাড়িওয়ালার কি লিখিত রশিদ প্রদান করার বাধ্যবাধকতা আছে?",
+        "gold_provision_ids": [
+          "PRCA1991_S19"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "PRCA1991_S19"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "PRCA1991_S19"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_LAND_011_EN",
+        "language_and_script": "en",
+        "domain": "land_tenancy",
+        "query_text": "Is a landlord legally obligated to issue a written money receipt upon receiving house rent?",
+        "gold_provision_ids": [
+          "PRCA1991_S19"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "PRCA1991_S19"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "PRCA1991_S19"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_LAND_015_EN",
+        "language_and_script": "en",
+        "domain": "land_tenancy",
+        "query_text": "How many days notice is required to terminate an immovable property lease without written contract?",
+        "gold_provision_ids": [
+          "TPA1882_S106"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [
+          "TPA1882_S106"
+        ],
+        "missing_raw_ids": [],
+        "present_raw_count": 1,
+        "present_norm_ids": [
+          "TPA1882_S106"
+        ],
+        "missing_norm_ids": [],
+        "present_norm_count": 1
+      },
+      {
+        "query_id": "BNCH_LAND_021_BN_UNICODE",
+        "language_and_script": "bn_unicode",
+        "domain": "land_tenancy",
+        "query_text": "সম্পত্তি বিক্রয়ের চুক্তি অনুসারে দখল পাইলে ক্রেতাকে কি বিক্রেতা বেদখল করিতে পারে?",
+        "gold_provision_ids": [
+          "TPA1882_S53A"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "TPA1882_S53A"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "TPA1882_S53A"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_LAND_023_EN",
+        "language_and_script": "en",
+        "domain": "land_tenancy",
+        "query_text": "Can a seller evict a buyer who obtained possession under a written contract of sale?",
+        "gold_provision_ids": [
+          "TPA1882_S53A"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "TPA1882_S53A"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "TPA1882_S53A"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_LAND_027_EN",
+        "language_and_script": "en",
+        "domain": "land_tenancy",
+        "query_text": "Can a house owner demand advance rent or salami exceeding one month's rent?",
+        "gold_provision_ids": [
+          "PRCA1991_S7"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "PRCA1991_S7"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "PRCA1991_S7"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_LAND_031_EN",
+        "language_and_script": "en",
+        "domain": "land_tenancy",
+        "query_text": "Can a lessee build permanent structures on leased land without lessor's consent?",
+        "gold_provision_ids": [
+          "TPA1882_S108"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "TPA1882_S108"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "TPA1882_S108"
+        ],
+        "present_norm_count": 0
+      },
+      {
+        "query_id": "BNCH_LAND_035_EN",
+        "language_and_script": "en",
+        "domain": "land_tenancy",
+        "query_text": "Who has the legal authority to fix standard rent in case of dispute between tenant and landlord?",
+        "gold_provision_ids": [
+          "PRCA1991_S15"
+        ],
+        "gold_count": 1,
+        "present_raw_ids": [],
+        "missing_raw_ids": [
+          "PRCA1991_S15"
+        ],
+        "present_raw_count": 0,
+        "present_norm_ids": [],
+        "missing_norm_ids": [
+          "PRCA1991_S15"
+        ],
+        "present_norm_count": 0
+      }
+    ]
+  },
+  "item_3_recall_ceiling_and_random_baseline": {
+    "total_answerable_test_queries": 30,
+    "corpus_active_size": 17,
+    "raw_metrics": {
+      "queries_with_ge_1_gold_present": 14,
+      "fraction_ge_1_gold_present": 0.4667,
+      "queries_with_all_gold_present": 12,
+      "max_achievable_recall_at_5": 0.4333,
+      "max_achievable_recall_at_10": 0.4333,
+      "expected_random_ranking_recall_at_5": 0.1275,
+      "expected_random_ranking_recall_at_10": 0.2549
+    },
+    "numeral_normalized_metrics": {
+      "queries_with_ge_1_gold_present": 15,
+      "fraction_ge_1_gold_present": 0.5,
+      "queries_with_all_gold_present": 13,
+      "max_achievable_recall_at_5": 0.4667,
+      "max_achievable_recall_at_10": 0.4667,
+      "expected_random_ranking_recall_at_5": 0.1373,
+      "expected_random_ranking_recall_at_10": 0.2745
+    }
+  },
+  "item_4_gold_id_format_check": {
+    "corpus_id_schemes": {
+      "bengali_numerals_count": 11,
+      "bengali_numerals_sample": [
+        "BLA2006_S১",
+        "BLA2006_S২০",
+        "BLA2006_S২৬",
+        "BLAA2013_S১",
+        "BLAA2013_S৭",
+        "CRPA2009_S১",
+        "CRPA2009_S৩৭",
+        "CRPA2009_S৪৫",
+        "PRCA1991_S১",
+        "PRCA1991_S১৩",
+        "PRCA1991_S১৮"
+      ],
+      "ascii_digits_count": 6,
+      "ascii_digits_sample": [
+        "CA1872_S1",
+        "CA1872_S10",
+        "CA1872_S11",
+        "CA1872_S2",
+        "TPA1882_S106",
+        "TPA1882_S54"
+      ]
+    },
+    "benchmark_gold_id_schemes": {
+      "bengali_numerals_count": 9,
+      "bengali_numerals_sample": [
+        "BLA2006_S২৩",
+        "BLA2006_S২৬",
+        "BLA2006_S২৭",
+        "BLAA2013_S৭",
+        "CRPA2009_S৩৭",
+        "CRPA2009_S৩৮",
+        "CRPA2009_S৩৯",
+        "CRPA2009_S৪৫",
+        "CRPA2009_S৪৬"
+      ],
+      "ascii_digits_count": 12,
+      "ascii_digits_sample": [
+        "CA1872_S10",
+        "CA1872_S11",
+        "CA1872_S25",
+        "PRCA1991_S13",
+        "PRCA1991_S15",
+        "PRCA1991_S18",
+        "PRCA1991_S19",
+        "PRCA1991_S7",
+        "TPA1882_S106",
+        "TPA1882_S108",
+        "TPA1882_S53A",
+        "TPA1882_S54"
+      ]
+    },
+    "numeral_mismatches_identified": [
+      {
+        "query_id": "BNCH_LAND_001_BN_UNICODE",
+        "gold_id_in_benchmark": "PRCA1991_S18",
+        "normalized_ascii": "PRCA1991_S18",
+        "matched_corpus_id": "PRCA1991_S১৮",
+        "explanation": "Benchmark query used ASCII digits while corpus uses Bengali numerals (or vice-versa)."
+      },
+      {
+        "query_id": "BNCH_LAND_001_BN_UNICODE",
+        "gold_id_in_benchmark": "PRCA1991_S13",
+        "normalized_ascii": "PRCA1991_S13",
+        "matched_corpus_id": "PRCA1991_S১৩",
+        "explanation": "Benchmark query used ASCII digits while corpus uses Bengali numerals (or vice-versa)."
+      }
+    ]
+  },
+  "item_5_bn_unicode_test_language_check": {
+    "total_bn_unicode_test_queries": 11,
+    "bn_queries_audit": [
+      {
+        "query_id": "BNCH_CONS_117_BN_UNICODE",
+        "query_text": "দোকানে পণ্যের মূল্য তালিকা প্রদর্শন না করিলে দোকানদারের কী শাস্তি হইতে পারে?",
+        "gold_provision_ids": [
+          "CRPA2009_S৩৮"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "CRPA2009_S৩৮",
+            "in_corpus": false,
+            "record_language": "NOT_IN_CORPUS"
+          }
+        ]
+      },
+      {
+        "query_id": "BNCH_CONS_129_BN_UNICODE",
+        "query_text": "পণ্যের আকর্ষণীয় কিন্তু মিথ্যা বিজ্ঞাপন দিলে আইনের দৃষ্টিতে উহা কী ধরনের অপরাধ?",
+        "gold_provision_ids": [
+          "CRPA2009_S৪৫"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "CRPA2009_S৪৫",
+            "matched_id": "CRPA2009_S৪৫",
+            "in_corpus": true,
+            "record_language": "bn",
+            "act_title": "ভোক্তা-অধিকার সংরক্ষণ আইন, ২০০৯"
+          }
+        ]
+      },
+      {
+        "query_id": "BNCH_CONS_137_BN_UNICODE",
+        "query_text": "দোকানে বাটখারা বা ওজনে কারচুপি করিয়া পণ্য কম দিলে ক্রেতা কীভাবে প্রতিকার পাইবেন?",
+        "gold_provision_ids": [
+          "CRPA2009_S৪৬"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "CRPA2009_S৪৬",
+            "in_corpus": false,
+            "record_language": "NOT_IN_CORPUS"
+          }
+        ]
+      },
+      {
+        "query_id": "BNCH_CONT_165_BN_UNICODE",
+        "query_text": "বিনিময় বা প্রতিদান ছাড়া সম্পাদিত চুক্তি কি আইনের দৃষ্টিতে বাতিল বলিয়া গণ্য হইবে?",
+        "gold_provision_ids": [
+          "CA1872_S25"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "CA1872_S25",
+            "in_corpus": false,
+            "record_language": "NOT_IN_CORPUS"
+          }
+        ]
+      },
+      {
+        "query_id": "BNCH_CONT_169_BN_UNICODE",
+        "query_text": "১৮ বছরের কম বয়সী ব্যক্তির সহিত কোনো লিখিত চুক্তিপত্র সম্পাদিত হইলে উহা কেন বাতিল বলিয়া গণ্য হয়?",
+        "gold_provision_ids": [
+          "CA1872_S10",
+          "CA1872_S11"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "CA1872_S10",
+            "matched_id": "CA1872_S10",
+            "in_corpus": true,
+            "record_language": "en",
+            "act_title": "The Contract Act, 1872"
+          },
+          {
+            "gold_id": "CA1872_S11",
+            "matched_id": "CA1872_S11",
+            "in_corpus": true,
+            "record_language": "en",
+            "act_title": "The Contract Act, 1872"
+          }
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_069_BN_UNICODE",
+        "query_text": "বাংলাদেশ শ্রম আইন অনুযায়ী শ্রমিকের অবসর গ্রহণের বয়স কত এবং গ্র্যাচুইটি কীভাবে পাইবেন?",
+        "gold_provision_ids": [
+          "BLA2006_S২৭"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "BLA2006_S২৭",
+            "in_corpus": false,
+            "record_language": "NOT_IN_CORPUS"
+          }
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_073_BN_UNICODE",
+        "query_text": "শ্রমিক ফৌজদারি অপরাধে সাজাপ্রাপ্ত হইলে মালিক কি নোটিশ ব্যতিরেকে বরখাস্ত করিতে পারেন?",
+        "gold_provision_ids": [
+          "BLA2006_S২৩"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "BLA2006_S২৩",
+            "in_corpus": false,
+            "record_language": "NOT_IN_CORPUS"
+          }
+        ]
+      },
+      {
+        "query_id": "BNCH_EMPL_085_BN_UNICODE",
+        "query_text": "পাঁচ বছর চাকরির পর শ্রমিক স্বেচ্ছায় পদত্যাগ করিলে কি কোনো ক্ষতিপূরণ পাইবেন?",
+        "gold_provision_ids": [
+          "BLA2006_S২৭"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "BLA2006_S২৭",
+            "in_corpus": false,
+            "record_language": "NOT_IN_CORPUS"
+          }
+        ]
+      },
+      {
+        "query_id": "BNCH_LAND_001_BN_UNICODE",
+        "query_text": "বাড়িওয়ালা কি ইচ্ছামত ভাড়া বাড়িয়ে আমাকে বাড়ি থেকে উচ্ছেদ করতে পারবে?",
+        "gold_provision_ids": [
+          "PRCA1991_S18",
+          "PRCA1991_S13"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "PRCA1991_S18",
+            "matched_id": "PRCA1991_S১৮",
+            "in_corpus": true,
+            "numeral_normalized": true,
+            "record_language": "bn",
+            "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+          },
+          {
+            "gold_id": "PRCA1991_S13",
+            "matched_id": "PRCA1991_S১৩",
+            "in_corpus": true,
+            "numeral_normalized": true,
+            "record_language": "bn",
+            "act_title": "বাড়ি ভাড়া নিয়ন্ত্রণ আইন, ১৯৯১"
+          }
+        ]
+      },
+      {
+        "query_id": "BNCH_LAND_009_BN_UNICODE",
+        "query_text": "ভাড়াটিয়া ভাড়া প্রদান করিলে বাড়িওয়ালার কি লিখিত রশিদ প্রদান করার বাধ্যবাধকতা আছে?",
+        "gold_provision_ids": [
+          "PRCA1991_S19"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "PRCA1991_S19",
+            "in_corpus": false,
+            "record_language": "NOT_IN_CORPUS"
+          }
+        ]
+      },
+      {
+        "query_id": "BNCH_LAND_021_BN_UNICODE",
+        "query_text": "সম্পত্তি বিক্রয়ের চুক্তি অনুসারে দখল পাইলে ক্রেতাকে কি বিক্রেতা বেদখল করিতে পারে?",
+        "gold_provision_ids": [
+          "TPA1882_S53A"
+        ],
+        "gold_details": [
+          {
+            "gold_id": "TPA1882_S53A",
+            "in_corpus": false,
+            "record_language": "NOT_IN_CORPUS"
+          }
+        ]
+      }
+    ],
+    "corpus_language_distribution": {
+      "records_marked_bn": [
+        "CRPA2009_S১",
+        "CRPA2009_S৩৭",
+        "CRPA2009_S৪৫",
+        "BLA2006_S১",
+        "BLA2006_S২০",
+        "BLA2006_S২৬",
+        "BLAA2013_S১",
+        "BLAA2013_S৭",
+        "PRCA1991_S১",
+        "PRCA1991_S১৩",
+        "PRCA1991_S১৮"
+      ],
+      "records_marked_en": [
+        "CA1872_S1",
+        "CA1872_S2",
+        "CA1872_S10",
+        "CA1872_S11",
+        "TPA1882_S54",
+        "TPA1882_S106"
+      ],
+      "total_bengali_characters_in_corpus": 1425,
+      "total_latin_characters_in_corpus": 1672,
+      "bangla_text_exists_in_corpus": true
+    }
+  },
+  "item_6_banglish_dictionary_provenance": {
+    "dictionary_definition_locations": [
+      "scripts/run_retrieval_ablation.py: BANGLISH_LEGAL_EXPANSION (lines 39-59)",
+      "scripts/run_frozen_eval.py: BANGLISH_LEGAL_EXPANSION (lines 35-55)",
+      "src/pipeline.py: BANGLISH_KEYWORDS (lines 42-50)"
+    ],
+    "total_dictionary_terms": 19,
+    "dictionary_terms": [
+      "bariwala",
+      "bedokhol",
+      "bhara",
+      "bhejal",
+      "borghasto",
+      "chador",
+      "chukti",
+      "deed",
+      "dokan",
+      "dokandar",
+      "jomi",
+      "meyad",
+      "notice",
+      "ovijog",
+      "shasti",
+      "shromik",
+      "sthabor",
+      "vara",
+      "vejal"
+    ],
+    "dictionary_provenance_disclosure": "The Banglish legal expansion dictionary was manually authored during Week 4 research as a rule-based phonetic expansion table mapping common colloquial Banglish tokens (e.g., 'chukti', 'shromik', 'bhara', 'jomi', 'borkhasto') to Bengali Unicode and English legal equivalents. However, empirical analysis confirms substantial token overlap with both dev and test query text.",
+    "overlap_with_dev_queries": [
+      "bariwala",
+      "bedokhol",
+      "bhara",
+      "chukti",
+      "jomi",
+      "notice",
+      "shasti"
+    ],
+    "overlap_with_dev_count": 7,
+    "overlap_with_test_queries": [
+      "deed",
+      "jomi",
+      "notice",
+      "shasti"
+    ],
+    "overlap_with_test_count": 4,
+    "overlap_with_both_splits": [
+      "jomi",
+      "notice",
+      "shasti"
+    ],
+    "test_queries_containing_expansion_tokens": [
+      {
+        "query_id": "BNCH_LAND_015_EN",
+        "language_and_script": "en",
+        "matched_terms": [
+          "notice"
+        ],
+        "query_text": "How many days notice is required to terminate an immovable property lease without written contract?"
+      },
+      {
+        "query_id": "BNCH_EMPL_075_EN",
+        "language_and_script": "en",
+        "matched_terms": [
+          "notice"
+        ],
+        "query_text": "Can an employer dismiss a worker without notice if the worker is convicted of a criminal offense?"
+      },
+      {
+        "query_id": "BNCH_CONS_134_BANGLISH",
+        "language_and_script": "banglish",
+        "matched_terms": [
+          "shasti"
+        ],
+        "query_text": "Packet e price na likhe overprice e sell korle double offense e ki shasti hoy?"
+      },
+      {
+        "query_id": "BNCH_LAND_006_BANGLISH",
+        "language_and_script": "banglish",
+        "matched_terms": [
+          "deed",
+          "jomi"
+        ],
+        "query_text": "Jomi ba flat sell korle deed registration kora ki mandatory?"
+      },
+      {
+        "query_id": "BNCH_LAND_007_EN",
+        "language_and_script": "en",
+        "matched_terms": [
+          "deed"
+        ],
+        "query_text": "Is registration of a deed mandatory to transfer ownership of immovable property?"
+      },
+      {
+        "query_id": "BNCH_EMPL_063_EN",
+        "language_and_script": "en",
+        "matched_terms": [
+          "notice"
+        ],
+        "query_text": "How many days notice or compensation must an employer provide to terminate a permanent worker?"
+      }
+    ]
+  }
+}

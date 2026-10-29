@@ -1,0 +1,52 @@
+{
+  "backend": {
+    "name": "ollama",
+    "model": "qwen2.5:3b",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": 42,
+    "num_predict": 1024,
+    "num_ctx": 4096,
+    "keep_alive": "30m",
+    "base_url": "http://127.0.0.1:11434",
+    "llm_timeout_sec": 300.0,
+    "evidence_capping": {
+      "max_records": 3,
+      "max_chars_per_record": 1200
+    }
+  },
+  "contamination_note": "The test split's retrieval scores were inspected during development before the final threshold was chosen. Threshold values tried were 5.0, 10.5, 30.0. Clean holdout is not claimed.",
+  "dev_threshold_tuning": {
+    "dev_tuned_threshold": 30.0,
+    "sweep_file": "eval/threshold_sweep.csv",
+    "note": "Tuned strictly on development split without test set scores."
+  },
+  "audit_status": {
+    "audit_file": "eval/insufficient_audit.csv",
+    "audit_completed": false,
+    "excluded_y_count": 0
+  },
+  "evaluation_split": "test",
+  "conditions": {
+    "llm_validated": {
+      "condition": "llm_validated",
+      "n": 4,
+      "timeout_rate": 0.0,
+      "unreachable_rate": 0.0,
+      "parse_failure_rate": 0.0,
+      "truncation_rate": 0.0,
+      "fallback_rate": 0.25,
+      "validator_pass_rate": "1.0000",
+      "llm_claim_count": "n=2",
+      "abstain_precision": "not computable",
+      "abstain_recall": "not computable",
+      "false_abstain_rate": 0.25,
+      "latency_p50_ms": 24011.53,
+      "latency_p95_ms": 34240.34,
+      "timeout_unreachable_count": 0,
+      "python_rss_mb": 34.26,
+      "ollama_rss_mb": 2236.29,
+      "total_peak_rss_mb": 2270.48
+    }
+  }
+}

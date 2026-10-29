@@ -16,10 +16,81 @@ import logging
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict, Any, Optional
 
-from .config import LEAKAGE_PATTERN
+from .config import LEAKAGE_PATTERN, settings
 from .extractive import extractive_answer
 
 logger = logging.getLogger(__name__)
+
+
+def split_into_sentences(text: str) -> List[str]:
+    """
+    Splits text into sentences using Bengali and English sentence boundaries:
+    Bengali dari (।), double-dari (॥), dot (.), question mark (?), exclamation (!), or newlines.
+    Preserves delimiters and removes empty segments.
+    """
+    if not text:
+        return []
+    raw_sents = re.split(r"(?<=[।॥.!?\n])\s+", text.strip())
+    return [s.strip() for s in raw_sents if s.strip()]
+
+
+def resolve_claim_quote_from_index(
+    claim: Dict[str, Any],
+    evidence_records: List[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """
+    Extracts quote from stored evidence record using evidence_id and sentence_index (e.g., 'E1:S2').
+    Making quote verbatim by construction.
+    """
+    updated = dict(claim)
+    raw_ref = str(claim.get("citation") or claim.get("evidence_id") or "").strip()
+    if not raw_ref and claim.get("evidence_ids"):
+        raw_ref = str(claim.get("evidence_ids")[0]).strip()
+
+    e_idx: Optional[int] = None
+    s_idx: Optional[int] = None
+
+    # Check compound patterns like 'E1:S2', 'E1:2', '[E1:S2]'
+    m_compound = re.search(r"E(\d+)\s*:\s*S?(\d+)", raw_ref, re.IGNORECASE)
+    if m_compound:
+        e_idx = int(m_compound.group(1))
+        s_idx = int(m_compound.group(2))
+    elif "sentence_index" in claim and claim.get("sentence_index") is not None:
+        m_e = re.search(r"E(\d+)", raw_ref, re.IGNORECASE)
+        if m_e:
+            e_idx = int(m_e.group(1))
+            try:
+                s_idx = int(str(claim["sentence_index"]).lstrip("Ss"))
+            except ValueError:
+                pass
+    elif claim.get("sentence_id") is not None:
+        m_e = re.search(r"E(\d+)", raw_ref, re.IGNORECASE)
+        if m_e:
+            e_idx = int(m_e.group(1))
+            try:
+                s_idx = int(str(claim["sentence_id"]).lstrip("Ss"))
+            except ValueError:
+                pass
+
+    if e_idx is None or s_idx is None:
+        return updated
+
+    if 1 <= e_idx <= len(evidence_records):
+        target_rec = evidence_records[e_idx - 1]
+        rec_text = target_rec.get("text", "")
+        sents = split_into_sentences(rec_text)
+        if 1 <= s_idx <= len(sents):
+            extracted_sentence = sents[s_idx - 1]
+            updated["quote"] = extracted_sentence
+            updated["evidence_ids"] = [f"E{e_idx}"]
+            updated["_verbatim_by_construction"] = True
+            updated["_extracted_sentence_idx"] = s_idx
+        else:
+            updated["_index_error"] = f"Sentence index S{s_idx} out of range (max S{len(sents)})"
+    else:
+        updated["_index_error"] = f"Evidence index E{e_idx} out of range (max E{len(evidence_records)})"
+
+    return updated
 
 
 def normalize_for_quote_match(text: str) -> str:
@@ -126,12 +197,25 @@ def validate(
     rejection_log: List[Dict[str, Any]] = []
 
     for c_idx, claim in enumerate(raw_claims):
-        claim_text = claim.get("text", "").strip()
-        e_ids = claim.get("evidence_ids", [])
-        quote = claim.get("quote", "").strip()
+        # Resolve sentence index citation if active or if citation string matches index format
+        has_index_ref = bool(re.search(r"E\d+\s*:\s*S?\d+", str(claim.get("citation") or claim.get("evidence_id") or ""))) or ("sentence_index" in claim and claim.get("sentence_index") is not None)
+        if settings.use_sentence_index_citations or has_index_ref:
+            claim_proc = resolve_claim_quote_from_index(claim, evidence_records)
+        else:
+            claim_proc = dict(claim)
+
+        claim_text = claim_proc.get("text", "").strip()
+        e_ids = claim_proc.get("evidence_ids", [])
+        quote = claim_proc.get("quote", "").strip()
+        is_verbatim_constructed = claim_proc.get("_verbatim_by_construction", False)
 
         rejection_reasons: List[str] = []
-        flags: List[str] = []
+        flags: List[str] = list(claim_proc.get("flags", []))
+        if is_verbatim_constructed:
+            flags.append("verbatim_by_construction")
+
+        if claim_proc.get("_index_error"):
+            rejection_reasons.append(claim_proc["_index_error"])
 
         # Check: Scan claim text for forbidden leakage patterns
         if LEAKAGE_PATTERN.search(claim_text):
@@ -157,12 +241,12 @@ def validate(
             db_url = matched_rec.get("source_url") or matched_rec.get("source_file", "")
             db_rid = matched_rec.get("record_id") or matched_rec.get("provision_id", "")
 
-            model_sec = claim.get("section_id") or claim.get("section_number")
+            model_sec = claim_proc.get("section_id") or claim_proc.get("section_number")
             if model_sec is not None and str(model_sec).strip() != db_sec:
                 flags.append(f"model_emitted_wrong_section: model={model_sec}, db={db_sec}")
                 logger.warning(f"Model-emitted wrong section flagged: model={model_sec}, db={db_sec}")
 
-            model_url = claim.get("source_url")
+            model_url = claim_proc.get("source_url")
             if model_url is not None and str(model_url).strip() != db_url:
                 flags.append(f"model_emitted_url_ignored: {model_url}")
 
@@ -179,26 +263,29 @@ def validate(
         # Check c: Quote substring and length verification
         match_type = "fail"
         if matched_rec and quote:
-            norm_quote = normalize_for_quote_match(quote)
-            # Minimum quote length: >= 20 chars after normalization
-            if len(norm_quote) < 20:
-                match_type = "fail"
-                rejection_reasons.append(
-                    f"Quote too short ({len(norm_quote)} chars after normalization, minimum is 20)"
-                )
+            if is_verbatim_constructed:
+                match_type = "exact"
             else:
-                rec_text = matched_rec.get("text", "")
-                if quote in rec_text:
-                    match_type = "exact"
+                norm_quote = normalize_for_quote_match(quote)
+                # Minimum quote length: >= 20 chars after normalization
+                if len(norm_quote) < 20:
+                    match_type = "fail"
+                    rejection_reasons.append(
+                        f"Quote too short ({len(norm_quote)} chars after normalization, minimum is 20)"
+                    )
                 else:
-                    norm_rec = normalize_for_quote_match(rec_text)
-                    if norm_quote in norm_rec:
-                        match_type = "normalized"
+                    rec_text = matched_rec.get("text", "")
+                    if quote in rec_text:
+                        match_type = "exact"
                     else:
-                        match_type = "fail"
-                        rejection_reasons.append(
-                            "Quote is not an exact or normalized substring of cited passage"
-                        )
+                        norm_rec = normalize_for_quote_match(rec_text)
+                        if norm_quote in norm_rec:
+                            match_type = "normalized"
+                        else:
+                            match_type = "fail"
+                            rejection_reasons.append(
+                                "Quote is not an exact or normalized substring of cited passage"
+                            )
         elif matched_rec and not quote:
             rejection_reasons.append("Claim missing required quote")
 
