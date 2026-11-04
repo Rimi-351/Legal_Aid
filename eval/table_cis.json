@@ -1,0 +1,156 @@
+{
+  "metadata": {
+    "description": "Bootstrap 95% confidence intervals (10,000 resamples, seed=42) for retrieval tables",
+    "corpus_size": 17,
+    "n_answerable": 30,
+    "n_gold_present": 15
+  },
+  "table_a_all_30": {
+    "Random Ranking Baseline": {
+      "mrr_10": 0.1398,
+      "recall_5": 0.1373,
+      "recall_10": 0.2745,
+      "ndcg_10": 0.1373
+    },
+    "BM25 Word Baseline": {
+      "mrr_10": 0.2,
+      "mrr_10_ci95": [
+        0.0667,
+        0.3667
+      ],
+      "recall_5": 0.2,
+      "recall_5_ci95": [
+        0.0667,
+        0.3667
+      ],
+      "recall_10": 0.2,
+      "recall_10_ci95": [
+        0.0667,
+        0.3667
+      ],
+      "ndcg_10": 0.1973,
+      "ndcg_10_ci95": [
+        0.0667,
+        0.3586
+      ]
+    },
+    "BM25 Char 3-Gram (Production)": {
+      "mrr_10": 0.2375,
+      "mrr_10_ci95": [
+        0.1,
+        0.4
+      ],
+      "recall_5": 0.2333,
+      "recall_5_ci95": [
+        0.1,
+        0.4
+      ],
+      "recall_10": 0.2667,
+      "recall_10_ci95": [
+        0.1333,
+        0.4333
+      ],
+      "ndcg_10": 0.2398,
+      "ndcg_10_ci95": [
+        0.1,
+        0.3959
+      ]
+    },
+    "BM25 Banglish Expanded": {
+      "mrr_10": 0.2431,
+      "mrr_10_ci95": [
+        0.1056,
+        0.4042
+      ],
+      "recall_5": 0.2333,
+      "recall_5_ci95": [
+        0.1,
+        0.4
+      ],
+      "recall_10": 0.3,
+      "recall_10_ci95": [
+        0.1333,
+        0.4667
+      ],
+      "ndcg_10": 0.2516,
+      "ndcg_10_ci95": [
+        0.1105,
+        0.4064
+      ]
+    }
+  },
+  "table_b_gold_present_15": {
+    "Random Ranking Baseline": {
+      "mrr_10": 0.2797,
+      "recall_5": 0.2745,
+      "recall_10": 0.549,
+      "ndcg_10": 0.2745
+    },
+    "BM25 Word Baseline": {
+      "mrr_10": 0.4,
+      "mrr_10_ci95": [
+        0.1333,
+        0.6667
+      ],
+      "recall_5": 0.4,
+      "recall_5_ci95": [
+        0.1333,
+        0.6667
+      ],
+      "recall_10": 0.4,
+      "recall_10_ci95": [
+        0.1333,
+        0.6667
+      ],
+      "ndcg_10": 0.3946,
+      "ndcg_10_ci95": [
+        0.1333,
+        0.656
+      ]
+    },
+    "BM25 Char 3-Gram (Production)": {
+      "mrr_10": 0.475,
+      "mrr_10_ci95": [
+        0.2167,
+        0.7333
+      ],
+      "recall_5": 0.4667,
+      "recall_5_ci95": [
+        0.2,
+        0.7333
+      ],
+      "recall_10": 0.5333,
+      "recall_10_ci95": [
+        0.2667,
+        0.8
+      ],
+      "ndcg_10": 0.4795,
+      "ndcg_10_ci95": [
+        0.2421,
+        0.7251
+      ]
+    },
+    "BM25 Banglish Expanded": {
+      "mrr_10": 0.4861,
+      "mrr_10_ci95": [
+        0.2361,
+        0.7417
+      ],
+      "recall_5": 0.4667,
+      "recall_5_ci95": [
+        0.2,
+        0.7333
+      ],
+      "recall_10": 0.6,
+      "recall_10_ci95": [
+        0.3333,
+        0.8667
+      ],
+      "ndcg_10": 0.5033,
+      "ndcg_10_ci95": [
+        0.2667,
+        0.7407
+      ]
+    }
+  }
+}
