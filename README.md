@@ -31,11 +31,11 @@ Legal Aid BD is an academic research prototype evaluating cross-script, multilin
 <table>
   <thead>
     <tr>
-      <th width="20%">Feature / Component</th>
+      <th width="18%">Feature / Component</th>
       <th width="8%">Implemented</th>
-      <th width="20%">Tested On What</th>
-      <th width="20%">Evidence File</th>
-      <th width="32%">Operational Status</th>
+      <th width="18%">Tested On What</th>
+      <th width="18%">Evidence File</th>
+      <th width="38%">Operational Status</th>
     </tr>
   </thead>
   <tbody>
