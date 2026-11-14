@@ -28,28 +28,149 @@ Legal Aid BD is an academic research prototype evaluating cross-script, multilin
 
 ## 2. System Features & Implementation Status
 
-| Feature / Component | Implemented | Tested On What | Evidence File | Operational Status |
-| :--- | :---: | :--- | :--- | :--- |
-| **BM25 Word Baseline** | YES | Held-out test split (n=30 answerable) | `eval/frozen_retrieval_metrics.json`, `eval/table_cis.json` | **Experimental** (per-condition CIs overlap random baseline; at R@10 Word/Char are at or below random since top-10 covers 59% of a 17-provision corpus; n=15) |
-| **Char N-Gram BM25 (Production)**| YES | Held-out test split (n=30 answerable) | `eval/frozen_retrieval_metrics.json`, `eval/table_cis.json` | **Experimental** (per-condition CIs overlap random baseline; at R@10 Word/Char are at or below random since top-10 covers 59% of a 17-provision corpus; n=15) |
-| **Banglish Query Expansion** | YES | Held-out test split (n=4 Banglish queries) | `eval/frozen_retrieval_metrics.json`, `eval/table_cis.json` | **Experimental** (tiny sample size n=4; not significantly better) |
-| **Dense Retrieval (E5 / BGE-M3)** | YES | Exploratory feasibility scripts (not on test split)| `experiments/day3_embedding_feasibility.md` | **Experimental / Provisional** (unselected) |
-| **Cross-Encoder Reranker** | NO | Deferred due to CPU latency budget | `configs/production_retrieval.yaml` | **Not Implemented / Deferred** |
-| **Extractive Answer Generation** | YES | Held-out test split (n=42) | `eval/eval_summary.json` | **Validated** (on fixture corpus N=17) |
-| **Local LLM Answer (`qwen2.5:3b`)**| YES | Held-out test split (n=42) | `eval/eval_summary.json` | **Experimental** (high latency 21-35s, 26-60% fallback) |
-| **Citation Validator** | YES | Held-out test split (n=42 queries) | `eval/eval_summary.json`, `tests/test_quote_path.py` | **Validated** (exact substring containment gate) |
-| **Abstention Gate (T=30.0)** | YES | Test split scores inspected prior to choice| `eval/eval_summary.json`, `eval/threshold_sweep.csv` | **Experimental** (no clean holdout) |
-| **Temporal Versioning (`as_of_date`)**| YES | Synthetic unit tests (`tests/test_versions.py`)| `eval/version_audit.csv` | **Experimental** (0 of 19 provisions verified) |
-| **Clause Extraction (PDF / DOCX)** | YES | 3 synthetic document fixtures | `tests/fixtures/synthetic_commercial_lease.pdf` | **Experimental** (synthetic fixtures only) |
-| **OCR for Scanned Documents** | NO | Quarantines low-quality text; no Tesseract| `src/ingestion/parser.py`, `eval/diagnosis.json` | **Not Implemented** |
-| **Single-Clause Review** | YES | Synthetic fixtures and heuristic rules | `tests/test_review.py` | **Experimental** (synthetic rules/fixtures) |
-| **Document Isolation & Deletion** | YES | Directory sandboxing and unit tests | `tests/test_review.py`, `tests/test_security_edges.py` | **Resolved**: Multi-tenant path traversal sanitized with strict regex identifier checks, filename basename reduction, mandatory allowed extension validation, and `is_relative_to` boundary verification. |
-| **FastAPI Endpoint (`/ask`)** | YES | Synthetic unit tests (`tests/test_rag.py`) | `src/rag/api.py`, `tests/test_rag.py` | **Experimental** (no auth, unverified under load) |
-| **Streamlit UI** | YES | Synthetic component tests & manual checklist| `tests/test_ui.py`, `docs/ui_manual_check.md` | **Experimental** (no human user study) |
-| **Multilingual Pipeline** | YES | 36 paired cross-language queries | `scripts/eval_paired_languages.py` | **Experimental** (0.0000 BN-EN overlap - possible metric artifact (record_id vs (act, section)), unverified) |
-| **Voice Interface** | NO | Not present in codebase | None | **Not Implemented** |
+
+<table>
+  <thead>
+    <tr>
+      <th width="18%">Feature / Component</th>
+      <th width="8%">Implemented</th>
+      <th width="18%">Tested On What</th>
+      <th width="18%">Evidence File</th>
+      <th width="38%">Operational Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>BM25 Word Baseline</b></td>
+      <td align="center">YES</td>
+      <td>Held-out test split (n=30 answerable)</td>
+      <td><code>eval/frozen_retrieval_metrics.json</code>, <code>eval/table_cis.json</code></td>
+      <td><b>Experimental</b> (per-condition CIs overlap random baseline; at R@10 Word/Char are at or below random since top-10 covers 59% of a 17-provision corpus; n=15)</td>
+    </tr>
+    <tr>
+      <td><b>Char N-Gram BM25 (Production)</b></td>
+      <td align="center">YES</td>
+      <td>Held-out test split (n=30 answerable)</td>
+      <td><code>eval/frozen_retrieval_metrics.json</code>, <code>eval/table_cis.json</code></td>
+      <td><b>Experimental</b> (per-condition CIs overlap random baseline; at R@10 Word/Char are at or below random since top-10 covers 59% of a 17-provision corpus; n=15)</td>
+    </tr>
+    <tr>
+      <td><b>Banglish Query Expansion</b></td>
+      <td align="center">YES</td>
+      <td>Held-out test split (n=4 Banglish queries)</td>
+      <td><code>eval/frozen_retrieval_metrics.json</code>, <code>eval/table_cis.json</code></td>
+      <td><b>Experimental</b> (tiny sample size n=4; not significantly better)</td>
+    </tr>
+    <tr>
+      <td><b>Dense Retrieval (E5 / BGE-M3)</b></td>
+      <td align="center">YES</td>
+      <td>Exploratory feasibility scripts (not on test split)</td>
+      <td><code>experiments/day3_embedding_feasibility.md</code></td>
+      <td><b>Experimental / Provisional</b> (unselected)</td>
+    </tr>
+    <tr>
+      <td><b>Cross-Encoder Reranker</b></td>
+      <td align="center">NO</td>
+      <td>Deferred due to CPU latency budget</td>
+      <td><code>configs/production_retrieval.yaml</code></td>
+      <td><b>Not Implemented / Deferred</b></td>
+    </tr>
+    <tr>
+      <td><b>Extractive Answer Generation</b></td>
+      <td align="center">YES</td>
+      <td>Held-out test split (n=42)</td>
+      <td><code>eval/eval_summary.json</code></td>
+      <td><b>Validated</b> (on fixture corpus N=17)</td>
+    </tr>
+    <tr>
+      <td><b>Local LLM Answer (<code>qwen2.5:3b</code>)</b></td>
+      <td align="center">YES</td>
+      <td>Held-out test split (n=42)</td>
+      <td><code>eval/eval_summary.json</code></td>
+      <td><b>Experimental</b> (high latency 21-35s, 26-60% fallback)</td>
+    </tr>
+    <tr>
+      <td><b>Citation Validator</b></td>
+      <td align="center">YES</td>
+      <td>Held-out test split (n=42 queries)</td>
+      <td><code>eval/eval_summary.json</code>, <code>tests/test_quote_path.py</code></td>
+      <td><b>Validated</b> (exact substring containment gate)</td>
+    </tr>
+    <tr>
+      <td><b>Abstention Gate (T=30.0)</b></td>
+      <td align="center">YES</td>
+      <td>Test split scores inspected prior to choice</td>
+      <td><code>eval/eval_summary.json</code>, <code>eval/threshold_sweep.csv</code></td>
+      <td><b>Experimental</b> (no clean holdout)</td>
+    </tr>
+    <tr>
+      <td><b>Temporal Versioning (<code>as_of_date</code>)</b></td>
+      <td align="center">YES</td>
+      <td>Synthetic unit tests (<code>tests/test_versions.py</code>)</td>
+      <td><code>eval/version_audit.csv</code></td>
+      <td><b>Experimental</b> (0 of 19 provisions verified)</td>
+    </tr>
+    <tr>
+      <td><b>Clause Extraction (PDF / DOCX)</b></td>
+      <td align="center">YES</td>
+      <td>3 synthetic document fixtures</td>
+      <td><code>tests/fixtures/synthetic_commercial_lease.pdf</code></td>
+      <td><b>Experimental</b> (synthetic fixtures only)</td>
+    </tr>
+    <tr>
+      <td><b>OCR for Scanned Documents</b></td>
+      <td align="center">NO</td>
+      <td>Quarantines low-quality text; no Tesseract</td>
+      <td><code>src/ingestion/parser.py</code>, <code>eval/diagnosis.json</code></td>
+      <td><b>Not Implemented</b></td>
+    </tr>
+    <tr>
+      <td><b>Single-Clause Review</b></td>
+      <td align="center">YES</td>
+      <td>Synthetic fixtures and heuristic rules</td>
+      <td><code>tests/test_review.py</code></td>
+      <td><b>Experimental</b> (synthetic rules/fixtures)</td>
+    </tr>
+    <tr>
+      <td><b>Document Isolation & Deletion</b></td>
+      <td align="center">YES</td>
+      <td>Directory sandboxing and unit tests</td>
+      <td><code>tests/test_review.py</code>, <code>tests/test_security_edges.py</code></td>
+      <td><b>Experimental</b> (synthetic unit tests; path-traversal and cross-tenant defects SEC-1..SEC-8 fixed, see <code>docs/VERIFICATION_REPORT.md</code>)</td>
+    </tr>
+    <tr>
+      <td><b>FastAPI Endpoint (<code>/ask</code>)</b></td>
+      <td align="center">YES</td>
+      <td>Synthetic unit tests (<code>tests/test_rag.py</code>)</td>
+      <td><code>src/rag/api.py</code>, <code>tests/test_rag.py</code></td>
+      <td><b>Experimental</b> (no auth, unverified under load)</td>
+    </tr>
+    <tr>
+      <td><b>Streamlit UI</b></td>
+      <td align="center">YES</td>
+      <td>Synthetic component tests & manual checklist</td>
+      <td><code>tests/test_ui.py</code>, <code>docs/ui_manual_check.md</code></td>
+      <td><b>Experimental</b> (no human user study)</td>
+    </tr>
+    <tr>
+      <td><b>Multilingual Pipeline</b></td>
+      <td align="center">YES</td>
+      <td>36 paired cross-language queries</td>
+      <td><code>scripts/eval_paired_languages.py</code></td>
+      <td><b>Experimental</b> (0.0000 BN-EN overlap - possible metric artifact (record_id vs (act, section)), unverified)</td>
+    </tr>
+    <tr>
+      <td><b>Voice Interface</b></td>
+      <td align="center">NO</td>
+      <td>Not present in codebase</td>
+      <td>None</td>
+      <td><b>Not Implemented</b></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
+
 
 ## 3. Hardware Constraints & Environment
 
@@ -73,8 +194,8 @@ python -m venv .venv
 pip install -r requirements.txt
 
 # 3. Install test and developer dependencies (required to run the test suite)
-pip install --extra-index-url https://download.pytorch.org/whl/cpu -r requirements-dev.txt
-
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements-dev.txt
 # 4. Optional: Install dense vector & experiment dependencies (pgvector, sentence-transformers)
 # Note: PostgreSQL and pgvector are NOT prerequisites for core BM25 retrieval, the FastAPI API,
 # or the Streamlit UI. They are only required for pgvector dense experiments and scripts/w0_check_env_and_pgvector.py.
