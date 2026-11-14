@@ -28,6 +28,7 @@ Legal Aid BD is an academic research prototype evaluating cross-script, multilin
 
 ## 2. System Features & Implementation Status
 
+
 <table>
   <thead>
     <tr>
@@ -134,8 +135,8 @@ Legal Aid BD is an academic research prototype evaluating cross-script, multilin
       <td><b>Document Isolation & Deletion</b></td>
       <td align="center">YES</td>
       <td>Directory sandboxing and unit tests</td>
-      <td><code>tests/test_review.py</code></td>
-      <td><b>Experimental</b> (synthetic unit tests only)</td>
+      <td><code>tests/test_review.py</code>, <code>tests/test_security_edges.py</code></td>
+      <td><b>Experimental</b> (synthetic unit tests; path-traversal and cross-tenant defects SEC-1..SEC-8 fixed, see <code>docs/VERIFICATION_REPORT.md</code>)</td>
     </tr>
     <tr>
       <td><b>FastAPI Endpoint (<code>/ask</code>)</b></td>
@@ -168,13 +169,17 @@ Legal Aid BD is an academic research prototype evaluating cross-script, multilin
   </tbody>
 </table>
 
+---
+
+
 ## 3. Hardware Constraints & Environment
 
 - **OS**: Microsoft Windows 11 Pro 64-bit (Build 10.0.26300, verified via systeminfo)
 - **RAM**: 15.6 GB Physical (~8 GB available idle, verified via psutil)
 - **CPU**: 4 physical cores / 4 logical threads (verified via psutil)
 - **GPU**: Intel Iris Plus Graphics (No discrete NVIDIA GPU; CPU-only PyTorch)
-- **Python**: 3.13.5 (64-bit, verified via python --version)
+- **Python (Dev Runtime)**: 3.13.5 (64-bit, verified via `python --version`)
+- **Python (CI Target)**: 3.11 (enforced by `.github/workflows/ci.yml` on GitHub Actions)
 - **Memory Safety Ceiling**: Total process RSS $\le 11.5\text{ GB}$
 - **Local Model Backend**: Ollama runtime serving `qwen2.5:3b`
 - **Tesseract OCR**: Not installed; scanned documents are quarantined
@@ -185,14 +190,26 @@ Legal Aid BD is an academic research prototype evaluating cross-script, multilin
 python -m venv .venv
 .venv\Scripts\activate  # On Linux/macOS: source .venv/bin/activate
 
-# 2. Install dependencies
+# 2. Install runtime dependencies (BM25, FastAPI, Streamlit UI)
 pip install -r requirements.txt
 
-# 3. Pull required local model weights via Ollama
+# 3. Install test and developer dependencies (required to run the test suite)
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements-dev.txt
+# 4. Optional: Install dense vector & experiment dependencies (pgvector, sentence-transformers)
+# Note: PostgreSQL and pgvector are NOT prerequisites for core BM25 retrieval, the FastAPI API,
+# or the Streamlit UI. They are only required for pgvector dense experiments and scripts/w0_check_env_and_pgvector.py.
+pip install -r requirements-experiments.txt
+
+# 5. Pull required local model weights via Ollama (only needed for llm/llm_validated modes)
 ollama pull qwen2.5:3b
 ```
 
-*Note on Packages*: `rank-bm25` is not required as a custom in-memory subword BM25 engine is implemented directly in `src/retrieval/bm25.py`. PDF text extraction uses `pypdf 6.16.2`.
+> [!NOTE]
+> The development environment runs Python **3.13.5** (Windows 11). The GitHub Actions CI workflow (`ci.yml`) enforces **Python 3.11** to verify cross-version compatibility. The test suite is compatible with both.
+
+
+*Note on Packages*: `rank-bm25` is an optional reference dependency; a custom in-memory subword BM25 engine is implemented directly in `src/retrieval/bm25.py`. PDF text extraction uses `pypdf 6.16.2`. PostgreSQL/pgvector is only needed for dense database benchmarks.
 
 ---
 
@@ -201,7 +218,7 @@ ollama pull qwen2.5:3b
 ### 4.1 CLI Pipeline Execution
 Run statutory question answering using the verified functional entry point:
 ```bash
-# Extractive summarization mode (verified in audit: 23.55 ms latency)
+# Extractive summarization mode (verified in audit)
 python src/pipeline.py "Is registration of a deed mandatory to transfer ownership of immovable property?" --mode extractive
 
 # Validated generative mode (not verified in audit; calls local LLM)
@@ -238,10 +255,10 @@ streamlit run app/ui.py --server.address 127.0.0.1 --server.port 8501
 *Host Binding Security*: The web interface binds strictly to `127.0.0.1`. Binding to `0.0.0.0` is refused by default to prevent exposing an unauthenticated service. Binding to all interfaces requires setting `ALLOW_INSECURE_ALL_INTERFACES=1`.
 
 ### 4.4 Single-Clause Legal Document Review
-Review individual contract or tenancy clauses programmatically (function covered by `tests/test_review.py`; snippet not run as written):
+Review individual contract or tenancy clauses programmatically:
 ```python
 from src.review.extract import ExtractedClause
-from src.review.clause_review import review_single_clause
+from src.review.clause_review import review_clause
 
 clause = ExtractedClause(
     doc_id="doc_lease_001",
@@ -251,7 +268,7 @@ clause = ExtractedClause(
     char_end=120,
     text="The landlord may evict the tenant at any time without notice or assigning any reason."
 )
-findings = review_single_clause(clause, enable_llm=False)
+findings = review_clause(clause, use_llm=False)
 for finding in findings:
     print(f"Label: {finding.label}, Subject: {finding.apparent_subject}")
     print(f"Explanation: {finding.preliminary_explanation}")
@@ -262,9 +279,25 @@ for finding in findings:
 ## 5. Evaluation & Empirical Benchmark Results
 
 ### 5.1 Verification Commands
+
+> [!IMPORTANT]
+> **Pytest markers:** `pytest.ini` registers two markers:
+> - `model` — tests requiring real model weight downloads (E5, BGE-M3). Skip in CI.
+> - `live` — tests requiring a live Ollama daemon. Skip in CI.
+>
+> Always use the CI-safe command for environments without downloaded models:
+> ```bash
+> pytest -m "not model and not live" -rs
+> ```
+> **Verified counts (latest run):** 225 collected, 221 passed, 4 deselected (model tests), 0 failures.
+
 ```bash
-# 1. Run complete automated unit test suite (112 tests; verified in audit: 112 passed)
-pytest -q
+# 1. Run mock/unit test suite — safe for CI, no model downloads required
+#    (225 collected, 221 passed, 4 deselected [model], 0 failures)
+pytest -m "not model and not live" -rs
+
+# 1b. Run ALL tests including real model weight tests (requires E5/BGE-M3 download, ~1.4 GB)
+pytest -v
 
 # 2. Run frozen test split retrieval evaluation with 10,000 bootstrap resamples
 # (Plain scripts/run_frozen_eval.py requires a clean committed tree; it exited 1 on the dirty tree and was not run clean in the audit. Run with --allow-dirty when tree has uncommitted changes.)
@@ -343,6 +376,12 @@ Recomputed directly from `eval/outputs.jsonl` and reconciled with `eval/eval_sum
 
 ## 6. Known Limitations & Diagnostic Caveats
 
+> [!NOTE]
+> **Active bugs documented in `docs/VERIFICATION_REPORT.md`:**
+> - **SEC-1 (P1 — Security / CWE-22, RESOLVED):** Path traversal vulnerabilities in `DocumentStorage` (`save_document`, `_get_doc_dir`, `delete_document`, `save_derived_data`, `get_derived_data`) resolved via `_validate_id()` regex check, `Path(filename).name` reduction, mandatory allowed extension enforcement, and `is_relative_to(self.base_dir)` containment verification. Verified with dedicated regression tests in tests/test_security_edges.py.
+> - **B2 (P2 — Import Hygiene):** `src/retrieval/dense.py:102` — bare `torch.Tensor` annotation at class-definition time defeats the `try/except ImportError` guard, requiring `torch` even in mock-only test runs. CI workaround: install CPU-only torch. Fix: add `from __future__ import annotations`.
+> - **B3 (P3 — Silent Skip Gate):** `tests/test_rag.py:284,349` — missing `eval/outputs.jsonl` triggers `self.skipTest(...)` returning green exit code 0 instead of a gate failure. This masks missing evaluation artefacts in CI.
+
 1. **Uninterpretable Raw Generative Conditions Due to High Fallback**:
    In `llm_validated`, 26.19% of queries (11 of 42) fell back to extractive summarization because candidate claims failed string containment checks. In `llm_validated_noabstain`, fallback reached 59.52% (25 of 42). Metrics for these conditions largely reflect extractive fallback rather than pure generative fluency.
 2. **High False-Abstention Rate on Answerable Queries**:
@@ -361,6 +400,8 @@ Recomputed directly from `eval/outputs.jsonl` and reconciled with `eval/eval_sum
    Pure lexical retrieval between Bengali Unicode queries and English statutory text yields 0.0000 Jaccard token overlap on grounded scenarios (possible metric artifact [record_id vs (act, section)], unverified).
 9. **OCR and Voice Not Implemented**:
    Scanned PDFs lacking digital text layers are quarantined; raster image OCR and voice interfaces are not implemented.
+10. **Language-Segregated Corpus — Cross-Script Retrieval Not Evaluable**:
+   The corpus is language-segregated: English provisions cover CA1872 and TPA1882; Bengali provisions cover PRCA1991, BLA2006, CRPA2009, and BLAA2013. No provision exists in both languages. As a result, cross-script retrieval (e.g. an English query retrieving a Bengali provision) cannot be evaluated for correctness with this corpus, and the reported 0.0000 BN-EN overlap metric is expected given this structural absence. The BG-EN overlap metric measures agreement between two retrieval conditions, not correctness against a ground-truth standard.
 
 ---
 
@@ -407,7 +448,7 @@ Legal_Aid/
 │   ├── retrieval/                     # In-memory subword BM25 and temporal filter
 │   ├── review/                        # Multi-tenant document review and clause extraction
 │   └── schema/                        # Pydantic entity models and legal registry
-└── tests/                             # Pytest automated test suite (112 tests)
+└── tests/                             # Pytest automated test suite (225 tests collected: 221 passed, 4 deselected)
 ```
 
 ---

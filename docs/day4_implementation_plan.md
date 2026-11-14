@@ -1,6 +1,6 @@
 # Day 4 — Implementation Plan: Early Evaluation of Local Legal Answer Generation
 
-**Project:** Legal Aid BD (`E:\Projects\Legal_Aid`)  
+**Project:** Legal Aid BD (`repo root`)  
 **Phase:** Day 4 — Local Legal Answer Generation vs Extractive Baseline  
 **Target Environment:** Windows 11, 16 GB Physical RAM, Intel 4 CPU cores, CPU-only (No GPU).
 

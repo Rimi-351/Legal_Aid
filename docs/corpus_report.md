@@ -94,7 +94,7 @@ Two provisions in `data/processed/provisions.jsonl` are flagged with `quarantine
 
 ## 5. Legislative Provenance & Version Audit
 
-The statutory version audit conducted via `scripts/audit_versions.py` and output to [`eval/version_audit.csv`](file:///e:/Projects/Legal_Aid/eval/version_audit.csv) evaluated all provisions for amendment status, repeal relations, and official commencement gazette provenance:
+The statutory version audit conducted via `scripts/audit_versions.py` and output to [`eval/version_audit.csv`](../eval/version_audit.csv) evaluated all provisions for amendment status, repeal relations, and official commencement gazette provenance:
 
 ### 5.1 Version Audit Summary
 - **Total Provisions Audited**: 19 records.

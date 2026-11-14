@@ -40,6 +40,7 @@ venv.bak/
 *.swp
 *.swo
 
+
 # Large model weights and HuggingFace cache
 models/
 *.bin
@@ -69,3 +70,6 @@ data/raw/scanned_quarantine/
 # Large binary vector caches
 experiments/cache/
 *.npz
+
+.coverage
+*.tmp

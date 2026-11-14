@@ -144,8 +144,8 @@ uploads/
               ├── parsed_clauses.json
               └── analysis_result.json
 ```
-- Path traversal sequences (`../`, `..\\`) are resolved and rejected via `os.path.realpath()`.
-- Access outside the tenant directory raises `PermissionError("Unauthorized tenant access")`.
+- Path traversal sequences (`../`, `..\\`) and tenant-isolation defects (SEC-1..SEC-8) in `DocumentStorage` are fixed in commit `723c6ad` with regression tests in `tests/test_security_edges.py`.
+- Access outside the tenant directory raises `PermissionError("Unauthorized tenant access")` for read/delete operations, and upload sanitization enforces safe filename extraction and base-directory containment.
 
 ### 4.2 Cross-Tenant Enforcement & Recursive Purging
 - **Cross-Tenant Access**: Attempting to read, modify, or delete Tenant A's documents using Tenant B's credentials raises an explicit `PermissionError`.
@@ -183,7 +183,7 @@ Measured on local AMD64 CPU hardware (8 cores, 16 GB physical RAM) without dedic
 | **Okapi BM25 Retrieval** | **Validated** | Validated across 84 benchmark queries ($n=30$ test queries). Sub-millisecond execution. |
 | **Deterministic Citation Validator** | **Validated** | 100% precision on emitted claims across 42 test queries. Exact substring verification against corpus. |
 | **Extractive Answer Fallback** | **Validated** | Evaluated on 42 test queries; 0 hallucinations. Clean fallback when quotes fail. |
-| **Tenant Directory Isolation** | **Validated** | Verified by unit tests (`tests/test_review.py`). Path traversal defense, complete recursive deletion. |
+| **Tenant Directory Isolation** | **Experimental (synthetic unit tests only)** | Cross-tenant access, recursive deletion, and upload sanitization verified by unit and regression tests (`tests/test_review.py`, `tests/test_security_edges.py`). All path traversal and tenant-isolation defects (SEC-1..SEC-8) are resolved in commit `723c6ad`. |
 | **Metadata Audit Logging** | **Validated** | Cryptographic hash tracking without PII leakage. |
 | **Abstention Gate ($T=30.0$)** | **Experimental** | Threshold inspected on test split scores; clean holdout not claimed. |
 | **Multilingual Cross-Script Pipeline** | **Experimental** | Banglish evaluated on only $n=4$ queries; Bengali Unicode cross-script retrieval failure documented. |

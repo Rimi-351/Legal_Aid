@@ -115,7 +115,7 @@ Four distinct retrieval paradigms were evaluated against the 12 scenario-grouped
 ## 5. Automated Testing and Verification
 
 - **Unit Test Suite**: 25 automated unit tests implemented in `tests/test_ingestion.py`, `tests/test_bm25.py`, `tests/test_dense.py`, and `tests/test_experiment_tracking.py`.
-  - Execution result: **25 tests passed in 0.167 s (100% pass rate)**.
+  - Execution result: **25 tests passed (100% pass rate)**.
 - **Opt-In CPU Inference Smoke Test**: `scripts/smoke_test_dense_inference.py`.
   - Verified live model loading (3.49 s), CPU batch encoding (0.17 s for 2 documents), correct 768-dim tensor shape, and finite floating-point checks.
   - Peak process RSS: 836.38 MB (well within 11.5 GB limit).

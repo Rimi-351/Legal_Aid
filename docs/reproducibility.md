@@ -14,7 +14,7 @@ Can an independent researcher reproduce all retrieval benchmarks, citation valid
 Standard unreproducible scripts relying on unpinned Hugging Face commits, floating random seeds, or live unversioned web scrapers.
 
 ## 4. What Was Tested
-Complete end-to-end execution of the 8-week pipeline from ingestion to frozen test evaluation on Python 3.13 AMD64.
+Complete end-to-end execution of the 8-week pipeline from ingestion to frozen test evaluation on Python 3.13.5 AMD64 (Windows 11). GitHub Actions CI enforces **Python 3.11** (Ubuntu) — see `.github/workflows/ci.yml`.
 
 ## 5. Sources Used
 Corpus provisions (`data/processed/provisions.jsonl`), manifest digests (`data/manifests/processed_manifest.jsonl`), benchmark splits (`eval/split.json`), and freeze manifest (`eval/freeze_manifest.json`).
@@ -41,8 +41,13 @@ ollama pull qwen2.5:3b
 python -c "import hashlib, pathlib; assert pathlib.Path('eval/split.sha256').read_text().strip().split()[0] == hashlib.sha256(pathlib.Path('eval/split.json').read_bytes()).hexdigest(), 'Split hash mismatch!'"
 python scripts/run_frozen_eval.py --manifest eval/freeze_manifest.json
 
-# 5. Run complete test suite (97 tests covering Weeks 1 to 7)
-pytest -q
+# 5. Run mock/unit test suite — safe for CI, no model downloads required
+#    Verified counts: 225 collected, 221 passed, 4 deselected (model), 0 failures
+#    pytest.ini markers: `model` = needs real E5/BGE-M3 weights; `live` = needs Ollama daemon
+pytest -m "not model and not live" -rs
+
+# 5b. Run ALL tests (requires real model downloads ~1.4 GB and running Ollama daemon)
+pytest -v
 
 # 6. Run version auditing and generate eval/version_audit.csv
 python scripts/audit_versions.py
@@ -60,8 +65,12 @@ streamlit run app/ui.py --server.address 127.0.0.1
 ---
 
 ## 7. What Improved
-- 100% deterministic test suite execution (97/97 tests pass in ~32s).
+- 221 non-model tests pass (`pytest -m "not model and not live" -rs`); 225 total collected.
+- 4 tests deselected (real model weight tests via `@pytest.mark.model`); SEC-1 path-traversal bug fixed; regression tests pass.
 - Zero reliance on external paid APIs or proprietary models.
+
+> [!NOTE]
+> **CRLF hashes and cross-platform verification**: `eval/freeze_manifest.json` SHA-256 hashes were computed on CRLF line-ending files (Windows). `.gitattributes` pins `eol=crlf` for the five hashed files (`eval/split.json`, `data/processed/provisions.jsonl`, `data/manifests/processed_manifest.jsonl`, `data/manifests/query_manifest.jsonl`, `eval/freeze_manifest.json`) so that `git checkout` on Linux and macOS reproduces identical byte content and hash verification passes without modification.
 
 ## 8. What Failed
 - Running Streamlit with `--server.address 0.0.0.0` is strictly refused by the host security guard unless the insecure environment variable is explicitly supplied.
