@@ -1,0 +1,5 @@
+data/processed/provisions.jsonl text eol=crlf
+data/manifests/processed_manifest.jsonl text eol=crlf
+eval/split.json text eol=crlf
+data/benchmarks/benchmark_test.jsonl text eol=crlf
+data/benchmarks/benchmark_dev.jsonl text eol=crlf

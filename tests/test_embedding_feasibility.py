@@ -12,12 +12,14 @@ Verifies:
 """
 
 import unittest
+import pytest
 import numpy as np
 
 from scripts.eval_e5_feasibility import MultilingualE5Evaluator, PASSAGE_PREFIX, QUERY_PREFIX
 from scripts.eval_bge_m3_feasibility import BGEM3Evaluator
 
 
+@pytest.mark.model
 class TestEmbeddingFeasibility(unittest.TestCase):
 
     @classmethod
@@ -25,6 +27,7 @@ class TestEmbeddingFeasibility(unittest.TestCase):
         """Initialize evaluators for smoke testing."""
         cls.e5_evaluator = MultilingualE5Evaluator()
 
+    @pytest.mark.model
     def test_e5_embedding_shape_and_finiteness(self):
         """Verify E5 produces (N, 768) strictly finite unit-normalized embeddings."""
         sample_texts = [
@@ -47,6 +50,7 @@ class TestEmbeddingFeasibility(unittest.TestCase):
         for idx, norm in enumerate(norms):
             self.assertAlmostEqual(norm, 1.0, places=3, msg=f"Vector {idx} norm {norm} is not unit length.")
 
+    @pytest.mark.model
     def test_bge_m3_embedding_shape_and_finiteness(self):
         """Verify BGE-M3 produces (N, 1024) strictly finite unit-normalized embeddings."""
         bge_evaluator = BGEM3Evaluator()
@@ -69,6 +73,7 @@ class TestEmbeddingFeasibility(unittest.TestCase):
         for idx, norm in enumerate(norms):
             self.assertAlmostEqual(norm, 1.0, places=3, msg=f"Vector {idx} norm {norm} is not unit length.")
 
+    @pytest.mark.model
     def test_e5_prefix_distinction(self):
         """Verify that E5 produces distinct representations with and without required query/passage prefixes."""
         base_text = "What is the penalty if a seller sells goods without expiration date?"
