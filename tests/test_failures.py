@@ -244,9 +244,11 @@ class TestPipelineFailures(unittest.TestCase):
         # Successful verification on valid manifest with allow_dirty=True
         verify_freeze_manifest(Path("eval/freeze_manifest.json"), allow_dirty=True)
 
-        # Refuses when working tree is dirty and allow_dirty=False
-        with self.assertRaises(RuntimeError) as ctx_dirty:
-            verify_freeze_manifest(Path("eval/freeze_manifest.json"), allow_dirty=False)
+                # Refuses when working tree is dirty and allow_dirty=False (git state mocked)
+        from unittest import mock
+        with mock.patch("scripts.run_frozen_eval.check_git_status", return_value=(True, ["x.py"])):
+            with self.assertRaises(RuntimeError) as ctx_dirty:
+                verify_freeze_manifest(Path("eval/freeze_manifest.json"), allow_dirty=False)
         self.assertIn("REFUSING EVALUATION: Git working tree is dirty", str(ctx_dirty.exception))
 
         # Fails when manifest specifies wrong hash even if allow_dirty=True
