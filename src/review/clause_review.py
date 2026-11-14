@@ -70,6 +70,14 @@ def log_document_event(action: str, doc_id: str, size_bytes: int, sha256_hash: s
 # Storage & Security Implementation
 # -----------------------------------------------------------------------------
 
+_ID_KEY_RE = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+
+
+def _validate_id(val: str, field_name: str) -> None:
+    if not isinstance(val, str) or not _ID_KEY_RE.fullmatch(val):
+        raise ValueError(f"Invalid {field_name} '{val}': must match ^[A-Za-z0-9_-]{{1,64}}$")
+
+
 class DocumentStorage:
     """
     Multi-tenant document storage enforcing uploads/<owner_id>/<doc_id> isolation.
@@ -77,21 +85,43 @@ class DocumentStorage:
     """
 
     def __init__(self, base_dir: Union[str, Path] = "uploads"):
-        self.base_dir = Path(base_dir)
+        self.base_dir = Path(base_dir).resolve()
 
     def _get_doc_dir(self, owner_id: str, doc_id: str) -> Path:
-        return self.base_dir / owner_id / doc_id
+        _validate_id(owner_id, "owner_id")
+        _validate_id(doc_id, "doc_id")
+        doc_dir = (self.base_dir / owner_id / doc_id).resolve()
+        if not doc_dir.is_relative_to(self.base_dir) or doc_dir == self.base_dir:
+            raise ValueError(f"Path escapes base directory: {doc_dir}")
+        return doc_dir
 
     def save_document(
         self, owner_id: str, doc_id: str, filename: str, content: bytes
     ) -> Path:
         """Saves an uploaded document and writes metadata."""
-        if not owner_id or not doc_id:
-            raise ValueError("owner_id and doc_id are required")
+        doc_dir = self._get_doc_dir(owner_id, doc_id)
 
-        # Check file extension
-        ext = Path(filename).suffix.lower()
-        if ext and ext not in settings.allowed_upload_extensions:
+        # Cross-tenant overwrite guard: if doc_dir already exists with a different
+        # owner recorded in meta.json, refuse to write BEFORE touching any file.
+        _meta_path = doc_dir / "meta.json"
+        if _meta_path.exists():
+            with open(_meta_path, "r", encoding="utf-8") as _mf:
+                _existing_meta = json.load(_mf)
+            _stored_owner = _existing_meta.get("owner_id")
+            if _stored_owner is not None and _stored_owner != owner_id:
+                raise PermissionError(
+                    f"Tenant '{owner_id}' is unauthorized to overwrite document '{doc_id}' "
+                    f"owned by '{_stored_owner}'"
+                )
+
+        clean_filename = str(filename).replace("\\", "/").rstrip("/")
+        safe_filename = Path(clean_filename).name
+        if not safe_filename or safe_filename in (".", ".."):
+            raise ValueError(f"Invalid filename '{filename}'")
+
+        # Check file extension (require an allowed extension; reject no extension)
+        ext = Path(safe_filename).suffix.lower()
+        if not ext or ext not in settings.allowed_upload_extensions:
             raise ValueError(
                 f"Unsupported file format '{ext}'. Allowed formats: {settings.allowed_upload_extensions}"
             )
@@ -103,10 +133,12 @@ class DocumentStorage:
                 f"File size ({len(content)} bytes) exceeds maximum allowed limit of {settings.max_upload_size_mb} MB"
             )
 
-        doc_dir = self._get_doc_dir(owner_id, doc_id)
         doc_dir.mkdir(parents=True, exist_ok=True)
 
-        file_path = doc_dir / filename
+        file_path = (doc_dir / safe_filename).resolve()
+        if not file_path.is_relative_to(doc_dir):
+            raise ValueError("File path escapes tenant document directory")
+
         with open(file_path, "wb") as f:
             f.write(content)
 
@@ -116,7 +148,7 @@ class DocumentStorage:
         meta = {
             "owner_id": owner_id,
             "doc_id": doc_id,
-            "filename": filename,
+            "filename": safe_filename,
             "size_bytes": size_bytes,
             "sha256": sha256_hash,
         }
@@ -140,19 +172,28 @@ class DocumentStorage:
             if meta_path.exists():
                 with open(meta_path, "r", encoding="utf-8") as f:
                     meta = json.load(f)
+                stored_owner = meta.get("owner_id")
+                if stored_owner is not None and stored_owner != owner_id:
+                    raise PermissionError(
+                        f"Tenant '{owner_id}' is unauthorized to access document '{doc_id}'"
+                    )
 
             filename = meta.get("filename", "")
-            file_path = target_dir / filename
+            safe_filename = Path(str(filename).replace("\\", "/")).name
+            file_path = (target_dir / safe_filename).resolve()
+            if not file_path.is_relative_to(target_dir):
+                raise ValueError("File path escapes tenant document directory")
             log_document_event("READ", doc_id, meta.get("size_bytes", 0), meta.get("sha256", ""))
             return file_path, meta
 
         # Check if doc_id exists under ANY other owner
-        for tenant_dir in self.base_dir.glob("*"):
-            if tenant_dir.is_dir() and tenant_dir.name != owner_id:
-                if (tenant_dir / doc_id).exists():
-                    raise PermissionError(
-                        f"Tenant '{owner_id}' is unauthorized to access document '{doc_id}'"
-                    )
+        if self.base_dir.exists():
+            for tenant_dir in self.base_dir.glob("*"):
+                if tenant_dir.is_dir() and tenant_dir.name != owner_id:
+                    if (tenant_dir / doc_id).exists():
+                        raise PermissionError(
+                            f"Tenant '{owner_id}' is unauthorized to access document '{doc_id}'"
+                        )
 
         raise FileNotFoundError(f"Document '{doc_id}' not found for tenant '{owner_id}'")
 
@@ -168,6 +209,11 @@ class DocumentStorage:
             if meta_path.exists():
                 with open(meta_path, "r", encoding="utf-8") as f:
                     meta = json.load(f)
+                stored_owner = meta.get("owner_id")
+                if stored_owner is not None and stored_owner != owner_id:
+                    raise PermissionError(
+                        f"Tenant '{owner_id}' is unauthorized to delete document '{doc_id}'"
+                    )
 
             shutil.rmtree(target_dir)
             log_document_event(
@@ -176,12 +222,13 @@ class DocumentStorage:
             return True
 
         # Check if doc_id belongs to another tenant
-        for tenant_dir in self.base_dir.glob("*"):
-            if tenant_dir.is_dir() and tenant_dir.name != owner_id:
-                if (tenant_dir / doc_id).exists():
-                    raise PermissionError(
-                        f"Tenant '{owner_id}' is unauthorized to delete document '{doc_id}'"
-                    )
+        if self.base_dir.exists():
+            for tenant_dir in self.base_dir.glob("*"):
+                if tenant_dir.is_dir() and tenant_dir.name != owner_id:
+                    if (tenant_dir / doc_id).exists():
+                        raise PermissionError(
+                            f"Tenant '{owner_id}' is unauthorized to delete document '{doc_id}'"
+                        )
 
         return False
 
@@ -191,10 +238,16 @@ class DocumentStorage:
         """Saves derived analysis data under uploads/<owner_id>/<doc_id>/derived/."""
         # Ensure owner authorization first
         self.get_document(owner_id, doc_id)
-        derived_dir = self._get_doc_dir(owner_id, doc_id) / "derived"
+        _validate_id(key, "key")
+        doc_dir = self._get_doc_dir(owner_id, doc_id)
+        derived_dir = (doc_dir / "derived").resolve()
+        if not derived_dir.is_relative_to(doc_dir):
+            raise ValueError(f"derived_dir escapes doc_dir: {derived_dir}")
         derived_dir.mkdir(parents=True, exist_ok=True)
 
-        derived_file = derived_dir / f"{key}.json"
+        derived_file = (derived_dir / f"{key}.json").resolve()
+        if not derived_file.is_relative_to(derived_dir):
+            raise ValueError(f"Derived file path escapes derived directory: {derived_file}")
         with open(derived_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
         return derived_file
@@ -204,10 +257,18 @@ class DocumentStorage:
     ) -> Optional[Any]:
         """Retrieves derived analysis data for authorized tenant."""
         self.get_document(owner_id, doc_id)
-        derived_file = self._get_doc_dir(owner_id, doc_id) / "derived" / f"{key}.json"
+        _validate_id(key, "key")
+        doc_dir = self._get_doc_dir(owner_id, doc_id)
+        derived_dir = (doc_dir / "derived").resolve()
+        if not derived_dir.is_relative_to(doc_dir):
+            raise ValueError(f"derived_dir escapes doc_dir: {derived_dir}")
+        derived_file = (derived_dir / f"{key}.json").resolve()
+        if not derived_file.is_relative_to(derived_dir):
+            raise ValueError(f"Derived file path escapes derived directory: {derived_file}")
         if derived_file.exists():
             with open(derived_file, "r", encoding="utf-8") as f:
                 return json.load(f)
+        return None
         return None
 
 
