@@ -9,7 +9,7 @@
 
 ## 1. Research Question & Diagnostic Scope
 - **Research Question**: What are the empirical failure modes in multilingual legal information retrieval and generative RAG when processing native Bengali, Banglish transliteration, and English inquiries under strict factual grounding constraints?
-- **Diagnostic Method**: Seeded random sampling ($seed=42$) across 9 required operational categories PLUS the 10 lowest-ranked test split failures from [`eval/outputs.jsonl`](file:///e:/Projects/Legal_Aid/eval/outputs.jsonl), cataloged in [`eval/error_cases.csv`](file:///e:/Projects/Legal_Aid/eval/error_cases.csv).
+- **Diagnostic Method**: Seeded random sampling ($seed=42$) across 9 required operational categories PLUS the 10 lowest-ranked test split failures from [`eval/outputs.jsonl`](../eval/outputs.jsonl), cataloged in [`eval/error_cases.csv`](../eval/error_cases.csv).
 - **Epistemic Ethics**: Columns `likely_cause` and `reviewer_notes` in `eval/error_cases.csv` are deliberately kept **strictly blank** pending independent human legal audit.
 
 ---

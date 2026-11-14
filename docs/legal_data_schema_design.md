@@ -167,7 +167,7 @@ Represents an evaluation query paired with ground-truth relevant provisions and 
 
 ## 4. In-Memory Registry & Integrity Enforcement
 
-The `LegalDataRegistry` ([src/schema/registry.py](file:///E:/Projects/Legal_Aid/src/schema/registry.py)) acts as the single source of truth for research data operations:
+The `LegalDataRegistry` ([src/schema/registry.py](../src/schema/registry.py)) acts as the single source of truth for research data operations:
 
 1. **Uniqueness Enforcement**: Insertion of any duplicate primary key (`source_id`, `doc_id`, etc.) raises `DuplicateKeyError`.
 2. **Foreign Key Integrity**: Insertion of any entity referencing a non-existent parent raises `ForeignKeyError`.
@@ -178,7 +178,7 @@ The `LegalDataRegistry` ([src/schema/registry.py](file:///E:/Projects/Legal_Aid/
 
 ## 5. Verification & Test Coverage
 
-The test suite in [tests/test_schema.py](file:///E:/Projects/Legal_Aid/tests/test_schema.py) covers all 8 Day 2 requirements:
+The test suite in [tests/test_schema.py](../tests/test_schema.py) covers all 8 Day 2 requirements:
 
 | Test Method | Verified Constraint |
 |---|---|

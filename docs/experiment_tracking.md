@@ -114,7 +114,7 @@ python scripts/run_retrieval_experiment.py --method hybrid --model-name csebuetn
 ```bash
 python -m unittest discover -s tests -p "test_*.py"
 ```
-*Expected Output*: `Ran 25 tests in ~0.17s ... OK`.
+*Expected Output*: `Ran 25 tests ... OK`.
 
 ### Step 7: Opt-In Dense Model CPU Inference Smoke Test
 ```bash
